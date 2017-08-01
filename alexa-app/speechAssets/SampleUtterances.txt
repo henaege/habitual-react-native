@@ -1,0 +1,39 @@
+GetHabitsCategoryIntent I plan to start a habit
+GetHabitsCategoryIntent I want to start a habit
+GetHabitsCategoryIntent I would like to start a habit
+GetHabitsCategoryIntent start a habit
+GetHabitsCategoryIntent start new habit
+GetHabitsCategoryIntent tell me category list
+GetHabitsCategoryIntent show me category list
+GetHabitsCategoryIntent give me category list
+GetHabitsCategoryIntent whats in  category list
+GetHabitsListIntent open {HabitsCategory}
+GetHabitsListIntent {HabitsCategory}
+GetHabitsListIntent tell me {HabitsCategory}
+GetHabitsListIntent give me {HabitsCategory}
+JoinAHabitIntent I plan to join {HabitName}
+JoinAHabitIntent I want to join {HabitName}
+JoinAHabitIntent I would like to join {HabitName}
+JoinAHabitIntent join {HabitName}
+JoinAHabitIntent start {HabitName}
+GetMyHabitsListIntent show me my habit list
+GetMyHabitsListIntent tell me my habit list
+GetMyHabitsListIntent give me my habit list
+GetMyHabitsListIntent whats in my habit list
+CheckInHabitIntent check in with my {HabitName}
+CheckInHabitIntent check in for my {HabitName}
+CheckInHabitIntent check in with {HabitName}
+CheckInHabitIntent check in for {HabitName}
+CheckInHabitIntent check in with my habit
+CheckInHabitIntent check in habit
+GetMyRankingIntent tell me my {HabitName} ranking
+GetMyRankingIntent tell me {HabitName} ranking
+GetMyRankingIntent show me {HabitName} ranking
+GetMyRankingIntent give me {HabitName} ranking
+ManageNotificationIntent notification {notification}
+LeaveHabitIntent quit {HabitName}
+LeaveHabitIntent I want quit {HabitName}
+LeaveHabitIntent leave {HabitName}
+LeaveHabitIntent I want leave {HabitName}
+LeaveHabitIntent cancel {HabitName}
+LeaveHabitIntent I want cancel {HabitName}

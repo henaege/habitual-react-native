@@ -1,0 +1,76 @@
+{
+	"intents":[
+		{
+			"intent": "StartANewHabitIntent"
+		},
+		{
+			"intent": "GetHabitsCategoryIntent"
+		},
+		{
+			"intent": "GetHabitsListIntent",
+			"slots": [
+				{
+					"name": "HabitsCategory",
+					"type": "HABITS_CATEGORY_LIST"
+				}
+			]
+		},
+		{
+			"intent": "JoinAHabitIntent",
+			"slots":[
+				{
+					"name":"HabitName",
+					"type": "HABITS_LIST"
+				}
+			]
+		},
+		{
+			"intent": "ManageNotificationIntent",
+			slots:[
+				{
+					"name": "notification",
+					"type": "userAnswer"
+				}
+			]
+		},
+		{
+			"intent": "GetMyHabitsListIntent"
+		},
+		{
+			"intent": "CheckInHabitIntent",
+			"slots":[
+				{
+					"name":"HabitName",
+					"type": "HABITS_LIST"
+				}
+			]
+		},
+		{
+			"intent": "GetMyRankingIntent",
+			"slots":[
+				{
+					"name": "HabitName",
+					"type": "HABITS_LIST"
+				}
+			]
+		},
+		{
+			"intent": "LeaveHabitIntent",
+			"slots":[
+				{
+					"name": "HabitName",
+					"type": "HABITS_LIST"
+				}
+			]
+		},
+		{
+			"intent":"AMAZON.StopIntent"
+		},
+		{
+			"intent": "AMAZON.CancelIntent"
+		},
+		{
+			"intent": "AMAZON.HelpIntent"
+		}
+	]
+}
