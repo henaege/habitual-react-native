@@ -12,10 +12,13 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 		var habits = this.attributes['habits'];
 		var email = this.attributes['email'];
 		if(userName){
+			console.log(userName);
+			console.log(habits);
 			habitsAPI.Login(email)
 				.then((response)=>{
-					this.attributes['token'] = response[0].token;
-					if(habits.length > 0){
+					console.log(response)
+					this.attributes['token'] = response.token;
+					if(habits){
 						// console.log(habits);
 						// Change State to check in habit
 						this.handler.state = constants.states.CHECKINHABIT;
@@ -28,13 +31,13 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 					}
 				})
 				.catch((error)=>{
-					this.emit('tell', "Sorry, there's a problem to log you in in our system. Please try again.");
+					this.emit(':tell', "Sorry, there's a problem to log you in in our system. Please try again.");
 				})
-			console.log(habits);
 		}
 		else{
 			//Get Access Token From Amazon
 			var amazonAccessToken = this.event.session.user.accessToken;
+			// console.log(amazonAccessToken);
 			// Get user email from amazon
 			if(amazonAccessToken){
 				amazonAPI.GetUserEmail(amazonAccessToken)
@@ -45,19 +48,24 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 						//Store Users Name and Email in Session
 						this.attributes['userName'] = name;
 						this.attributes['email'] = email;
-						// habitsAPI.Register(email, name)
-						// 	.then((response)=>{
-						// 		console.log(response);
-						// 		this.attributes['token'] = response[0].token;
-						// 		//Change State to start new habit
-						// 		this.handler.state = constants.states.STARTNEWHABIT;
-						// 		// sending email address back to habits database
-						// 		this.emit(':ask', "Hi Welcome to Habitual! The Skill that helps you build good habits along with your friends. To start, say: start a habit.", "Please say start a habit.");
-						// 	})
-						// 	.catch((error)=>{
-						// 		this.emit('tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
-						// 	})
-						this.emit('tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
+						// console.log(email);
+						habitsAPI.Register(email, name)
+							.then((response)=>{
+								console.log(response);
+								if(response.msg == 'userInserted'){
+									this.attributes['token'] = response.token;
+									//Change State to start new habit
+									this.handler.state = constants.states.STARTNEWHABIT;
+									// sending email address back to habits database
+									this.emit(':ask', "Hi Welcome to Habitual! The Skill that helps you build good habits along with your friends. To start, say: start a habit.", "Please say start a habit.");
+								}else{
+									this.emit(':tell', "Sorry, you have already registered with this account. Please try use another amazon account.")
+								}
+							})
+							.catch((error)=>{
+								this.emit(':tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
+							})
+						// this.emit(':ask', "Sorry, there's a problem to resgister you in our system. Please try again.");
 					})
 					.catch((error)=>{
 						console.log(error);

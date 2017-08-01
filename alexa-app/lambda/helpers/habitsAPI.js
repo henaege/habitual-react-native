@@ -2,30 +2,32 @@ var request = require('request-promise');
 
 module.exports = {
 	Register:(email, name)=>{
-		console.log(email);
+		console.log(name);
 		return new Promise((resolve, reject)=>{
 			request({
-					url:'http://test/iamdrewt.net/alexaRegister',
+					url:'http://test.iamdrewt.net/alexaRegister',
 					method: 'POST',
 					body:{
 						'email': email,
-						'firstName': name
+						'name': name
 					},
 					json: true
 			})
 			.then((response)=>{
+				console.log(response);
 				resolve(response);
 			})
 			.catch((error)=>{
 			// console.log(error);
 				reject('Habits API Register Error:', error);
 			});
-		})
+		});
 	},
 	Login:(email) =>{
+		console.log(email);
 		return new Promise((resolve, reject)=>{
 			request({
-				url:'http://test/iamdrewt.net/alexaLogin',
+				url:'http://test.iamdrewt.net/alexaLogin',
 				method: 'POST',
 				body:{
 					'email': email,
