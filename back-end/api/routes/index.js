@@ -87,7 +87,7 @@ router.post('/mobileRegister', (req, res)=>{
 });
 
 router.post('/alexaRegister', (req, res)=>{
-  const firstName = req.body.firstName;
+  const name = req.body.name;
   const email = req.body.email;
 
   connection.query(`SELECT email FROM users`, (error, results)=>{
@@ -101,8 +101,8 @@ router.post('/alexaRegister', (req, res)=>{
       res.json({msg: "userExists"})
     } else {
       var newToken = randToken.uid(40);
-      // var insertIntoUsers = `INSERT INTO users (email, firstName) VALUES (?,?,?,?);`
-      connection.query(`INSERT INTO users (email, firstName, token) VALUES (?,?,?);`, [email, firstName, newToken], (error2, results2)=>{
+      // var insertIntoUsers = `INSERT INTO users (email, name) VALUES (?,?,?,?);`
+      connection.query(`INSERT INTO users (email, name, token) VALUES (?,?,?);`, [email, name, newToken], (error2, results2)=>{
         console.log("user inserted")
         console.log(results2)
         if(error2){
@@ -111,7 +111,7 @@ router.post('/alexaRegister', (req, res)=>{
           res.json({
             msg: "userInserted",
             email: email,
-            name: firstName,
+            name: name,
             token: newToken
           })
         }
