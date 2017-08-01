@@ -199,7 +199,7 @@ router.get('/categorylist', (req, res)=>{
 
 router.post('/joinAHabit', (req, res)=>{
   var habitName = req.body.habitName
-  var token = req.body.email
+  var token = req.body.token
   var habitCount = 0
   var checkPromise = new Promise((resolve, reject)=>{
     var checkQuery = 'SELECT * FROM addedHabits WHERE name = ? AND userToken = ?;';
