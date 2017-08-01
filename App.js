@@ -3,13 +3,15 @@ import {StyleSheet, Image} from 'react-native'
 import { Container, Header, Title, Content, Footer, FooterTab, Left, Right, Body, Text, Spinner, Form, Item, Input, Label, Button, Icon } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
-export default class App extends React.Component {
+export default class Login extends React.Component {
   constructor() {
     super();
     this.state = {
       isReady: false
     };
   }
+
+  
 
   async componentWillMount() {
     await Expo.Font.loadAsync({
@@ -54,7 +56,7 @@ export default class App extends React.Component {
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 20}}>The Social Habit App</Text>
+                <Text style={{fontSize: 16}}>The Social Habit App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
