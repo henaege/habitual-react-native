@@ -45,17 +45,19 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 						//Store Users Name and Email in Session
 						this.attributes['userName'] = name;
 						this.attributes['email'] = email;
-						habitsAPI.Register(email, name)
-							.then((response)=>{
-								this.attributes['token'] = response[0].token;
-								//Change State to start new habit
-								this.handler.state = constants.states.STARTNEWHABIT;
-								// sending email address back to habits database
-								this.emit(':ask', "Hi Welcome to Habitual! The Skill that helps you build good habits along with your friends. To start, say: start a habit.", "Please say start a habit.");
-							})
-							.catch((error)=>{
-								this.emit('tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
-							})
+						// habitsAPI.Register(email, name)
+						// 	.then((response)=>{
+						// 		console.log(response);
+						// 		this.attributes['token'] = response[0].token;
+						// 		//Change State to start new habit
+						// 		this.handler.state = constants.states.STARTNEWHABIT;
+						// 		// sending email address back to habits database
+						// 		this.emit(':ask', "Hi Welcome to Habitual! The Skill that helps you build good habits along with your friends. To start, say: start a habit.", "Please say start a habit.");
+						// 	})
+						// 	.catch((error)=>{
+						// 		this.emit('tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
+						// 	})
+						this.emit('tell', "Sorry, there's a problem to resgister you in our system. Please try again.");
 					})
 					.catch((error)=>{
 						console.log(error);

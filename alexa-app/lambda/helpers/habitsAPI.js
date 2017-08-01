@@ -2,6 +2,7 @@ var request = require('request-promise');
 
 module.exports = {
 	Register:(email, name)=>{
+		console.log(email);
 		return new Promise((resolve, reject)=>{
 			request({
 					url:'http://test/iamdrewt.net/alexaRegister',
@@ -13,11 +14,11 @@ module.exports = {
 					json: true
 			})
 			.then((response)=>{
-			resolve(response);
+				resolve(response);
 			})
 			.catch((error)=>{
 			// console.log(error);
-			reject('Habits API Register Error:', error);
+				reject('Habits API Register Error:', error);
 			});
 		})
 	},
