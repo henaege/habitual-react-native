@@ -338,7 +338,7 @@ router.post('/checkinMyHabit', (req, res)=> {
   })
 })
 thePromise.then(()=>{
-  var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
+  var rankQuery = `SELECT count, userToken FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
 
     connection.query(rankQuery, (error2, results2)=> {
       if (error2) {
@@ -348,7 +348,7 @@ thePromise.then(()=>{
       } else {
         var rank = 0
         for (let i = 0; i < results2.length; i++){
-          if (results2[i].email == email){
+          if (results2[i].userToken == token){
             rank = i + 1
           
           }
