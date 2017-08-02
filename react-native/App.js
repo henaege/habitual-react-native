@@ -1,41 +1,34 @@
-import React from 'react';
-import {StyleSheet, Image} from 'react-native'
-import { Container} from 'native-base';
-import {LoginForm} from './components';
+import React, { Component } from 'react';
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware} from 'redux'
+import reducers from './src/reducers'
+import firebase from 'firebase'
+import ReduxThunk from 'redux-thunk'
+import LoginForm from './src/components/LoginForm'
+import Router from './src/Router'
 
 
-export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isReady: false
+
+ class App extends Component {
+   componentWillMount(){
+     // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBFC8Wc9Sa0eqX4FFQbp0PgW8fVp3cEM6w",
+      authDomain: "manager-acb0e.firebaseapp.com",
+      databaseURL: "https://manager-acb0e.firebaseio.com",
+      projectId: "manager-acb0e",
+      storageBucket: "manager-acb0e.appspot.com",
+      messagingSenderId: "157943443704"
     };
+  firebase.initializeApp(config);
   }
-
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-    });
-
-    this.setState({ isReady: true });
-  }
-
   render() {
-    if (!this.state.isReady) {
-      return <Spinner />;
-    }
     return (
-      <Container>
-        <LoginForm />
-      </Container>
+      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+        <Router />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-});
+export default App
