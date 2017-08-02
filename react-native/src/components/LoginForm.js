@@ -42,8 +42,8 @@ class LoginForm extends Component{
 
   async componentWillMount() {
     await Expo.Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Heebo: require("native-base/Fonts/Heebo_Regular.ttf"),
+Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
     });
 
@@ -57,24 +57,26 @@ class LoginForm extends Component{
       <Container>
         <Image source={require('./bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         
-        {/*<Header style={{marginTop: 24, backgroundColor: "#48A9A6", opacity: 0.8}}>
+        <Header style={{backgroundColor: "transparent", opacity: 0.8, marginTop: 24}}>
           
           <Left style={{flex: 1}}>
-            <Button size={10}transparent>
-              <Icon name='menu' />
-            </Button>
+            
           </ Left>
           <Body style={{flex: 1}}>
           
-            <Title style={{alignSelf: "center"}}>Habitual</Title>
+            <Title style={{alignSelf: "center"}}>Log In</Title>
           </ Body>
-          <Right style={{flex: 1}}/>
-        </Header>*/}
-        
+          <Right style={{flex: 1}}>
+            <Button size={10}transparent>
+              <Text>Register</Text>
+            </Button>
+          </Right>
+        </Header>
+
         <Content style={{marginTop: 55}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 32, fontWeight: '700'}}>
+                <Text style={{fontSize: 32, fontWeight: '700', fontFamily: "Heebo"}}>
                   Welcome to
                 </Text>
                 <Image style={{flex: 1, opacity: 0.9, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
@@ -83,7 +85,7 @@ class LoginForm extends Component{
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 16, marginTop: 10}}>The Alexa-enabled Social Habit Tracking App</Text>
+                <Text style={{fontSize: 16, marginTop: 10, fontFamily: ''}}>The Alexa-enabled Social Habit Tracking App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
