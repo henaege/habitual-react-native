@@ -3,6 +3,7 @@ import {Image} from 'react-native'
 import {connect} from 'react-redux'
 import {emailChanged, passwordChanged, loginUser} from '../actions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
+import {Actions} from 'react-native-router-flux'
 
 
 class LoginForm extends Component{
@@ -67,7 +68,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
             <Title style={{alignSelf: "center"}}>Log In</Title>
           </ Body>
           <Right style={{flex: 1}}>
-            <Button size={10}transparent>
+            <Button onPress={()=> Actions.register()} size={10}transparent>
               <Text>Register</Text>
             </Button>
           </Right>
@@ -96,11 +97,11 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
               <Label style={{fontWeight: 'bold'}}>Email</Label>
               <Input type={'email'} placeholder="(Your Amazon account email)"
                 onChangeText={this.onEmailChange.bind(this)}
-                valu={this.props.email} />
+                value={this.props.email} />
             </Item>
             <Item style={{flex: 1}}floatingLabel last>
-              <Label  style={{fontWeight: 'bold'}} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}>Password</Label>
-              <Input secureTextEntry={true} />
+              <Label  style={{fontWeight: 'bold'}} >Password</Label>
+              <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
             </Item>
             
             <Left style={{flex: 1}} />
@@ -125,7 +126,7 @@ const styles = {
   }
 }
 
-mapStateToProps = ({auth}) => {
+const mapStateToProps = ({auth}) => {
   const {email, password, error, loading} = auth
   return { email, password, error, loading }
 }
