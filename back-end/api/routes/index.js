@@ -201,12 +201,14 @@ router.post('/joinAHabit', (req, res)=>{
   var habitName = req.body.habitName
   var token = req.body.token
   var habitCount = 0
+  var email;
   var checkPromise = new Promise((resolve, reject)=>{
-    var checkQuery = 'SELECT * FROM addedHabits WHERE name = ? AND userToken = ?;';
-    connection.query(checkQuery, [habitName, token], (error1, results1)=>{
+    var checkQuery = 'SELECT t1.email, t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email AND t2.name = ?;';
+    connection.query(checkQuery, [token, habitName], (error1, results1)=>{
       if(error1) throw error1;
       console.log(results1);
       if(results1.length > 0){
+        email = results1[0].email;
         reject("existedUserHabit");
       }else{
         resolve()
@@ -216,7 +218,7 @@ router.post('/joinAHabit', (req, res)=>{
   
 
   
-  var joinHabitQuery = `INSERT INTO addedHabits (userToken, name, dateCreated, count, dateUpdated, rank) VALUES (?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?);`
+  var joinHabitQuery = `INSERT INTO addedHabits (email, name, dateCreated, count, dateUpdated, rank) VALUES (?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?);`
 
   checkPromise.then(()=>{
       var thePromise = new Promise((resolve, reject)=>{
@@ -230,7 +232,7 @@ router.post('/joinAHabit', (req, res)=>{
         }
       })
     })
-    thePromise.then(()=>{connection.query(joinHabitQuery, [token, habitName,  0,  habitCount], (error3, results3)=>{
+    thePromise.then(()=>{connection.query(joinHabitQuery, [email, habitName,  0,  habitCount], (error3, results3)=>{
         if (error3){
           throw error3
         } else {
@@ -278,7 +280,7 @@ router.post('/getMyHabitList', (req,res)=>{
   if(token.length <= 1){
     res.json({msg: 'InvalidEmail'});
   }else{
-    var getListQuery = 'SELECT name FROM addedHabits WHERE userToken = ?;';
+    var getListQuery = 'SELECT t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email;';
     connection.query(getListQuery, [token], (error, results)=>{
     if(error) throw error;
     if(results.length < 1){
@@ -293,39 +295,63 @@ router.post('/getMyHabitList', (req,res)=>{
 router.post('/manageNotification', (req, res)=>{
   var token = req.body.token;
   var activeNotification = req.body.notification;
-  if(activeNotification){
-    var notificationStatus = 1;
-  }else{
-    var notificationStatus = 2;
-  }
-  var manageNotificationQuery = 'UPDATE addedHabits SET notification = ? WHERE userToken = ?;';
-  connection.query(manageNotificationQuery, [notificationStatus ,token], (error, results)=>{
-    if(error) {res.json({msg: 'notificationFailed'})}
-    else{res.json({msg: 'notificationOn'})};
+  var emailPromise = new Promise((resolve, reject)=>{
+    var emailQuery = 'SELECT email FROM users WHERE token = ?;';
+    connection.query(emailQuery, [token], (error, results)=>{
+      if(error) throw error;
+      if(results.length > 0){
+        resolve(results[0].email)
+      }else{
+        reject('emailNotExists');
+      }
+      
+    })
   });
+  emailPromise.then((email)=>{
+    var manageNotificationQuery = 'UPDATE addedHabits SET notification = ? WHERE email = ?;';
+    connection.query(manageNotificationQuery, [activeNotification, email], (error, results)=>{
+      if(error) {res.json({msg: 'notificationFailed'})}
+      else{
+        if(activeNotification === 1){
+          res.json({msg: 'notificationOn'});
+        }else{
+          res.json({msg: 'notificationOff'});
+        }
+      };
+    });
+  })
+  .catch((error)=>{
+    res.json(error);
+  })
 })
 
 router.post('/checkinMyHabit', (req, res)=> {
   var token = req.body.token
   var habitName = req.body.habitName
-  var checkFrequency = 'SELECT updatedFrequency FROM addedHabits WHERE userToken = ? AND name = ?;'
-
+  var checkFrequency = 'SELECT t1.email, t2.updatedFrequency FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 ON t1.email = t2.email AND t2.name = ?;';
+  var email;
   var aPromise = new Promise((resolve, reject)=>{
     connection.query(checkFrequency, [token, habitName],(err, resp)=>{
       console.log(resp);
       if (err){
         throw err
       } else {
-        if (resp[0].updatedFrequency == 0){
-          reject("outOfFrequency")
-        } else {
-          resolve()
+        if(resp.length > 0){
+          if (resp[0].updatedFrequency == 0){
+            reject("outOfFrequency")
+          } else {
+            email = resp[0].email;
+            resolve(resp[0].email);
+          }
+        }
+        else{
+          reject("habitNotExists")
         }
       }
     })
   })
-  aPromise.then(()=>{
-    var checkinQuery = `UPDATE addedHabits SET count = count + 1, updatedFrequency = updatedFrequency - 1, dateUpdated = CURRENT_TIMESTAMP WHERE userToken = '${token}' AND name = '${habitName}';`
+  aPromise.then((email)=>{
+    var checkinQuery = `UPDATE addedHabits SET count = count + 1, updatedFrequency = updatedFrequency - 1, dateUpdated = CURRENT_TIMESTAMP WHERE email = '${email}' AND name = '${habitName}';`
   var thePromise = new Promise((resolve, reject)=> {
     connection.query(checkinQuery, (error, results)=>{
     if (error){
@@ -338,7 +364,7 @@ router.post('/checkinMyHabit', (req, res)=> {
   })
 })
 thePromise.then(()=>{
-  var rankQuery = `SELECT count, userToken FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
+  var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
 
     connection.query(rankQuery, (error2, results2)=> {
       if (error2) {
@@ -348,7 +374,7 @@ thePromise.then(()=>{
       } else {
         var rank = 0
         for (let i = 0; i < results2.length; i++){
-          if (results2[i].userToken == token){
+          if (results2[i].email == email){
             rank = i + 1
           
           }
@@ -358,7 +384,7 @@ thePromise.then(()=>{
             msg: "rankNotFound"
           })
         } else {
-          connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE userToken = '${token}' AND name = '${habitName}';`, (error3, results3)=>{
+          connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
             if (error3){
               throw error3
             } else {
@@ -382,18 +408,13 @@ thePromise.then(()=>{
   .catch((error)=>{
     res.json({error: error})
   })
-  
-
-
-  
-
-})
+});
 
 router.post('/getMyRank', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
 
-  var rankQuery = `SELECT rank, count FROM addedHabits WHERE userToken = ? AND name = ?;`
+  var rankQuery = `SELECT t2.count, t2.rank FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email AND t2.name = ?;`
 
   connection.query(rankQuery, [token, habitName], (error, results)=>{
     if (error){
@@ -417,9 +438,9 @@ router.post('/getMyRank', (req, res)=>{
 router.post('/leaveHabit', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
-  var thePromise;
+  var email;
   var aPromise = new Promise((resolve, reject)=>{
-    connection.query(`SELECT name FROM addedHabits WHERE userToken = ?;`, [token],(error1, resp)=>{
+    connection.query(`SELECT t1.email, t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email`, [token],(error1, resp)=>{
       console.log(resp)
       if(error1){
         throw error1
@@ -431,6 +452,7 @@ router.post('/leaveHabit', (req, res)=>{
         if(resp.find(findHabit) == undefined){
           reject("noHabit")
         } else {
+          email = resp[0].email;
           resolve()
         }
       }
@@ -438,9 +460,9 @@ router.post('/leaveHabit', (req, res)=>{
   })
 
   aPromise.then(()=>{
-    var leaveHabitQuery = `DELETE FROM addedHabits WHERE userToken = ? AND name = ?;`
-    thePromise = new Promise((resolve, reject)=>{
-      connection.query(leaveHabitQuery, [token, habitName], (error, response)=>{
+    var leaveHabitQuery = `DELETE FROM addedHabits WHERE email = ? AND name = ?;`
+    var thePromise = new Promise((resolve, reject)=>{
+      connection.query(leaveHabitQuery, [email, habitName], (error, response)=>{
         if (error) {
           throw error
         } else {
@@ -450,8 +472,8 @@ router.post('/leaveHabit', (req, res)=>{
       })
     });
     thePromise.then(()=>{
-    var remainingQuery = `SELECT name FROM addedHabits WHERE userToken = ?;`
-    connection.query(remainingQuery,[token],(error2, response2)=>{
+    var remainingQuery = `SELECT name FROM addedHabits WHERE email = ?;`
+    connection.query(remainingQuery,[email],(error2, response2)=>{
       console.log(response2)
       if (error2){
         res.json({

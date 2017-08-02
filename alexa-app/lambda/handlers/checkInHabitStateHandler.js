@@ -20,9 +20,9 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		}
 	},
 	'GetMyHabitsListIntent': function(){
-		var accessToken = this.event.session.accessToken;
+		// var accessToken = this.event.session.accessToken;
 		var token = this.attributes['token'];
-		if(accessToken){
+		if(token){
 			habitsAPI.GetMyHabitsList(token)
 				.then((response)=>{
 					var myHabitsList = [];

@@ -59,7 +59,26 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 									// sending email address back to habits database
 									this.emit(':ask', "Hi Welcome to Habitual! The Skill that helps you build good habits along with your friends. To start, say: start a habit.", "Please say start a habit.");
 								}else{
-									this.emit(':tell', "Sorry, you have already registered with this account. Please try use another amazon account.")
+									// User already exists. Change State to Start new Habit
+									habitsAPI.Login(email)
+										.then((response)=>{
+											console.log(response)
+											this.attributes['token'] = response.token;
+											if(habits){
+												// console.log(habits);
+												// Change State to check in habit
+												this.handler.state = constants.states.CHECKINHABIT;
+												this.emitWithState('LaunchRequest');
+											}else{
+
+												// Change State to Start new Habit
+												this.handler.state = constants.states.STARTNEWHABIT;
+												this.emitWithState('LaunchRequest');
+											}
+										})
+										.catch((error)=>{
+											this.emit(':tell', "Sorry, there's a problem to log you in in our system. Please try again.");
+										})
 								}
 							})
 							.catch((error)=>{

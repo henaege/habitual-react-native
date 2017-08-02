@@ -79,7 +79,7 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 	'CheckInHabitIntent': function(){
 		var habits = this.attributes['habits'];
-		if(habits.length > 0){
+		if(habits){
 			this.handler.state = constants.states.CHECKINHABIT;
 			this.emitWithState('LaunchRequest');
 		}else{

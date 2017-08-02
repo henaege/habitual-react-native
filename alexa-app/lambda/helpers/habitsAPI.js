@@ -126,9 +126,10 @@ module.exports = {
 		})
 	},
 	GetMyHabitsList: (token)=>{
+		console.log("myhabit list");
 		return new Promise((resolve, reject)=>{
 			request({
-				url: 'http://test.iamdrewt.net/getMyHabitsList',
+				url: 'http://test.iamdrewt.net/getMyHabitList',
 				method:'POST',
 				body:{
 					'token':token
@@ -136,9 +137,11 @@ module.exports = {
 				json: true
 			})
 			.then((response)=>{
+				console.log(response);
 				resolve(response);
 			})
 			.catch((error)=>{
+				console.log(error);
 				reject('Habits API MyList Error:', error);
 			})
 		})
