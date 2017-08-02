@@ -33,7 +33,6 @@ export const loginUser = ({email, password}) => {
 
 const loginUserFail = (dispatch) =>{
   dispatch({type: LOGIN_USER_FAIL})
-  Actions.main();
 }
 
 const loginUserSuccess = (dispatch, user) => {

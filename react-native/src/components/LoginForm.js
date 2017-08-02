@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {Image} from 'react-native'
+import {Image, Platform} from 'react-native'
 import {connect} from 'react-redux'
 import {emailChanged, passwordChanged, loginUser} from '../actions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
+import { Font } from 'expo'
 
 
 class LoginForm extends Component{
@@ -58,26 +59,24 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
       <Container>
         <Image source={require('./bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         
-        <Header style={{backgroundColor: "transparent", opacity: 0.8, marginTop: 24}}>
+        {/*<Header style={{backgroundColor: "transparent", marginTop: (Platform.OS === 'ios') ? 0 : 24}}>
           
           <Left style={{flex: 1}}>
             
           </ Left>
           <Body style={{flex: 1}}>
-          
-            <Title style={{alignSelf: "center"}}>Log In</Title>
           </ Body>
           <Right style={{flex: 1}}>
-            <Button onPress={()=> Actions.register()} size={10}transparent>
-              <Text>Register</Text>
-            </Button>
+            
+              <Text style={{color: 'blue'}}>Register</Text>
+            
           </Right>
-        </Header>
+        </Header>*/}
 
-        <Content style={{marginTop: 55}}>
+        <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 32, fontWeight: '700', fontFamily: "Heebo"}}>
+                <Text style={{fontSize: 32, fontWeight: '700'}}>
                   Welcome to
                 </Text>
                 <Image style={{flex: 1, opacity: 0.9, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
@@ -86,7 +85,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 16, marginTop: 10, fontFamily: ''}}>The Alexa-enabled Social Habit Tracking App</Text>
+                <Text style={{fontSize: 16, marginTop: 10}}>The Alexa-enabled Social Habit Tracking App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
