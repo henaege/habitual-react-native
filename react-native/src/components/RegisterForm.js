@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Image} from 'react-native'
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged, registerUser} from '../actions'
+import {emailChanged, passwordChanged, nameChanged, confirmPasswordChanged, registerUser, registerUserFail} from '../actions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 
@@ -10,11 +10,20 @@ class RegisterForm extends Component{
   constructor(){
     super()
     this.state = {
-      isReady: false
+      isReady: false,
+      passwordNotMatch: false,
+      lengthCheck: false
     }
   }
 
   onEmailChange(text){
+    if(this.state.lengthCheck){
+      this.setState({
+        lengthCheck: false,
+        passwordNotMatch: false
+      })
+      this.props.registerUserFail()
+    }
     this.props.emailChanged(text)
   }
 
@@ -23,7 +32,7 @@ class RegisterForm extends Component{
   }
 
   onConfirmPasswordChange(text){
-    this.props.confirmPassword(text)
+    this.props.confirmPasswordChanged(text)
   }
 
   onNameChange(text){
@@ -31,11 +40,23 @@ class RegisterForm extends Component{
   }
 
   onButtonPress(){
-    const {email, password} = this.props
-    if (password.length < 8) {
-      this.props.shortPass(password)
-    } else {
-    this.props.registerUser({email, password})
+    var inputArr = [this.props.password, this.props.confirmPassword, this.props.email];
+    inputArr.map((inputItem)=>{
+      console.log(inputItem.length);
+      if(inputItem.length < 8){
+        this.setState({
+          lengthCheck:true
+        })
+      }
+    })
+    if(this.props.password != this.props.confirmPassword){
+      console.log(this.props.confirmPassword);
+      this.setState({
+        passwordNotMatch: true
+      })
+    }else{
+      const {email, password, name} = this.props
+      this.props.registerUser({email, password, name})
     }
   }
 
@@ -50,6 +71,89 @@ class RegisterForm extends Component{
       </Button>
     )
   }
+  }
+  renderForm(){
+    if(this.state.lengthCheck){
+      return (
+          <Form style={{marginTop: 20, flex: 1}}>
+            <Item style={{flex: 1}}  error>
+              <Label style={{fontWeight: 'bold'}}>Email</Label>
+              <Icon name="close-circle"/>
+              <Input type={'email'} placeholder="(Your Amazon account email)"
+                onChangeText={this.onEmailChange.bind(this)}
+                value={this.props.email} />
+            </Item>
+            <Item style={{flex: 1}}>
+              <Label style={{fontWeight: 'bold'}}>Name</Label>
+              <Input type={'text'} placeholder="Name"
+                onChangeText={this.onNameChange.bind(this)}
+                value={this.props.name} />
+            </Item>
+            <Item style={{flex: 1}}floatingLabel  error>
+              <Label  style={{fontWeight: 'bold'}}>Password</Label>
+              <Icon name="close-circle"/>
+              <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
+            </Item>
+            {this.renderConfirmPassword()}
+            
+            <Left style={{flex: 1}} />
+            <Body style={{flex: 1}}>
+              
+              {this.renderButton()}
+            </Body>
+            <Right style={{flex: 1}} />
+            </Form>
+
+      )
+    }else{
+      return(
+
+          <Form style={{marginTop: 20, flex: 1}}>
+            <Item style={{flex: 1}}>
+              <Label style={{fontWeight: 'bold'}}>Email</Label>
+              <Input type={'email'} placeholder="(Your Amazon account email)"
+                onChangeText={this.onEmailChange.bind(this)}
+                value={this.props.email} />
+            </Item>
+            <Item style={{flex: 1}}>
+              <Label style={{fontWeight: 'bold'}}>Name</Label>
+              <Input type={'text'} placeholder="Name"
+                onChangeText={this.onNameChange.bind(this)}
+                value={this.props.name} />
+            </Item>
+            <Item style={{flex: 1}}floatingLabel>
+              <Label  style={{fontWeight: 'bold'}} >Password</Label>
+              <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
+            </Item>
+            {this.renderConfirmPassword()}
+            
+            <Left style={{flex: 1}} />
+            <Body style={{flex: 1}}>
+              
+              {this.renderButton()}
+            </Body>
+            <Right style={{flex: 1}} />
+          </Form>
+      )
+    }
+  }
+  renderConfirmPassword(){
+    if(this.state.passwordNotMatch){
+      return (
+        <Item style={{flex: 1, flexDirection: 'row'}}floatingLabel error>
+            <Label  style={{fontWeight: 'bold'}} >Confirm Password</Label>
+            <Icon name="close-circle"/>
+            <Input secureTextEntry={true} onChangeText={this.onConfirmPasswordChange.bind(this)} value={this.props.confirmPassword} placeholder="passwords don't match" />
+        </Item>
+      )
+    }else{
+      return(
+        <Item style={{flex: 1}}floatingLabel>
+          <Label  style={{fontWeight: 'bold'}} >Confirm Password</Label>
+          <Input secureTextEntry={true} onChangeText={this.onConfirmPasswordChange.bind(this)} value={this.props.confirmPassword} iconRight/>
+        </Item>
+      )
+    }
   }
   
 
@@ -73,7 +177,9 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
         <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                
+                {/*<Text style={{fontSize: 32, fontWeight: '700'}}>
+                  Welcome to
+                </Text>*/}
                 <Image style={{flex: 1, opacity: 0.8, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
@@ -85,37 +191,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
               <Right style={{flex: 1}} />
 
               
-
-          <Form style={{marginTop: 20, flex: 1}}>
-            <Item style={{flex: 1}}>
-              <Label style={{fontWeight: 'bold'}}>Email</Label>
-              <Input type={'email'} placeholder="(Your Amazon account email)"
-                onChangeText={this.onEmailChange.bind(this)}
-                value={this.props.email} />
-            </Item>
-            <Item style={{flex: 1}}>
-              <Label style={{fontWeight: 'bold'}}>Name</Label>
-              <Input type={'text'} placeholder="Name"
-                onChangeText={this.onNameChange.bind(this)}
-                value={this.props.name} />
-            </Item>
-            <Item style={{flex: 1}}floatingLabel last>
-              <Label  style={{fontWeight: 'bold'}} >Password</Label>
-              <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
-            </Item>
-            <Item style={{flex: 1}}floatingLabel last>
-              <Label  style={{fontWeight: 'bold'}} >Confirm Password</Label>
-              <Input secureTextEntry={true} onChangeText={this.onConfirmPasswordChange.bind(this)} value={this.props.confirmPassword}/>
-            </Item>
-            
-            <Left style={{flex: 1}} />
-            <Body style={{flex: 1}}>
-              <Text style={{fontSize: 20, alignSelf: 'center', color: 'red'}}>{this.props.error}</Text>
-              
-              {this.renderButton()}
-            </Body>
-            <Right style={{flex: 1}} />
-          </Form>
+              {this.renderForm()}
         </Content>
         </Image>
       </Container>
@@ -135,4 +211,4 @@ const mapStateToProps = ({auth}) => {
   return { email, password, confirmPassword, error, loading, name}
 }
 
-export default connect(mapStateToProps, {emailChanged, passwordChanged})(RegisterForm)
+export default connect(mapStateToProps, {emailChanged, passwordChanged, nameChanged, confirmPasswordChanged, registerUser, registerUserFail})(RegisterForm)

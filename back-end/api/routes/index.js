@@ -51,33 +51,42 @@ router.get('/', function(req, res, next) {
 
 router.post('/mobileRegister', (req, res)=>{
   const userName = req.body.userName
-  const email = req.body.email
+  const email = req.body.email.toLowerCase()
   const password = bcrypt.hashSync(req.body.password)
-
-  console.log(req.body)
 
   connection.query(`SELECT email FROM users`, (error, results)=>{
     console.log(results)
     if (error) throw error
     var emailsArray = []
     for (i = 0; i < results.length; i++){
-      emailsArray.push(results[i].email)
+      emailsArray.push(results[i].email.toLowerCase())
     }
     if(emailsArray.includes(email)){
-      res.json({msg: "userExists"})
+      var userIndex = emailsArray.indexOf(email);
+      if(results[userIndex].password){
+        res.json({msg: "userExists"})
+      }else{
+        var updatePasswordQuery = 'UPDATE users SET password = ? WHERE email = ?;';
+        connection.query(updatePasswordQuery, [password, email], (error1, results1)=>{
+          if(error1) res.json({msg:error1})
+          res.json({
+            msg:"userPasswordUpdatedForMobile",
+            email: email,
+            name: userName
+          })
+        })
+      }
     } else {
       var newToken = randToken.uid(40);
-      // var insertIntoUsers = `INSERT INTO users (email, name, password) VALUES (?,?,?,?);`
-      connection.query(`INSERT INTO users (email, name, password, token) VALUES (?,?,?,?,?);`, [email, userName, password, newToken], (error2, results2)=>{
+      connection.query(`INSERT INTO users (email, name, password, token) VALUES (?,?,?,?);`, [email, userName, password, newToken], (error2, results2)=>{
         console.log("user inserted")
-        console.log(results2)
         if(error2){
           res.json({msg: error2})
         } else {
           res.json({
             msg: "userInserted",
             email: email,
-            name: firstName,
+            name: userName,
             token: newToken
           })
         }
@@ -118,7 +127,9 @@ router.post('/alexaRegister', (req, res)=>{
 });
 
 router.post('/mobileLogin', (req, res)=>{
-  var email = req.body.email;
+  // console.log(req.body);
+  var email = req.body.email.toLowerCase();
+  // console.log(email);
   var password = req.body.password;
   var checkHash;
   const checkEmail = new Promise((resolve, reject)=>{
