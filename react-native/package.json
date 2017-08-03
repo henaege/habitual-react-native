@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^5.0.0",
+    "axios": "^0.16.2",
     "expo": "^19.0.0",
     "firebase": "^3.4.1",
     "native-base": "^2.3.1",
