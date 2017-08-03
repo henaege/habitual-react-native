@@ -33,12 +33,12 @@ class LoginForm extends Component{
   }
 
   renderButton(){
-    console.log(this.props.loading);
+    // console.log(this.props.loading);
     if (this.props.loading){
-      console.log('loading');
+      // console.log('loading');
       return <ActivityIndicator />
     } else {
-      console.log('button');
+      // console.log('button');
     return(
       <Button onPress={this.onButtonPress.bind(this)}style={{flex: 1, marginTop: 30, backgroundColor: "#48A9A6", opacity: 0.8}} iconRight>
         <Text>Log In</Text>

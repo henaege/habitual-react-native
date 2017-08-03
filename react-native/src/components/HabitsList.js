@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
-import {HabitItems} from './common/HabitItems'
+import {HabitItems} from './common/habitItems'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
@@ -11,7 +11,8 @@ class HabitsList extends Component{
   constructor(){
     super()
     this.state = {
-      isReady: false
+      isReady: false,
+      listReady: []
     }
   }
 
@@ -26,12 +27,17 @@ class HabitsList extends Component{
   }
 
   componentDidMount(){
-    console.log(this.props.user)
+    // console.log(this.props.user)
     if (this.props.user != null){
-      console.log(this.props.getHabits(this.props.user.data.token))
-      // return(
-      //   <HabitItems habits={this.props.habits} />
-      // )
+      this.props.getHabits(this.props.user.data.token);
+      console.log(this.props.habits);
+      var newList = [];
+      newList.push(
+        <HabitItems habits={this.props.habits} />
+      );
+      this.setState({
+        listReady: newList
+      })
     }
   }
 
@@ -44,7 +50,7 @@ class HabitsList extends Component{
       <Container>
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
-
+          {this.state.listReady}
         </Content>
         </Image>
       </Container>
