@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
-import {Image, Platform} from 'react-native'
+import {Image} from 'react-native'
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged, loginUser} from '../actions'
+import {emailChanged, passwordChanged, registerUser} from '../actions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
-import { Font } from 'expo'
 
 
-class LoginForm extends Component{
+class RegisterForm extends Component{
   constructor(){
     super()
     this.state = {
@@ -23,9 +22,17 @@ class LoginForm extends Component{
     this.props.passwordChanged(text)
   }
 
+  onConfirmPasswordChange(text){
+    this.props.confirmPassword(text)
+  }
+
+  onNameChange(text){
+    this.props.nameChanged(text)
+  }
+
   onButtonPress(){
     const {email, password} = this.props
-    this.props.loginUser({email, password})
+    this.props.registerUser({email, password})
   }
 
   renderButton(){
@@ -33,8 +40,8 @@ class LoginForm extends Component{
       return <Spinner />
     } else {
     return(
-      <Button onPress={this.onButtonPress.bind(this)}style={{marginTop: 30, backgroundColor: "#48A9A6", opacity: 0.8}} iconRight>
-        <Text>Log In</Text>
+      <Button onPress={this.onButtonPress.bind(this)}style={{marginTop: 20, backgroundColor: "#48A9A6", opacity: 0.8}} iconRight>
+        <Text>Register</Text>
         <Icon name='md-log-in' />
       </Button>
     )
@@ -59,24 +66,26 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
       <Container>
         <Image source={require('./bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         
-        {/*<Header style={{backgroundColor: "transparent", marginTop: (Platform.OS === 'ios') ? 0 : 24}}>
+        <Header style={{backgroundColor: "transparent", opacity: 0.8, marginTop: 24}}>
           
           <Left style={{flex: 1}}>
             
           </ Left>
           <Body style={{flex: 1}}>
+          
+            <Title style={{alignSelf: "center"}}>Register</Title>
           </ Body>
           <Right style={{flex: 1}}>
-            
-              <Text style={{color: 'blue'}}>Register</Text>
-            
+            <Button onPress={()=> Actions.login()}size={10}transparent>
+              <Text>Login</Text>
+            </Button>
           </Right>
-        </Header>*/}
+        </Header>
 
-        <Content style={{paddingTop: 54}}>
+        <Content style={{marginTop: 20}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 32, fontWeight: '700'}}>
+                <Text style={{fontSize: 32, fontWeight: '700', fontFamily: "Heebo"}}>
                   Welcome to
                 </Text>
                 <Image style={{flex: 1, opacity: 0.9, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
@@ -85,22 +94,32 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 16, marginTop: 10}}>The Alexa-enabled Social Habit Tracking App</Text>
+                <Text style={{fontSize: 16, marginTop: 10, fontFamily: 'Heebo'}}>The Alexa-enabled Social Habit Tracking App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
               
 
-          <Form style={{marginTop: 55, flex: 1}}>
+          <Form style={{marginTop: 20, flex: 1}}>
             <Item style={{flex: 1}}>
               <Label style={{fontWeight: 'bold'}}>Email</Label>
               <Input type={'email'} placeholder="(Your Amazon account email)"
                 onChangeText={this.onEmailChange.bind(this)}
                 value={this.props.email} />
             </Item>
+            <Item style={{flex: 1}}>
+              <Label style={{fontWeight: 'bold'}}>Name</Label>
+              <Input type={'text'} placeholder="Name"
+                onChangeText={this.onNameChange.bind(this)}
+                value={this.props.name} />
+            </Item>
             <Item style={{flex: 1}}floatingLabel last>
               <Label  style={{fontWeight: 'bold'}} >Password</Label>
               <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
+            </Item>
+            <Item style={{flex: 1}}floatingLabel last>
+              <Label  style={{fontWeight: 'bold'}} >Confirm Password</Label>
+              <Input secureTextEntry={true} onChangeText={this.onConfirmPasswordChange.bind(this)} value={this.props.confirmPassword}/>
             </Item>
             
             <Left style={{flex: 1}} />
@@ -126,8 +145,8 @@ const styles = {
 }
 
 const mapStateToProps = ({auth}) => {
-  const {email, password, error, loading} = auth
-  return { email, password, error, loading }
+  const {email, password, confirmPassword, error, loading, name} = auth
+  return { email, password, confirmPassword, error, loading, name}
 }
 
-export default connect(mapStateToProps, {emailChanged, passwordChanged, loginUser})(LoginForm)
+export default connect(mapStateToProps, {emailChanged, passwordChanged})(RegisterForm)
