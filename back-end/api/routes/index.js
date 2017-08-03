@@ -51,7 +51,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/mobileRegister', (req, res)=>{
   const userName = req.body.userName
-  const email = req.body.email
+  const email = req.body.email.toLowerCase()
   const password = bcrypt.hashSync(req.body.password)
 
   connection.query(`SELECT email FROM users`, (error, results)=>{
