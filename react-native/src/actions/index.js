@@ -73,3 +73,7 @@ const registerUserSuccess = (dispatch, user) => {
   })
   Actions.habitsList();
 }
+
+export const shortPass = (password)=>{
+  dispatch({type: PASSWORD_SHORT})
+}

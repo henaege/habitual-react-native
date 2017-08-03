@@ -6,7 +6,6 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import HabitsList from './components/HabitsList'
 import AddHabit from './components/AddHabit'
-import NavBar from './components/common/NavBar'
 
 const RouterComponent = () => {
   return(
@@ -21,7 +20,7 @@ const RouterComponent = () => {
       </Scene>
       
       <Scene    key="main" title="Habits" >
-        <Scene key='habitsList' title="Habits" component={HabitsList} onRight={()=> Actions.addHabit()} rightTitle="Add" navigationBarStyle={{backgroundColor:"#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} />
+        <Scene key='habitsList' title="Habits" component={HabitsList} onRight={()=> Actions.addHabit()} rightTitle="Add" navigationBarStyle={{backgroundColor:"#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} initial/>
         <Scene key="addHabit" component={AddHabit} title="Add habit" navigationBarStyle={{backgroundColor:"#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}}>
 
         </Scene>

@@ -32,7 +32,11 @@ class RegisterForm extends Component{
 
   onButtonPress(){
     const {email, password} = this.props
+    if (password.length < 8) {
+      this.props.shortPass(password)
+    } else {
     this.props.registerUser({email, password})
+    }
   }
 
   renderButton(){
@@ -69,9 +73,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
         <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                {/*<Text style={{fontSize: 32, fontWeight: '700'}}>
-                  Welcome to
-                </Text>*/}
+                
                 <Image style={{flex: 1, opacity: 0.8, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
