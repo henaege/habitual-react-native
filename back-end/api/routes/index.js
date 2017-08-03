@@ -127,7 +127,8 @@ router.post('/alexaRegister', (req, res)=>{
 });
 
 router.post('/mobileLogin', (req, res)=>{
-  var email = req.body.email;
+  console.log(req.body);
+  var email = req.body.email.toLowerCase();
   var password = req.body.password;
   var checkHash;
   const checkEmail = new Promise((resolve, reject)=>{
