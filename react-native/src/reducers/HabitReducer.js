@@ -19,15 +19,16 @@ export default (state = INITIAL_STATE, action) => {
     case GET_HABITS_LIST:
       return {...state, loading: true}
     case GET_HABITS_SUCCESS:
-      return {...state, payload: action.payload}
+      return {...state, habits: action.payload}
     case GET_HABITS_FAIL:
       return { ...state, error: 'No habits to list', loading: false }
     case GET_CATEGORIES_LIST: 
       return {...state, loading: true}
     case GET_CATEGORIES_SUCCESS:
-      return {...state, payload: action.payload}
+      return {...state, categories: action.payload}
     case GET_CATEGORIES_FAIL:
       return { ...state, error: 'Could not retrieve categories', loading: false }
     default:
+      return state
   }
 }

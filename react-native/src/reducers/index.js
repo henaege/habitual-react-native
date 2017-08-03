@@ -4,6 +4,6 @@ import HabitReducer from './HabitReducer'
 
 export default combineReducers({
   auth: AuthReducer,
-  habits: HabitReducer
+  habitsInfo: HabitReducer
 })
 

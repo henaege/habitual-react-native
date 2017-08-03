@@ -11,9 +11,9 @@ export const NAME_CHANGED = 'name_changed';
 export const GET_HABITS_LIST = 'get_habit_list'
 export const GET_HABITS_SUCCESS = 'get_habits_success'
 export const GET_HABITS_FAIL = 'get_habits_fail'
-export const GET_CATEGORIES_LIST = 'get_habit_list'
-export const GET_CATEGORIES_SUCCESS = 'get_habits_success'
-export const GET_CATEGORIES_FAIL = 'get_habits_fail'
+export const GET_CATEGORIES_LIST = 'get_categories_list'
+export const GET_CATEGORIES_SUCCESS = 'get_categories_success'
+export const GET_CATEGORIES_FAIL = 'get_categories_fail'
 
 
 

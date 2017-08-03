@@ -47,14 +47,14 @@ export const loginUser = ({ email, password }) => {
 };
 
 const loginUserFail = (dispatch) => {
-  return (dispatch) =>{dispatch({ type: LOGIN_USER_FAIL })};
-};
+  dispatch({ type: LOGIN_USER_FAIL })};
+
 
 const loginUserSuccess = (dispatch, user) => {
-  Actions.main();
-  return (dispatch)=> {dispatch({type: LOGIN_USER_SUCCESS,
-    payload: user})};
-};
+  dispatch({type: LOGIN_USER_SUCCESS,
+    payload: user})
+    Actions.main();
+}
 
 export const registerUser = ({email, password, name}) => {
   console.log(password);
@@ -75,30 +75,34 @@ export const registerUser = ({email, password, name}) => {
 }
 
 export const registerUserFail = () =>{
-  return (dispatch) =>{dispatch({
-    type: REGISTER_USER_FAIL})}
+  dispatch({
+    type: REGISTER_USER_FAIL})
 }
 
 const registerUserSuccess = (dispatch, user) => {
   Actions.main();
-  return (dispatch)=> {dispatch({
+  dispatch({
     type: REGISTER_USER_SUCCESS,
     payload: user
-  })}
+  })
+  Actions.main()
 }
 
 export const getHabits = (token)=> {
+  console.log(token)
   return (dispatch) => {
+    console.log("right before dispatch")
     dispatch({
     type: GET_HABITS_LIST
     })
     const dataObj = {'token': token}
+    console.log(dataObj)
     axiosReq('POST', habitsAPI + 'getMyHabitList', dataObj)
       .then((response)=>{
         if (response.data.msg === 'NoHabitJoined'){
           getCategoryList(dispatch)
         } else {
-            listUserHabits()
+            listUserHabits(dispatch)
         }
       })
       .catch(()=> getHabitsFail(dispatch)) 
@@ -107,12 +111,11 @@ export const getHabits = (token)=> {
 
 
 const getHabitsFail = (dispatch)=> {
-  return (dispatch)=> {dispatch({type: GET_HABITS_FAIL 
-  })}
+  dispatch({type: GET_HABITS_FAIL 
+  })
 }
 
 const getCategoryList = ()=> {
-  return (dispatch)=> {
     dispatch({
       type: GET_CATEGORY_LIST
     })
@@ -121,7 +124,6 @@ const getCategoryList = ()=> {
         getCategorySuccess(dispatch, response)
       })
       .catch(()=> getCategoryFail(dispatch))
-  }
 }
 
 const listUserHabits = (dispatch)=> {
@@ -129,10 +131,10 @@ const listUserHabits = (dispatch)=> {
   response.data.map((name)=> {
     userHabits.push(name)
   })
-return (dispatch)=> {dispatch({
+dispatch({
   type: GET_HABITS_SUCCESS,
     payload: userHabits
-  })}
+  })
 }
 
 const getCategorySuccess = (dispatch, response)=>{
@@ -140,13 +142,12 @@ const getCategorySuccess = (dispatch, response)=>{
     response.data.map((category)=> {
       categorylist.push(category)
     })
-    return (dispatch)=> {dispatch({
+dispatch({
       type: GET_CATEGORY_SUCCESS,
       payload: categorylist
-    })}
+    })
 }
 
 const getCategoryFail = (dispatch)=> {
-  return (dispatch)=> {dispatch({type: GET_CATEGORY_FAIL})}
-  
+  dispatch({type: GET_CATEGORY_FAIL})
 }
