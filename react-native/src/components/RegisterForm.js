@@ -65,36 +65,20 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
     return (
       <Container>
         <Image source={require('./bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-        
-        <Header style={{backgroundColor: "transparent", opacity: 0.8, marginTop: 24}}>
-          
-          <Left style={{flex: 1}}>
-            
-          </ Left>
-          <Body style={{flex: 1}}>
-          
-            <Title style={{alignSelf: "center"}}>Register</Title>
-          </ Body>
-          <Right style={{flex: 1}}>
-            <Button onPress={()=> Actions.login()}size={10}transparent>
-              <Text>Login</Text>
-            </Button>
-          </Right>
-        </Header>
 
-        <Content style={{marginTop: 20}}>
+        <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 32, fontWeight: '700', fontFamily: "Heebo"}}>
+                {/*<Text style={{fontSize: 32, fontWeight: '700'}}>
                   Welcome to
-                </Text>
-                <Image style={{flex: 1, opacity: 0.9, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
+                </Text>*/}
+                <Image style={{flex: 1, opacity: 0.8, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 16, marginTop: 10, fontFamily: 'Heebo'}}>The Alexa-enabled Social Habit Tracking App</Text>
+                <Text style={{fontSize: 16, marginTop: 10}}>The Alexa-enabled Social Habit Tracking App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
