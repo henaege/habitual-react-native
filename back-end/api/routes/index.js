@@ -129,7 +129,7 @@ router.post('/alexaRegister', (req, res)=>{
 router.post('/mobileLogin', (req, res)=>{
   // console.log(req.body);
   var email = req.body.email.toLowerCase();
-  console.log(email);
+  // console.log(email);
   var password = req.body.password;
   var checkHash;
   const checkEmail = new Promise((resolve, reject)=>{
@@ -139,7 +139,7 @@ router.post('/mobileLogin', (req, res)=>{
       if(results.length === 0){
         reject({msg:'emailNotExists'});
       }else{
-        // checkHash = bcrypt.compareSync(password, results[0].password);
+        checkHash = bcrypt.compareSync(password, results[0].password);
         resolve();
       }
     })
