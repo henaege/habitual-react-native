@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import HabitItems from './common/HabitItems'
-console.log(HabitItems)
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
@@ -18,7 +17,7 @@ class HabitsList extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    console.log(newProps)
+    // console.log(newProps)
     this.setState({isReady: true})
   }
 
@@ -27,11 +26,12 @@ class HabitsList extends Component{
   }
  
   render(){
+    console.log(this.state.isReady);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
-    console.log(this.props.habits)
+    // console.log(this.props.habits)
     return (
       
       <Container>

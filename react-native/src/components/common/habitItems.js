@@ -14,6 +14,7 @@ class HabitItems extends Component {
       basic: true,
       listViewData: this.props.props,
     };
+    this.checkInPressed = this.checkInPressed.bind(this);
   }
 
   checkInPressed(data){
@@ -38,21 +39,25 @@ class HabitItems extends Component {
             renderRow={data =>
               <ListItem >
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <TouchableOpacity full onPress={()=>
+                  <Button full onPress={()=>
                     Alert.alert(
-  'Alert Title',
-  'My Alert Msg',
-  [
-    {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ],
-  { cancelable: false }
-)>
-                  <Icon name="checkmark-circle"/>
-                  </TouchableOpacity>
+                      'Alert Title',
+                      'My Alert Msg',
+                      [
+                        {text: 'Cancel'},
+                        {text: 'OK', onPress: () => {
+                          this.checkInPressed(data);
+                        }},
+                      ],
+                      { cancelable: false }
+                    )}>
+                    <Icon name="checkmark-circle"/>
+                  </Button>
                 </Left>
-                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center', textTransform: 'capitalize'}}>{data}</Text>
+                <Right style={{flex: 3, paddingRight: 10}}>
+                  <Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>
+                    {data}
+                  </Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
