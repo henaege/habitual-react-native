@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
+<<<<<<< HEAD
 import {HabitItems} from './common/habitItems'
+=======
+import HabitItems from './common/HabitItems'
+console.log(HabitItems)
+>>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
@@ -16,16 +22,13 @@ class HabitsList extends Component{
     }
   }
 
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Heebo: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-    });
+  componentWillReceiveProps(newProps){
+    console.log(newProps)
 
-    this.setState({ isReady: true });
+    this.setState({isReady: true})
   }
 
+<<<<<<< HEAD
   componentDidMount(){
     // console.log(this.props.user)
     if (this.props.user != null){
@@ -39,18 +42,46 @@ class HabitsList extends Component{
         listReady: newList
       })
     }
+=======
+  componentWillMount() {
+     
+       this.props.getHabits(this.props.user.data.token)
+    // console.log(this.props.getHabits(this.props.user.data.token))
+    // this.props.getHabits(this.props.user.data.token)
+     
+
+>>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
   }
+    
+  
+
+  // componentDidMount(){
+  //   console.log(this.props.user)
+  //   if (this.props.user != null){
+  //     console.log(this.props.getHabits(this.props.user.data.token))
+  //     // return(
+  //     //   <HabitItems habits={this.props.habits} />
+  //     // )
+  //   }
+  // }
 
 
   render(){
     if (!this.state.isReady) {
-      return <Spinner />;
+    
+      return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
+    console.log(this.props.habits)
     return (
+      
       <Container>
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
+<<<<<<< HEAD
           {this.state.listReady}
+=======
+          <HabitItems props={this.props.habits} />
+>>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
         </Content>
         </Image>
       </Container>

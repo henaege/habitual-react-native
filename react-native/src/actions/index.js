@@ -89,6 +89,7 @@ const registerUserSuccess = (dispatch, user) => {
 }
 
 export const getHabits = (token)=> {
+<<<<<<< HEAD
   const dataObj = {'token': token};
   // console.log(token)
   return (dispatch) => {
@@ -101,6 +102,20 @@ export const getHabits = (token)=> {
           getCategoryList(dispatch)
         } else {
             listUserHabits(dispatch, response)
+=======
+  console.log(token)
+  const usertoken = {'token': token}
+  console.log(usertoken)
+  return(dispatch)=> {
+    axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
+      .then((response)=>{
+        var list = response.data
+        console.log(list)
+        if (response.data[0].msg === 'NoHabitJoined'){
+          getCategoryList(dispatch)
+        } else {
+            listUserHabits(dispatch, list)
+>>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
         }
       })
       .catch(()=> getHabitsFail(dispatch)) 
@@ -124,14 +139,23 @@ const getCategoryList = ()=> {
       .catch(()=> getCategoryFail(dispatch))
 }
 
+<<<<<<< HEAD
 const listUserHabits = (dispatch, response)=> {
   const userHabits = []
   response.data.map((habitData)=> {
     userHabits.push(habitData.name)
+=======
+export const listUserHabits = (dispatch, list)=> {
+  console.log(list)
+  const userHabits = []
+  list.map((object)=> {
+    userHabits.push(object.name)
+    console.log(userHabits)
+>>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
   })
   console.log(userHabits);
 dispatch({
-  type: GET_HABITS_SUCCESS,
+    type: GET_HABITS_SUCCESS,
     payload: userHabits
   })
 }
@@ -150,3 +174,4 @@ dispatch({
 const getCategoryFail = (dispatch)=> {
   dispatch({type: GET_CATEGORY_FAIL})
 }
+

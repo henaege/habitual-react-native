@@ -287,8 +287,8 @@ router.post('/habitslist', (req, res)=> {
 });
 
 router.post('/getMyHabitList', (req,res)=>{
-  var token = req.body.token;
   console.log(req.body)
+  var token = req.body.token;
   if(token.length <= 1){
     res.json({msg: 'InvalidEmail'});
   }else{
@@ -298,7 +298,7 @@ router.post('/getMyHabitList', (req,res)=>{
     if(results.length < 1){
       res.json({msg: 'NoHabitJoined'})
     }else{
-      res.json(results);
+      res.json({results: results, msg: "habitsList"});
     }
   });
   }
