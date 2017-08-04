@@ -124,6 +124,7 @@ const getCategoryList = ()=> {
       .catch(()=> getCategoryFail(dispatch))
 }
 
+
 export const listUserHabits = (dispatch, list)=> {
   console.log(list)
   const userHabits = []
@@ -131,6 +132,7 @@ export const listUserHabits = (dispatch, list)=> {
     userHabits.push(object.name)
     console.log(userHabits)
   })
+  console.log(userHabits);
 dispatch({
     type: GET_HABITS_SUCCESS,
     payload: userHabits
