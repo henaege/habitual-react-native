@@ -15,13 +15,10 @@ class HabitItems extends Component {
     };
   }
 
-<<<<<<< HEAD
-=======
   checkInPressed(){
 
   }
 
->>>>>>> aa5c62dea76d0e93b0149cb7f3d38cb0f6ac82ca
   deleteRow(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
     const newData = [...this.state.listViewData];
