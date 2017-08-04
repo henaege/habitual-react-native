@@ -129,7 +129,7 @@ export const listUserHabits = (dispatch, list)=> {
   console.log(list)
   const userHabits = []
   list.map((object)=> {
-    userHabits.push(object.name)
+    userHabits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
     console.log(userHabits)
   })
   console.log(userHabits);

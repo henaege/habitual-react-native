@@ -17,6 +17,7 @@ class HabitItems extends Component {
   }
 
   checkInPressed(){
+    console.log(this.props)
     this.props.checkInMyHabit(this.props.user.token)
   }
 
@@ -49,7 +50,7 @@ class HabitItems extends Component {
                   <Icon name="checkmark-circle"/>
                   </Button>
                 </Left>
-                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>{data}</Text>
+                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center', textTransform: 'capitalize'}}>{data}</Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
