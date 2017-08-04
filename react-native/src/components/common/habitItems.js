@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
+import {checkInMyHabit} from '../../actions'
 
 var alertMessage = 'Remember, you can check in up 2 twice per day!'
 
@@ -16,7 +17,7 @@ class HabitItems extends Component {
   }
 
   checkInPressed(){
-
+    this.props.checkInMyHabit(this.props.user.token)
   }
 
   deleteRow(secId, rowId, rowMap) {
@@ -64,5 +65,13 @@ class HabitItems extends Component {
   }
 }
 
+const mapStateToProps = ({habitsInfo, auth})=> {
+  const {habits, categories, error, loading} = habitsInfo
 
-export default HabitItems;
+  const {user} = auth
+
+  return { habits, categories, error, loading, user }
+}
+
+
+export default connect(mapStateToProps, {checkInMyHabit})(HabitItems)

@@ -19,32 +19,13 @@ class HabitsList extends Component{
 
   componentWillReceiveProps(newProps){
     console.log(newProps)
-
     this.setState({isReady: true})
   }
 
   componentWillMount() {
-     
        this.props.getHabits(this.props.user.data.token)
-    // console.log(this.props.getHabits(this.props.user.data.token))
-    // this.props.getHabits(this.props.user.data.token)
-     
-
   }
-    
-  
-
-  // componentDidMount(){
-  //   console.log(this.props.user)
-  //   if (this.props.user != null){
-  //     console.log(this.props.getHabits(this.props.user.data.token))
-  //     // return(
-  //     //   <HabitItems habits={this.props.habits} />
-  //     // )
-  //   }
-  // }
-
-
+ 
   render(){
     if (!this.state.isReady) {
     

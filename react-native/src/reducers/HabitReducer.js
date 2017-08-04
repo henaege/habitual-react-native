@@ -5,12 +5,14 @@ import {
   GET_CATEGORIES_LIST,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAIL,
+  HABIT_CHECK_IN
 } from '../actions/types'
 
 const INITIAL_STATE = {
   habits: [],
   categories: [],
   error: '',
+  message: '',
   loading: false
 };
 
@@ -29,6 +31,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, categories: action.payload}
     case GET_CATEGORIES_FAIL:
       return { ...state, error: 'Could not retrieve categories', loading: false }
+    case HABIT_CHECK_IN:
+      return {message: 'You have checked in to ', loading: false}
     default:
       return state
   }

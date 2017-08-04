@@ -152,3 +152,12 @@ const getCategoryFail = (dispatch)=> {
   dispatch({type: GET_CATEGORY_FAIL})
 }
 
+export const checkInMyHabit = (dispatch, token)=>{
+  const userToken = token
+  return(dispatch)=> {
+    axiosReq('POST', habitsAPI + 'checkinMyHabit', usertoken)
+      .then((response)=>{
+        console.log(response)
+      })
+  }
+}
