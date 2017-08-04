@@ -90,21 +90,17 @@ const registerUserSuccess = (dispatch, user) => {
 
 export const getHabits = (token)=> {
   console.log(token)
-  return (dispatch) => {
-    console.log("right before dispatch")
-    dispatch({
-    type: GET_HABITS_LIST
-    })
-    const usertoken = {'token': token}
-    console.log(usertoken)
+  const usertoken = {'token': token}
+  console.log(usertoken)
+  return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
         var list = response.data
         console.log(list)
         if (response.data[0].msg === 'NoHabitJoined'){
-          getCategoryList(disptch)
+          getCategoryList(dispatch)
         } else {
-            listUserHabits(list)
+            listUserHabits(dispatch, list)
         }
       })
       .catch(()=> getHabitsFail(dispatch)) 
@@ -128,14 +124,14 @@ const getCategoryList = ()=> {
       .catch(()=> getCategoryFail(dispatch))
 }
 
-export const listUserHabits = (list)=> {
+export const listUserHabits = (dispatch, list)=> {
   console.log(list)
   const userHabits = []
   list.map((object)=> {
     userHabits.push(object.name)
     console.log(userHabits)
   })
-return (dispatch)=>({
+dispatch({
     type: GET_HABITS_SUCCESS,
     payload: userHabits
   })

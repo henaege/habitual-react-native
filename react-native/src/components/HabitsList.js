@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import {HabitItems} from './common/HabitItems'
@@ -15,14 +16,16 @@ class HabitsList extends Component{
     }
   }
 
-  async componentWillMount() {
-     await this.props.getHabits(this.props.user.data.token)
+  componentWillMount() {
+     let promise = new Promise((resolve, reject)=> {
+       this.props.getHabits(this.props.user.data.token)})
     // console.log(this.props.getHabits(this.props.user.data.token))
     // this.props.getHabits(this.props.user.data.token)
-
-    this.setState({ isReady: true });
-    
+      promise.then((console.log(this.props.habits)))
+      this.setState({ isReady: true })
   }
+    
+  
 
   // componentDidMount(){
   //   console.log(this.props.user)
@@ -37,14 +40,16 @@ class HabitsList extends Component{
 
   render(){
     if (!this.state.isReady) {
-      console.log(this.props.habits)
-      return <Spinner />;
+    
+      return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
+    console.log(this.props.habits)
     return (
+      
       <Container>
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
-          {/*<HabitItems habits={this.props.getHabits(this.props.user.data.token)}/>*/}
+          {/**/}
         </Content>
         </Image>
       </Container>

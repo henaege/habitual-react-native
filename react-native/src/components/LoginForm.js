@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet, ActivityIndicator} from 'react-native'
 import {connect} from 'react-redux'
 import {emailChanged, passwordChanged, loginUser} from '../actions'

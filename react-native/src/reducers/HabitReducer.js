@@ -19,7 +19,8 @@ export default (state = INITIAL_STATE, action) => {
     case GET_HABITS_LIST:
       return {habits: action.payload, loading: true}
     case GET_HABITS_SUCCESS:
-      return {...state, habits: action.payload}
+      // console.log(action.payload)
+      return {habits: action.payload}
     case GET_HABITS_FAIL:
       return { ...state, error: 'No habits to list', loading: false }
     case GET_CATEGORIES_LIST: 
