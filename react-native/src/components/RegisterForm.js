@@ -42,7 +42,7 @@ class RegisterForm extends Component{
   onButtonPress(){
     var inputArr = [this.props.password, this.props.confirmPassword, this.props.email];
     inputArr.map((inputItem)=>{
-      console.log(inputItem.length);
+      // console.log(inputItem.length);
       if(inputItem.length < 8){
         this.setState({
           lengthCheck:true

@@ -66,13 +66,15 @@ router.post('/mobileRegister', (req, res)=>{
       if(results[userIndex].password){
         res.json({msg: "userExists"})
       }else{
-        var updatePasswordQuery = 'UPDATE users SET password = ? WHERE email = ?;';
-        connection.query(updatePasswordQuery, [password, email], (error1, results1)=>{
+        var newToken = randToken.uid(40);
+        var updatePasswordQuery = 'UPDATE users SET password = ?, token = ? WHERE email = ?;';
+        connection.query(updatePasswordQuery, [password, newToken, email], (error1, results1)=>{
           if(error1) res.json({msg:error1})
           res.json({
             msg:"userPasswordUpdatedForMobile",
             email: email,
-            name: userName
+            name: userName,
+            token: newToken
           })
         })
       }

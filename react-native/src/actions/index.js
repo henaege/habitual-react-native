@@ -64,7 +64,7 @@ export const registerUser = ({email, password, name}) => {
     axiosReq('POST', habitsAPI + 'mobileRegister', dataObj)
       .then((response)=>{
         // console.log(response);
-        if(response.data.msg === 'userInserted'){
+        if(response.data.msg === 'userInserted' || response.data.msg === 'userPasswordUpdatedForMobile'){
           registerUserSuccess(dispatch, response)
         }else{
           registerUserFail(dispatch)
@@ -80,7 +80,7 @@ export const registerUserFail = () =>{
 }
 
 const registerUserSuccess = (dispatch, user) => {
-  Actions.main();
+  console.log(user);
   dispatch({
     type: REGISTER_USER_SUCCESS,
     payload: user
@@ -89,12 +89,13 @@ const registerUserSuccess = (dispatch, user) => {
 }
 
 export const getHabits = (token)=> {
-  // console.log(token)
+  console.log(token)
   const usertoken = {'token': token}
   // console.log(usertoken)
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
+        console.log(response)
         var list = response.data
         // console.log(list)
         if (response.data[0].msg === 'NoHabitJoined'){
