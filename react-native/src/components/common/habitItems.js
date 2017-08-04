@@ -14,10 +14,7 @@ class HabitItems extends Component {
       basic: true,
       listViewData: this.props.props,
     };
-  }
-
-  onDeleteBTN(){
-    console.log('button pressed')
+    this.checkInPressed = this.checkInPressed.bind(this);
   }
 
   checkInPressed(data){
@@ -40,24 +37,27 @@ class HabitItems extends Component {
           <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{backgroundColor: '#DDD8EE'}}>
+              <ListItem >
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button
-        title="Delete Record"
-        onPress={() => Alert.alert(
-          'Alert Title',
-          'alertMessage',
-          [
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            {text: 'OK', onPress:()=> onDeleteBTN},
-          ],
-          { cancelable: false }
-        )}
-      >
-                  <Icon name="checkmark-circle"/>
+                  <Button full onPress={()=>
+                    Alert.alert(
+                      'Alert Title',
+                      'My Alert Msg',
+                      [
+                        {text: 'Cancel'},
+                        {text: 'OK', onPress: () => {
+                          this.checkInPressed(data);
+                        }},
+                      ],
+                      { cancelable: false }
+                    )}>
+                    <Icon name="checkmark-circle"/>
                   </Button>
                 </Left>
-                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>{data}</Text>
+                <Right style={{flex: 3, paddingRight: 10}}>
+                  <Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>
+                    {data}
+                  </Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>

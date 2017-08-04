@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -35,7 +35,7 @@ export const loginUser = ({ email, password }) => {
     const dataObj = {'email': email, 'password': password};
     axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
       .then((response)=>{
-        console.log(response);
+        // console.log(response);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response)
         }else{
@@ -57,13 +57,13 @@ const loginUserSuccess = (dispatch, user) => {
 }
 
 export const registerUser = ({email, password, name}) => {
-  console.log(password);
+  // console.log(password);
   return (dispatch) => {
     dispatch({type: REGISTER_USER})
     const dataObj = {'email': email, 'password': password, 'userName': name};
     axiosReq('POST', habitsAPI + 'mobileRegister', dataObj)
       .then((response)=>{
-        console.log(response);
+        // console.log(response);
         if(response.data.msg === 'userInserted'){
           registerUserSuccess(dispatch, response)
         }else{
@@ -89,14 +89,14 @@ const registerUserSuccess = (dispatch, user) => {
 }
 
 export const getHabits = (token)=> {
-  console.log(token)
+  // console.log(token)
   const usertoken = {'token': token}
-  console.log(usertoken)
+  // console.log(usertoken)
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
         var list = response.data
-        console.log(list)
+        // console.log(list)
         if (response.data[0].msg === 'NoHabitJoined'){
           getCategoryList(dispatch)
         } else {
@@ -126,13 +126,13 @@ const getCategoryList = ()=> {
 
 
 export const listUserHabits = (dispatch, list)=> {
-  console.log(list)
+  // console.log(list)
   const userHabits = []
   list.map((object)=> {
     userHabits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
-    console.log(userHabits)
+    // console.log(userHabits)
   })
-  console.log(userHabits);
+  // console.log(userHabits);
 dispatch({
     type: GET_HABITS_SUCCESS,
     payload: userHabits
