@@ -4,7 +4,7 @@ import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, R
 import {connect} from 'react-redux'
 import {checkInMyHabit} from '../../actions'
 
-var alertMessage = 'Remember, you can check in up 2 twice per day!'
+var alertMessage = 'Remember, you can check in up to twice per day!'
 
 class HabitItems extends Component {
   constructor(props) {
@@ -16,9 +16,9 @@ class HabitItems extends Component {
     };
   }
 
-  checkInPressed(){
-    console.log(this.props)
-    this.props.checkInMyHabit(this.props.user.token)
+  checkInPressed(data){
+    console.log(data)
+    this.props.checkInMyHabit(this.props.user.token, data)
   }
 
   deleteRow(secId, rowId, rowMap) {
@@ -29,7 +29,7 @@ class HabitItems extends Component {
   }
   render() {
     console.log(this.props.habits);
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
     return (
 
@@ -38,17 +38,19 @@ class HabitItems extends Component {
             renderRow={data =>
               <ListItem >
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button onPress={()=>
+                  <TouchableOpacity full onPress={()=>
                     Alert.alert(
-                      'Check In to ' + data,
-                        alertMessage,
-                        [
-                          {text: 'Cancel'}, 
-                          {text: 'OK', onPress:()=>{this.checkInPressed.bind(this)}}
-                        ]
-                        )} style={{backgroundColor: "#48A9A6", opacity: 0.9}}>
+  'Alert Title',
+  'My Alert Msg',
+  [
+    {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+  { cancelable: false }
+)>
                   <Icon name="checkmark-circle"/>
-                  </Button>
+                  </TouchableOpacity>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center', textTransform: 'capitalize'}}>{data}</Text>
                 </Right>
