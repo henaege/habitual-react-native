@@ -16,6 +16,10 @@ class HabitItems extends Component {
     };
   }
 
+  onDeleteBTN(){
+    console.log('button pressed')
+  }
+
   checkInPressed(data){
     console.log(data)
     this.props.checkInMyHabit(this.props.user.token, data)
@@ -38,19 +42,20 @@ class HabitItems extends Component {
             renderRow={data =>
               <ListItem >
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <TouchableOpacity full onPress={()=>
-                    Alert.alert(
-  'Alert Title',
-  'My Alert Msg',
-  [
-    {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ],
-  { cancelable: false }
-)>
+                  <Button
+        title="Delete Record"
+        onPress={() => Alert.alert(
+          'Alert Title',
+          'alertMessage',
+          [
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+            {text: 'OK', onPress:()=> this._onDeleteBTN},
+          ],
+          { cancelable: false }
+        )}
+      />
                   <Icon name="checkmark-circle"/>
-                  </TouchableOpacity>
+                  
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center', textTransform: 'capitalize'}}>{data}</Text>
                 </Right>

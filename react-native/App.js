@@ -18,6 +18,7 @@ import { Root } from 'native-base';
     
     return (
       <Root>
+         <StatusBar backgroundColor="rgba(0,0,0,0)" translucent />
         <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
           <Router />
         </Provider>
