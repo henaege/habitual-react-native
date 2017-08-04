@@ -298,7 +298,7 @@ router.post('/getMyHabitList', (req,res)=>{
     if(results.length < 1){
       res.json({msg: 'NoHabitJoined'})
     }else{
-      res.json(results);
+      res.json({results: results, msg: "habitsList"});
     }
   });
   }
