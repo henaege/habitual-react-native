@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
 
+var alertMessage = 'Remember, you can check in up 2 twice per day!'
 
 class HabitItems extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class HabitItems extends Component {
     };
   }
 
-  
+  checkInPressed(){
+
+  }
 
   deleteRow(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
@@ -27,24 +30,26 @@ class HabitItems extends Component {
 
     return (
 
-          <List style={{marginTop: 10}}
+          <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{flex: 1}}>
+              <ListItem >
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Icon name="arrow-dropleft"/>
+                  <Button onPress={()=>
+                    Alert.alert(
+                      'Check In to ' + data,
+                        alertMessage,
+                        [
+                          {text: 'Cancel'}, 
+                          {text: 'OK', onPress:()=>{this.checkInPressed.bind(this)}}
+                        ]
+                        )} style={{backgroundColor: "#48A9A6", opacity: 0.9}}>
+                  <Icon name="checkmark-circle"/>
+                  </Button>
                 </Left>
-                <Body style={{flex: 2, alignItems: 'center'}}>
-                  <Text style={{fontSize:20, fontWeight: '500'}}>{data}</Text>
-                </Body>
-                <Right style={{flex: 1, alignItems: 'flex-end', paddingRight: 10}}>
-                  <Icon name="arrow-dropright"/>
+                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>{data}</Text>
                 </Right>
               </ListItem>}
-            renderLeftHiddenRow={data =>
-              <Button full onPress={() => alert(data)}>
-                <Icon active name="checkmark-circle" />
-              </Button>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
               <Button full danger onPress={()=> {
                 this.deleteRow(secId, rowId, rowMap)

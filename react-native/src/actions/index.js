@@ -151,3 +151,4 @@ dispatch({
 const getCategoryFail = (dispatch)=> {
   dispatch({type: GET_CATEGORY_FAIL})
 }
+
