@@ -10,8 +10,7 @@ import AddHabit from './components/AddHabit'
 const RouterComponent = () => {
   return(
     <Router >
-      {/*<StatusBar style={{backgroundColor: 'transparent' }} />*/}
-      <StatusBar backgroundColor="rgba(0,0,0,0)" translucent />
+     
       <Scene key="auth1">
 
         <Scene onRight={()=> Actions.auth2()} key='login' component={LoginForm} title="Welcome" rightTitle="Register" navigationBarStyle={{backgroundColor: 'transparent', paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} />

@@ -40,7 +40,7 @@ class HabitItems extends Component {
           <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem >
+              <ListItem style={{backgroundColor: '#DDD8EE'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button
         title="Delete Record"
@@ -49,15 +49,15 @@ class HabitItems extends Component {
           'alertMessage',
           [
             {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            {text: 'OK', onPress:()=> this._onDeleteBTN},
+            {text: 'OK', onPress:()=> onDeleteBTN},
           ],
           { cancelable: false }
         )}
-      />
+      >
                   <Icon name="checkmark-circle"/>
-                  
+                  </Button>
                 </Left>
-                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center', textTransform: 'capitalize'}}>{data}</Text>
+                <Right style={{flex: 3, paddingRight: 10}}><Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>{data}</Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
