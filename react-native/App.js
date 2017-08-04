@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Provider} from 'react-redux'
+import {Platform, StatusBar} from 'react-native'
 import {createStore, applyMiddleware} from 'redux'
 import reducers from './src/reducers'
 import ReduxThunk from 'redux-thunk'
@@ -11,7 +12,10 @@ import { Root } from 'native-base';
 
  class App extends Component {
 
+  
+
   render() {
+    
     return (
       <Root>
         <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
