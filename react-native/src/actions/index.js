@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABIT_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -95,14 +95,16 @@ export const getHabits = (token)=> {
     dispatch({
     type: GET_HABITS_LIST
     })
-    const dataObj = {'token': token}
-    console.log(dataObj)
-    axiosReq('POST', habitsAPI + 'getMyHabitList', dataObj)
+    const usertoken = {'token': token}
+    console.log(usertoken)
+    axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
-        if (response.data.msg === 'NoHabitJoined'){
-          getCategoryList(dispatch)
+        var list = response.data
+        console.log(list)
+        if (response.data[0].msg === 'NoHabitJoined'){
+          getCategoryList(disptch)
         } else {
-            listUserHabits(dispatch)
+            listUserHabits(list)
         }
       })
       .catch(()=> getHabitsFail(dispatch)) 
@@ -126,13 +128,15 @@ const getCategoryList = ()=> {
       .catch(()=> getCategoryFail(dispatch))
 }
 
-const listUserHabits = (dispatch)=> {
+export const listUserHabits = (list)=> {
+  console.log(list)
   const userHabits = []
-  response.data.map((name)=> {
-    userHabits.push(name)
+  list.map((object)=> {
+    userHabits.push(object.name)
+    console.log(userHabits)
   })
-dispatch({
-  type: GET_HABITS_SUCCESS,
+return (dispatch)=>({
+    type: GET_HABITS_SUCCESS,
     payload: userHabits
   })
 }

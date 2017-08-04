@@ -16,35 +16,35 @@ class HabitsList extends Component{
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Heebo: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-    });
+     await this.props.getHabits(this.props.user.data.token)
+    // console.log(this.props.getHabits(this.props.user.data.token))
+    // this.props.getHabits(this.props.user.data.token)
 
     this.setState({ isReady: true });
+    
   }
 
-  componentDidMount(){
-    console.log(this.props.user)
-    if (this.props.user != null){
-      console.log(this.props.getHabits(this.props.user.data.token))
-      // return(
-      //   <HabitItems habits={this.props.habits} />
-      // )
-    }
-  }
+  // componentDidMount(){
+  //   console.log(this.props.user)
+  //   if (this.props.user != null){
+  //     console.log(this.props.getHabits(this.props.user.data.token))
+  //     // return(
+  //     //   <HabitItems habits={this.props.habits} />
+  //     // )
+  //   }
+  // }
 
 
   render(){
     if (!this.state.isReady) {
+      console.log(this.props.habits)
       return <Spinner />;
     }
     return (
       <Container>
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
-
+          {/*<HabitItems habits={this.props.getHabits(this.props.user.data.token)}/>*/}
         </Content>
         </Image>
       </Container>
