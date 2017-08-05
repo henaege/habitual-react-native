@@ -354,14 +354,14 @@ router.post('/checkinMyHabit', (req, res)=> {
         if(resp.length > 0){
           if (resp[0].updatedFrequency == 0){
             reject("outOfFrequency")
-          } else {
-            email = resp[0].email;
-            resolve(resp[0].email);
-          }
+          // } else {
+          //   email = resp[0].email;
+          //   resolve(resp[0].email);
+          // }
         }
-        else{
-          reject("habitNotExists")
-        }
+        // else{
+        //   reject("habitNotExists")
+        // }
       }
     })
   })
