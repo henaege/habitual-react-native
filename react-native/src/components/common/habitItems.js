@@ -18,8 +18,8 @@ class HabitItems extends Component {
   }
 
   checkInPressed(data){
-    console.log(data)
     var habitName = data.toLowerCase();
+    console.log(habitName)
     this.props.checkInMyHabit(this.props.user.token, habitName)
   }
 
@@ -31,7 +31,7 @@ class HabitItems extends Component {
     this.setState({ listViewData: newData });
   }
   render() {
-    console.log(this.props.habits);
+    // console.log(this.props.habits);
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
     return (
@@ -46,7 +46,7 @@ class HabitItems extends Component {
                       'Check in to ' + data,
                       alertMessage,
                       [
-                        {text: 'Cancel'},
+                        {text: 'Cancel', onPress: ()=>{console.log("alert button")}},
                         {text: 'OK', onPress: () => {
                           this.checkInPressed(data);
                         }},

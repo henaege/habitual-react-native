@@ -47,7 +47,8 @@ export const loginUser = ({ email, password }) => {
 };
 
 const loginUserFail = (dispatch) => {
-  dispatch({ type: LOGIN_USER_FAIL })};
+  dispatch({ type: LOGIN_USER_FAIL })
+};
 
 
 const loginUserSuccess = (dispatch, user) => {
@@ -74,13 +75,11 @@ export const registerUser = ({email, password, name}) => {
   }
 }
 
-export const registerUserFail = () =>{
-  dispatch({
-    type: REGISTER_USER_FAIL})
+export const registerUserFail = (dispatch) =>{
+    dispatch({type: REGISTER_USER_FAIL});
 }
 
 const registerUserSuccess = (dispatch, user) => {
-  console.log(user);
   dispatch({
     type: REGISTER_USER_SUCCESS,
     payload: user
