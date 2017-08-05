@@ -54,7 +54,7 @@ router.post('/mobileRegister', (req, res)=>{
   const email = req.body.email.toLowerCase()
   const password = bcrypt.hashSync(req.body.password)
 
-  connection.query(`SELECT email FROM users`, (error, results)=>{
+  connection.query(`SELECT * FROM users`, (error, results)=>{
     console.log(results)
     if (error) throw error
     var emailsArray = []
@@ -63,16 +63,19 @@ router.post('/mobileRegister', (req, res)=>{
     }
     if(emailsArray.includes(email)){
       var userIndex = emailsArray.indexOf(email);
+      console.log(results[userIndex]);
       if(results[userIndex].password){
         res.json({msg: "userExists"})
       }else{
-        var updatePasswordQuery = 'UPDATE users SET password = ? WHERE email = ?;';
-        connection.query(updatePasswordQuery, [password, email], (error1, results1)=>{
+        var newToken = randToken.uid(40);
+        var updatePasswordQuery = 'UPDATE users SET password = ?, token = ? WHERE email = ?;';
+        connection.query(updatePasswordQuery, [password, newToken, email], (error1, results1)=>{
           if(error1) res.json({msg:error1})
           res.json({
             msg:"userPasswordUpdatedForMobile",
             email: email,
-            name: userName
+            name: userName,
+            token: newToken
           })
         })
       }

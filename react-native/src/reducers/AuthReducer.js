@@ -22,6 +22,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+  console.log(action.type);
   switch (action.type) {
     case EMAIL_CHANGED:
       return { ...state, email: action.payload };
@@ -40,7 +41,7 @@ export default (state = INITIAL_STATE, action) => {
     case REGISTER_USER:
       return { ...state, loading: true, error: '' };
     case REGISTER_USER_SUCCESS:
-      return { ...state, ...INITIAL_STATE, user: action.payload };
+      return { ...state, ...INITIAL_STATE, loading: false, user: action.payload };
     case REGISTER_USER_FAIL:
       return { ...state, error: 'Registration Failed.', password: '', email: '', confirmPassword:'', loading: false };
     default:

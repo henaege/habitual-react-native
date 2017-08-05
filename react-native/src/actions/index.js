@@ -64,7 +64,7 @@ export const registerUser = ({email, password, name}) => {
     axiosReq('POST', habitsAPI + 'mobileRegister', dataObj)
       .then((response)=>{
         // console.log(response);
-        if(response.data.msg === 'userInserted'){
+        if(response.data.msg === 'userInserted' || response.data.msg === 'userPasswordUpdatedForMobile'){
           registerUserSuccess(dispatch, response)
         }else{
           registerUserFail(dispatch)
@@ -80,7 +80,7 @@ export const registerUserFail = () =>{
 }
 
 const registerUserSuccess = (dispatch, user) => {
-  Actions.main();
+  console.log(user);
   dispatch({
     type: REGISTER_USER_SUCCESS,
     payload: user
@@ -89,21 +89,24 @@ const registerUserSuccess = (dispatch, user) => {
 }
 
 export const getHabits = (token)=> {
-  // console.log(token)
+  console.log(token)
   const usertoken = {'token': token}
   // console.log(usertoken)
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
-        var list = response.data.results
-        console.log(list)
+        console.log(response)
+        var list = response.data.results;
+        // console.log(list)
         if (response.data.msg === 'NoHabitJoined'){
           getCategoryList(dispatch)
         } else {
             listUserHabits(dispatch, list)
         }
       })
-      .catch(()=> getHabitsFail(dispatch, list)) 
+      .catch(()=> {
+        getHabitsFail(dispatch)
+      }) 
   }
 }
 
@@ -126,7 +129,7 @@ const getCategoryList = ()=> {
 
 
 export const listUserHabits = (dispatch, list)=> {
-  // console.log(list)
+  console.log(list)
   const userHabits = []
   list.map((object)=> {
     userHabits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))

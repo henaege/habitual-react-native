@@ -19,13 +19,15 @@ class HabitItems extends Component {
 
   checkInPressed(data){
     console.log(data)
-    this.props.checkInMyHabit(this.props.user.token, data)
+    var habitName = data.toLowerCase();
+    this.props.checkInMyHabit(this.props.user.token, habitName)
   }
 
-  deleteRow(secId, rowId, rowMap) {
+  deleteRow(secId, rowId, rowMap, data) {
     rowMap[`${secId}${rowId}`].props.closeRow();
     const newData = [...this.state.listViewData];
     newData.splice(rowId, 1);
+    this.props.leaveHabit(this.props.user.token, data);
     this.setState({ listViewData: newData });
   }
   render() {
@@ -62,8 +64,15 @@ class HabitItems extends Component {
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
               <Button full danger onPress={()=> {
-                this.deleteRow(secId, rowId, rowMap)
-                alert(data + " has been deleted.")}}>
+                Alert.alert(
+                  "Are you sure you want to cancel " + data,
+                  [
+                    {text: 'Delete', onPress: ()=>{
+                      this.deleteRow(secId, rowId, rowMap, data)
+                    }},
+                    {text: 'Back'}
+                  ]
+                  )}}>
                 <Icon active name="trash" />
               </Button>}
             leftOpenValue={75}
