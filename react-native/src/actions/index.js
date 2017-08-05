@@ -74,7 +74,7 @@ export const registerUser = ({email, password, name}) => {
   }
 }
 
-export const registerUserFail = () =>{
+export const registerUserFail = (dispatch) =>{
   dispatch({
     type: REGISTER_USER_FAIL})
 }
@@ -95,7 +95,6 @@ export const getHabits = (token)=> {
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
-        console.log(response)
         var list = response.data.results;
         // console.log(list)
         if (response.data.msg === 'NoHabitJoined'){
