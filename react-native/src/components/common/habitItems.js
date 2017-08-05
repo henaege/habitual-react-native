@@ -4,7 +4,7 @@ import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, R
 import {connect} from 'react-redux'
 import {checkInMyHabit} from '../../actions'
 
-var alertMessage = 'Remember, you can check in up to twice per day!'
+
 
 class HabitItems extends Component {
   constructor(props) {
@@ -35,24 +35,24 @@ class HabitItems extends Component {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
     return (
-
+        var alertMessage = 'Remember, you can check in up to twice per day!'
           <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem >
+              <ListItem > 
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button full onPress={()=>
+                  <Button style={{backgroundColor: "#48A9A6", opacity: 0.9}} onPress={()=>
                     Alert.alert(
-                      'Check in to ' + data,
-                      alertMessage,
-                      [
-                        {text: 'Cancel'},
-                        {text: 'OK', onPress: () => {
-                          this.checkInPressed(data);
-                        }},
-                      ],
-                      { cancelable: false }
-                    )}>
+                      'Check In to ' + data,
+                        alertMessage,
+                        [
+                          {text: 'Cancel'}, 
+                          {text: 'OK', onPress:()=>{this.checkInPressed(data);}}
+                        ]
+                        )} >
+                    <Icon name="checkmark-circle"/>
+                  </Button>
+
                     <Icon name="checkmark-circle"/>
                   </Button>
                 </Left>

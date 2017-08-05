@@ -6,7 +6,7 @@ import HabitItems from './common/HabitItems'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getHabits, getCategoryList} from '../actions'
+import {getHabits, getCategoryList, getHabitsFail} from '../actions'
 
 class HabitsList extends Component{
   constructor(){
@@ -24,6 +24,10 @@ class HabitsList extends Component{
   componentWillMount() {
        this.props.getHabits(this.props.user.data.token)
   }
+
+  componentDidMount(){
+    console.log(this.props.error)
+  }
  
   render(){
     console.log(this.state.isReady);
@@ -38,6 +42,7 @@ class HabitsList extends Component{
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
           <HabitItems props={this.props.habits} />
+          <Text>{this.props.error}</Text>
         </Content>
         </Image>
       </Container>
@@ -53,4 +58,4 @@ const mapStateToProps = ({habitsInfo, auth}) => {
   return { habits, categories, error, loading, user }
 }
 
-export default connect(mapStateToProps, {getHabits, getCategoryList})(HabitsList)
+export default connect(mapStateToProps, {getHabits, getCategoryList, getHabitsFail})(HabitsList)
