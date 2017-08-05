@@ -54,7 +54,7 @@ router.post('/mobileRegister', (req, res)=>{
   const email = req.body.email.toLowerCase()
   const password = bcrypt.hashSync(req.body.password)
 
-  connection.query(`SELECT email FROM users`, (error, results)=>{
+  connection.query(`SELECT * FROM users`, (error, results)=>{
     console.log(results)
     if (error) throw error
     var emailsArray = []
@@ -63,6 +63,7 @@ router.post('/mobileRegister', (req, res)=>{
     }
     if(emailsArray.includes(email)){
       var userIndex = emailsArray.indexOf(email);
+      console.log(results[userIndex]);
       if(results[userIndex].password){
         res.json({msg: "userExists"})
       }else{
