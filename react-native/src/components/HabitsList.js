@@ -42,7 +42,7 @@ class HabitsList extends Component{
         <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
           <HabitItems props={this.props.habits} />
-          <Text>{this.props.error}</Text>
+          <Button disabled full><Text>{this.props.error}</Text></Button>
         </Content>
         </Image>
       </Container>
