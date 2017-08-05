@@ -347,7 +347,7 @@ router.post('/checkinMyHabit', (req, res)=> {
   var email;
   var aPromise = new Promise((resolve, reject)=>{
     connection.query(checkFrequency, [token, habitName],(err, resp)=>{
-      console.log(resp);
+      // console.log(resp);
       if (err){
         throw err
       } else {
@@ -374,6 +374,7 @@ router.post('/checkinMyHabit', (req, res)=> {
         msg: error
       })
     } else {
+      // console.log(results);
       resolve(results)
     }
   })

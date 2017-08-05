@@ -19,8 +19,8 @@ class HabitItems extends Component {
 
   checkInPressed(data){
     var habitName = data.toLowerCase();
-    console.log(habitName)
-    this.props.checkInMyHabit(this.props.user.token, habitName)
+    var userToken = this.props.user.data.token
+    this.props.checkInMyHabit(userToken, habitName)
   }
 
   deleteRow(secId, rowId, rowMap, data) {
