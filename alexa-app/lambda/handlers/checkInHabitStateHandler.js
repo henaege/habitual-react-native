@@ -10,7 +10,7 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		var habits = this.attributes['habits'];
 		var userName = this.attributes['userName'];
 		console.log(habits);
-		if(habits.length > 0){
+		if(habits){
 			//Welcome user back 
 			this.emit(':ask', `Welcome back ${userName}! You can ask me about your habits by saying: what's my rank in, then the name of your habit, or check in your habit.`, "What would you like to do?");
 		}else{
@@ -22,11 +22,13 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 	'GetMyHabitsListIntent': function(){
 		// var accessToken = this.event.session.accessToken;
 		var token = this.attributes['token'];
+		console.log(token);
 		if(token){
 			habitsAPI.GetMyHabitsList(token)
 				.then((response)=>{
+					console.log(response);
 					var myHabitsList = [];
-					response.myHabitList.map((habit)=>{
+					response.results.map((habit)=>{
 						myHabitsList.push(habit.name)
 					})
 					myHabitsList = convertArrToStr(myHabitsList);
