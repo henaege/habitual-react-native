@@ -41,8 +41,8 @@ class HabitItems extends Component {
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button full onPress={()=>
                     Alert.alert(
-                      'Alert Title',
-                      'My Alert Msg',
+                      'Check in to ' + data,
+                      alertMessage,
                       [
                         {text: 'Cancel'},
                         {text: 'OK', onPress: () => {
