@@ -345,7 +345,7 @@ router.post('/checkinMyHabit', (req, res)=> {
   var habitName = req.body.habitName
   var checkFrequency = 'SELECT t1.email, t2.updatedFrequency FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 ON t1.email = t2.email AND t2.name = ?;';
   var email;
-  var aPromise = new Promise(()=>{
+  var aPromise = new Promise((resolve, reject)=>{
     connection.query(checkFrequency, [token, habitName],(err, resp)=>{
       console.log(resp + 'line 350');
       if (err){
@@ -354,14 +354,14 @@ router.post('/checkinMyHabit', (req, res)=> {
         if(resp.length > 0){
           if (resp[0].updatedFrequency == 0){
             reject("outOfFrequency")
-          // } else {
-          //   email = resp[0].email;
-          //   resolve(resp[0].email);
-          // }
+          } else {
+            email = resp[0].email;
+            resolve(resp[0].email);
+          }
         }
-        // else{
-        //   reject("habitNotExists")
-        // }
+        else{
+          reject("habitNotExists")
+        }
       }
     })
   })
