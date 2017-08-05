@@ -149,9 +149,9 @@ router.post('/mobileLogin', (req, res)=>{
   });
   checkEmail.then(()=>{
     if(checkHash){
-      const updateToken = 'UPDATE users SET token=?';
+      const updateToken = 'UPDATE users SET token=? WHERE email = ?';
       var token = randToken.uid(40);
-      connection.query(updateToken, [token], (err, results)=>{
+      connection.query(updateToken, [token, email], (err, results)=>{
         if(err) throw err;
         res.json({
           msg: 'loginSuccess',
