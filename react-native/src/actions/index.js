@@ -95,15 +95,15 @@ export const getHabits = (token)=> {
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
-        var list = response.data
-        // console.log(list)
-        if (response.data[0].msg === 'NoHabitJoined'){
+        var list = response.data.results
+        console.log(list)
+        if (response.data.msg === 'NoHabitJoined'){
           getCategoryList(dispatch)
         } else {
             listUserHabits(dispatch, list)
         }
       })
-      .catch(()=> getHabitsFail(dispatch)) 
+      .catch(()=> getHabitsFail(dispatch, list)) 
   }
 }
 

@@ -29,7 +29,7 @@ class HabitItems extends Component {
     this.setState({ listViewData: newData });
   }
   render() {
-    console.log(this.props.habits);
+    console.log(this.props.props);
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
     return (
