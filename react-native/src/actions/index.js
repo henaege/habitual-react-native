@@ -94,7 +94,6 @@ export const getHabits = (token)=> {
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
-        console.log(response)
         var list = response.data.results;
         // console.log(list)
         if (response.data.msg === 'NoHabitJoined'){
