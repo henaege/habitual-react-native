@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -156,15 +156,31 @@ const getCategoryFail = (dispatch)=> {
 }
 
 export const checkInMyHabit = (token, habitName)=>{
-  console.log(token);
-  console.log(habitName);
   const dataObj = {'token': token, 'habitName': habitName}
   return(dispatch)=> {
+    dispatch({
+      type: HABIT_CHECK_IN
+    })
     axiosReq('POST', habitsAPI + 'checkinMyHabit', dataObj )
       .then((response)=>{
-        console.log(response)
+        if(response.data.error !== undefined){
+          dispatch({
+            type:HABIT_CHECK_IN_FAIL,
+          })
+        }
+        else{
+          dispatch({
+            type: HABIT_CHECK_IN_SUCCESS,
+            payload: response.data.rank
+          })
+        }
       })
-      dispatch({type: HABIT_CHECK_IN})
+      .catch((error)=> {
+        console.log(error);
+        dispatch({
+          type:HABIT_CHECK_IN_FAIL,
+        })
+      })
 
   }
 }
