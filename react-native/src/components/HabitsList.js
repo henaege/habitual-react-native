@@ -28,7 +28,7 @@ class HabitsList extends Component{
   }
 
   renderAlert(){
-    if(this.props.rank !== undefined){
+    if(this.props.rank !== undefined && this.props.rank.length >1){
       return (
        Alert.alert(
           this.props.message,
@@ -36,7 +36,8 @@ class HabitsList extends Component{
         )
       )
     }else{
-      if(this.props.message !== undefined){
+      console.log(this.props.message);
+      if(this.props.message !== undefined && this.props.rank.message >1){
         return (
           Alert.alert(
             this.props.message

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
-import {checkInMyHabit} from '../../actions'
+import {checkInMyHabit, leaveHabit} from '../../actions'
 
 var alertMessage = 'Remember, you can check in up to twice per day!'
 
@@ -92,4 +92,4 @@ const mapStateToProps = ({habitsInfo, auth})=> {
 }
 
 
-export default connect(mapStateToProps, {checkInMyHabit})(HabitItems)
+export default connect(mapStateToProps, {checkInMyHabit, leaveHabit})(HabitItems)

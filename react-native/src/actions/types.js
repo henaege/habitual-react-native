@@ -17,7 +17,9 @@ export const GET_CATEGORIES_FAIL = 'get_categories_fail'
 export const HABIT_CHECK_IN = 'habit_check_in'
 export const HABIT_CHECK_IN_SUCCESS = 'habit_check_in_success'
 export const HABIT_CHECK_IN_FAIL = 'habit_check_in_fail'
-
+export const LEAVE_HABIT = 'leave_habit_in'
+export const LEAVE_HABIT_SUCCESS = 'leave_habit_success'
+export const LEAVE_HABIT_FAIL = 'leave_habit_fail'
 
 
 

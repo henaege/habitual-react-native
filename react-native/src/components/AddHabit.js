@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged, loginUser} from '../actions'
-import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
+import {getHabits, getCategoryList} from '../actions'
+import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, Tab, Tabs, ScrollableTab} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
 
@@ -23,6 +23,14 @@ class AddHabit extends Component{
 
     this.setState({ isReady: true });
   }
+  componentWillReceiveProps(newProps){
+    // console.log(newProps)
+    this.setState({isReady: true})
+  }
+
+  componentWillMount() {
+       this.props.getCategoryList();
+  }
   render(){
     if (!this.state.isReady) {
       return <Spinner />;
@@ -31,7 +39,23 @@ class AddHabit extends Component{
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
-
+          <Tabs renderTabBar={()=> <ScrollableTab />}>
+            <Tab heading="Exercise">
+              <HabitItems props={this.props.habits} />
+            </Tab>
+          <Tab heading="Health & Wellness">
+            <HabitItems props={this.props.habits} />
+          </Tab>
+          <Tab heading="Learning">
+            <HabitItems props={this.props.habits} />
+          </Tab>
+          <Tab heading="Self-improvement">
+            <HabitItems props={this.props.habits} />
+          </Tab>
+          <Tab heading="Other">
+            <HabitItems props={this.props.habits} />
+          </Tab>
+        </Tabs>
         </Content>
         </Image>
       </Container>
@@ -39,4 +63,11 @@ class AddHabit extends Component{
   }
 }
 
-export default AddHabit
+const mapStateToProps = ({habitsInfo, auth}) => {
+  const {habits, categories, error, loading, message, rank} = habitsInfo
+  const {user} = auth
+
+  return { habits, categories, error, loading, user, message, rank}
+}
+
+export default connect(mapStateToProps, {getHabits, getCategoryList})(AddHabit)

@@ -185,3 +185,31 @@ export const checkInMyHabit = (token, habitName)=>{
   }
 }
 
+export const leaveHabit = (token, habitName)=>{
+  const dataObj = {'token': token, 'habitName': habitName}
+  return(dispatch)=> {
+    dispatch({
+      type: LEAVE_HABIT
+    })
+    axiosReq('POST', habitsAPI + 'leaveHabit', dataObj)
+      .then((response)=>{
+        if(response.data.error !== undefined){
+          dispatch({
+            type:LEAVE_HABIT_FAIL
+          })
+        }
+        else{
+          dispatch({
+            type: LEAVE_HABIT_SUCCESS
+          })
+        }
+      })
+      .catch((error)=> {
+        console.log(error);
+        dispatch({
+          type:LEAVE_HABIT_FAIL,
+        })
+      })
+
+  }
+}

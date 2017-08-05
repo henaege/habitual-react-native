@@ -7,7 +7,10 @@ import {
   GET_CATEGORIES_FAIL,
   HABIT_CHECK_IN,
   HABIT_CHECK_IN_SUCCESS,
-  HABIT_CHECK_IN_FAIL
+  HABIT_CHECK_IN_FAIL,
+  LEAVE_HABIT,
+  LEAVE_HABIT_SUCCESS,
+  LEAVE_HABIT_FAIL,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -40,6 +43,12 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, message: 'You have checked in', rank: action.payload, loading: false}
     case HABIT_CHECK_IN_FAIL:
       return {...state, message: 'You failed to check in', loading: false}
+    case LEAVE_HABIT:
+      return {...state, loading: true}
+    case LEAVE_HABIT_SUCCESS:
+      return {...state, message: 'You have left the habit', loading: false}
+    case LEAVE_HABIT_FAIL:
+      return {...state, message: 'You failed to leave the habit', loading: false}
     default:
       return state
   }
