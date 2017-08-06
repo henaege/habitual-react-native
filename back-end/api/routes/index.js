@@ -101,7 +101,7 @@ router.post('/mobileRegister', (req, res)=>{
 router.post('/alexaRegister', (req, res)=>{
   const name = req.body.name;
   const email = req.body.email;
-  console.log(email);
+  // console.log(email);
   connection.query(`SELECT email FROM users`, (error, results)=>{
     // console.log(results)
     if (error) throw error
@@ -110,8 +110,24 @@ router.post('/alexaRegister', (req, res)=>{
       emailsArray.push(results[i].email)
     }
     if(emailsArray.includes(email)){
-      res.json({msg: "userExists"})
-    } else {
+      var userIndex = emailsArray.indexOf(email);
+      console.log(results[userIndex]);
+      if(results[userIndex].password){
+        res.json({msg: "userExists"})
+      } else{
+        var newToken = randToken.uid(40);
+        var updatePasswordQuery = 'UPDATE users SET token = ? WHERE email = ?;';
+        connection.query(updatePasswordQuery, [newToken, email], (error1, results1)=>{
+          if(error1) res.json({msg:error1})
+          res.json({
+            msg:"userPasswordUpdatedForAlexa",
+            email: email,
+            name: name,
+            token: newToken
+          })
+        })
+      }
+    }else {
       var newToken = randToken.uid(40);
       // var insertIntoUsers = `INSERT INTO users (email, name) VALUES (?,?,?,?);`
       connection.query(`INSERT INTO users (email, name, token) VALUES (?,?,?);`, [email, name, newToken], (error2, results2)=>{
@@ -459,12 +475,14 @@ router.post('/leaveHabit', (req, res)=>{
     connection.query(`SELECT t1.email, t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email`, [token],(error1, resp)=>{
       console.log(resp)
       if(error1){
-        throw error1
+        res.json({
+          msg: 'error'
+        })
       } else{
         function findHabit(habit) {
           return habit.name == habitName
         }
-        console.log(resp.find(findHabit))
+        // console.log(resp.find(findHabit))
         if(resp.find(findHabit) == undefined){
           reject("noHabit")
         } else {
@@ -480,7 +498,9 @@ router.post('/leaveHabit', (req, res)=>{
     var thePromise = new Promise((resolve, reject)=>{
       connection.query(leaveHabitQuery, [email, habitName], (error, response)=>{
         if (error) {
-          throw error
+          res.json({
+            msg: 'error'
+          })
         } else {
           resolve()
           console.log('removed habit')
@@ -498,7 +518,7 @@ router.post('/leaveHabit', (req, res)=>{
       } else{
         res.json({
           msg: "leftGroup",
-          habitListResponse: response2[0]
+          habitListResponse: response2
         })
       }
     })

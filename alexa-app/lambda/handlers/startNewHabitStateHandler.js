@@ -67,8 +67,8 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 		var habitName = this.event.request.intent.slots.HabitName.value;
 		habitsAPI.JoinAHabit(token, habitName)
 			.then((response)=>{
-				console.log(response);
-				this.attributes['habits'] = habitName;
+
+				this.attributes['habits'].push(habitName);
 				this.handler.state = constants.states.CHECKINHABIT;
 				this.emit(':ask', `You have successfully joined the ${habitName} group. Come back to check in with me after you finish you habit each time. If you want me to remind you through email about your habit, say: notification on. Or simply say: stop, to leave.`, 'If you want me to remind you through email about your habit, say: start notification. Or simply say: stop, to leave.');
 			})
@@ -78,7 +78,6 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 	'CheckInHabitIntent': function(){
 		var habits = this.attributes['habits'];
-		habits = 'running';
 		if(habits){
 			console.log('check in in start new');
 			this.handler.state = constants.states.CHECKINHABIT;

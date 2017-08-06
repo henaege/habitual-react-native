@@ -9,7 +9,7 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		//Check user data in session attributes
 		var habits = this.attributes['habits'];
 		var userName = this.attributes['userName'];
-		console.log(habits);
+		// console.log(habits);
 		if(habits){
 			//Welcome user back 
 			this.emit(':ask', `Welcome back ${userName}! You can ask me about your habits by saying: what's my rank in, then the name of your habit, or check in your habit.`, "What would you like to do?");
@@ -26,15 +26,13 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		if(token){
 			habitsAPI.GetMyHabitsList(token)
 				.then((response)=>{
-					console.log(response);
-					var myHabitsList = [];
-					response.results.map((habit)=>{
-						myHabitsList.push(habit.name)
-					})
+					// console.log(response);
+					var myHabitsList = response.slice('');
 					myHabitsList = convertArrToStr(myHabitsList);
 					this.emit(':ask', `Here's your habits list ${myHabitsList}`, `Here's your habits list ${myHabitsList}`);
 				})
 				.catch((error)=>{
+					console.log(error);
 					this.emit(':tell', "Sorry, there was a problem accessing your habit lists.");
 				})
 		}else{
@@ -94,6 +92,9 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		if(habitSlot){
 			habitsAPI.LeaveHabit(token, habitSlot)
 				.then((response)=>{
+					this.attributes['habits'].filter((habit)=>{
+						return habit !== habitSlot
+					});
 					var myHabitsList = [];
 					response.map((habit)=>{
 						myHabitsList.push(habit.name)
@@ -104,6 +105,10 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 					myHabitsList = convertArrToStr(myHabitsList); 
 					this.emit(':tell', `You have successfully left the ${habitSlot}. Do you want to start a new habit? Start by saying: start a new habit.`)
 
+				})
+				.catch((error)=>{
+					console.log(error);
+					this.emit(':tell', 'Sorry, there was a problem leaving your habit.')
 				})
 		}else{
 			this.emit(':ask', "Sorry, I didn't get the habit name you just said. Please say again.", "Sorry, I didn't get the habit name you just said. Please say again.");

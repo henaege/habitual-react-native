@@ -14,7 +14,7 @@ module.exports = {
 					json: true
 			})
 			.then((response)=>{
-				console.log(response);
+				// console.log(response);
 				resolve(response);
 			})
 			.catch((error)=>{
@@ -24,7 +24,7 @@ module.exports = {
 		});
 	},
 	Login:(email) =>{
-		console.log(email);
+		// console.log(email);
 		return new Promise((resolve, reject)=>{
 			request({
 				url:'http://test.iamdrewt.net/alexaLogin',
@@ -137,8 +137,16 @@ module.exports = {
 				json: true
 			})
 			.then((response)=>{
-				console.log(response);
-				resolve(response);
+				if (response.msg === 'habitsList'){
+					var habitsList = [];
+					response.results.map((habitName)=>{
+						habitsList.push(habitName.name)
+					})
+					resolve(habitsList);
+
+				}else{
+					reject('Habits API MyList Error:', error)
+				}
 			})
 			.catch((error)=>{
 				console.log(error);
@@ -184,11 +192,21 @@ module.exports = {
 			})
 			.then((response)=>{
 				console.log(response);
-				resolve(response);
+				if(response.msg === 'leftGroup'){
+					var habitsList = [];
+					response.habitListResponse.map((habit)=>{
+						habitsList.push(habit.name);
+					});
+					resolve(response);
+				}
+				else{
+					var error = response.msg;
+					reject('Habits API MyList Error:' + error);
+				}
 			})
 			.catch((error)=>{
 				console.log(error);
-				reject('Habits API MyList Error:', error);
+				reject('Habits API MyList Error:' + error);
 			})
 
 		});

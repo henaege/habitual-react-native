@@ -9,29 +9,33 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 	'NewSession': function(){
 		// Check for User Data in Session Attributes
 		var userName = this.attributes['userName'];
-		var habits = this.attributes['habits'];
 		var email = this.attributes['email'];
 		if(userName){
-			console.log(userName);
-			console.log(habits);
 			habitsAPI.Login(email)
 				.then((response)=>{
 					this.attributes['token'] = response.token;
-					// habitsAPI.GetMyHabitsList(token)
-					// 	.then((response)=>{
-							
-					// 	})
-					if(habits){
-						// console.log(habits);
-						// Change State to check in habit
-						this.handler.state = constants.states.CHECKINHABIT;
-						this.emitWithState('LaunchRequest');
-					}else{
+					habitsAPI.GetMyHabitsList(response.token)
+						.then((response)=>{
+							var habitsList = response;
+							this.attributes['habits'] = habitsList;
+							if(habitsList.length > 0){
+								
+								// Change State to check in habit
+								this.handler.state = constants.states.CHECKINHABIT;
+								this.emitWithState('LaunchRequest');
+							}else{
 
-						// Change State to Start new Habit
-						this.handler.state = constants.states.STARTNEWHABIT;
-						this.emitWithState('LaunchRequest');
-					}
+								// Change State to Start new Habit
+								this.handler.state = constants.states.STARTNEWHABIT;
+								this.emitWithState('LaunchRequest');
+							}
+						})
+						.catch((error)=>{
+							console.log(error);
+							// Change State to Start new Habit
+							this.handler.state = constants.states.STARTNEWHABIT;
+							this.emitWithState('LaunchRequest');
+						})
 				})
 				.catch((error)=>{
 					this.emit(':tell', "Sorry, there's a problem to log you in in our system. Please try again.");
@@ -54,7 +58,6 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 						// console.log(email);
 						habitsAPI.Register(email, name)
 							.then((response)=>{
-								console.log(response);
 								if(response.msg == 'userInserted'){
 									this.attributes['token'] = response.token;
 									//Change State to start new habit
@@ -65,19 +68,29 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 									// User already exists. Change State to Start new Habit
 									habitsAPI.Login(email)
 										.then((response)=>{
-											console.log(response)
 											this.attributes['token'] = response.token;
-											if(habits){
-												// console.log(habits);
-												// Change State to check in habit
-												this.handler.state = constants.states.CHECKINHABIT;
-												this.emitWithState('LaunchRequest');
-											}else{
+											habitsAPI.GetMyHabitsList(response.token)
+												.then((response)=>{
+													var habitsList = response;
+													this.attributes['habits'] = habitsList;
+													if(habitsList.length > 0){
+														
+														// Change State to check in habit
+														this.handler.state = constants.states.CHECKINHABIT;
+														this.emitWithState('LaunchRequest');
+													}else{
 
-												// Change State to Start new Habit
-												this.handler.state = constants.states.STARTNEWHABIT;
-												this.emitWithState('LaunchRequest');
-											}
+														// Change State to Start new Habit
+														this.handler.state = constants.states.STARTNEWHABIT;
+														this.emitWithState('LaunchRequest');
+													}
+												})
+												.catch((error)=>{
+													console.log(error);
+													// Change State to Start new Habit
+													this.handler.state = constants.states.STARTNEWHABIT;
+													this.emitWithState('LaunchRequest');
+												})
 										})
 										.catch((error)=>{
 											this.emit(':tell', "Sorry, there's a problem to log you in in our system. Please try again.");
