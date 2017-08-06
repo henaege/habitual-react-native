@@ -6,7 +6,6 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import HabitsList from './components/HabitsList'
 import AddHabit from './components/AddHabit'
-import CategoriesList from './components/CategoriesList'
 
 const RouterComponent = () => {
   return(

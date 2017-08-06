@@ -27,7 +27,9 @@ class AddHabit extends Component{
   }
 
   componentWillMount() {
+    console.log(this.props.categories)
       if(this.props.categories === undefined){
+        console.log('call getCategoryList')
         this.props.getCategoryList();
       }
   }
@@ -53,7 +55,7 @@ class AddHabit extends Component{
     return tabsArr
   }
   render(){
-    // console.log(this.state.isReady);
+    console.log(this.state.isReady);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
