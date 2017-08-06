@@ -33,6 +33,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: 'Could not retrieve categories', loading: false }
     case HABIT_CHECK_IN:
       return {message: 'You have checked in to ', loading: false}
+    case LEAVE_HABIT:
+      return {message: 'You have left ', loading: false, habits: action.payload}
     default:
       return state
   }

@@ -347,7 +347,6 @@ router.post('/checkinMyHabit', (req, res)=> {
   var email;
   var aPromise = new Promise((resolve, reject)=>{
     connection.query(checkFrequency, [token, habitName],(err, resp)=>{
-      console.log(resp + 'line 350');
       if (err){
         throw err
       } else {

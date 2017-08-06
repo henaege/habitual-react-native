@@ -15,12 +15,17 @@ class HabitItems extends Component {
       listViewData: this.props.props,
     };
     this.checkInPressed = this.checkInPressed.bind(this);
+    this.deleteHabit = this.deleteHabit.bind(this)
   }
 
   checkInPressed(data){
     var habitName = data.toLowerCase();
     console.log(habitName)
     this.props.checkInMyHabit(this.props.user.token, habitName)
+  }
+
+  deleteHabit(data){
+    this.props.leaveHabit(this.props.user.token, data)
   }
 
   deleteRow(secId, rowId, rowMap, data) {
@@ -67,6 +72,7 @@ class HabitItems extends Component {
                   "Are you sure you want to cancel " + data,
                   [
                     {text: 'Delete', onPress: ()=>{
+                      this.deleteHabit(data)
                       this.deleteRow(secId, rowId, rowMap, data)
                     }},
                     {text: 'Back'}

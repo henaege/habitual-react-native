@@ -167,3 +167,14 @@ export const checkInMyHabit = (dispatch, token, habitName)=>{
   }
 }
 
+export const leaveHabit = (dispatch, token, habitName)=>{
+  const dataObj = {'token': token, 'habitName': habitName}
+  return (dispatch)=>{
+    axiosReq('POST', habitsAPI + 'leaveHabit', dataObj)
+      .then((response)=>{
+        console.log(response)
+      })
+      dispatch({type: LEAVE_HABIT})
+  }
+}
+
