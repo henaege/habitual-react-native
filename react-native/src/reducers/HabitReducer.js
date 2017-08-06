@@ -5,7 +5,12 @@ import {
   GET_CATEGORIES_LIST,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAIL,
-  HABIT_CHECK_IN
+  HABIT_CHECK_IN,
+  HABIT_CHECK_IN_SUCCESS,
+  HABIT_CHECK_IN_FAIL,
+  LEAVE_HABIT,
+  LEAVE_HABIT_SUCCESS,
+  LEAVE_HABIT_FAIL,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -13,6 +18,7 @@ const INITIAL_STATE = {
   categories: [],
   error: '',
   message: '',
+  rank: '',
   loading: false
 };
 
@@ -32,9 +38,17 @@ export default (state = INITIAL_STATE, action) => {
     case GET_CATEGORIES_FAIL:
       return { ...state, error: 'Could not retrieve categories', loading: false }
     case HABIT_CHECK_IN:
-      return {message: 'You have checked in to ', loading: false}
+      return {...state, loading: true}
+    case HABIT_CHECK_IN_SUCCESS:
+      return {...state, message: 'You have checked in', rank: action.payload, loading: false}
+    case HABIT_CHECK_IN_FAIL:
+      return {...state, message: 'You failed to check in', loading: false}
     case LEAVE_HABIT:
-      return {message: 'You have left ', loading: false, habits: action.payload}
+      return {...state, loading: true}
+    case LEAVE_HABIT_SUCCESS:
+      return {...state, message: 'You have left the habit', loading: false}
+    case LEAVE_HABIT_FAIL:
+      return {...state, message: 'You failed to leave the habit', loading: false}
     default:
       return state
   }

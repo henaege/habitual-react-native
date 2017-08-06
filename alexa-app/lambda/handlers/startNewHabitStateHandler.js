@@ -65,10 +65,9 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	'JoinAHabitIntent': function(){
 		var token = this.attributes['token'];
 		var habitName = this.event.request.intent.slots.HabitName.value;
-		this.attributes['habits'] = habitName;
 		habitsAPI.JoinAHabit(token, habitName)
 			.then((response)=>{
-				// console.log(response);
+				console.log(response);
 				this.attributes['habits'] = habitName;
 				this.handler.state = constants.states.CHECKINHABIT;
 				this.emit(':ask', `You have successfully joined the ${habitName} group. Come back to check in with me after you finish you habit each time. If you want me to remind you through email about your habit, say: notification on. Or simply say: stop, to leave.`, 'If you want me to remind you through email about your habit, say: start notification. Or simply say: stop, to leave.');
@@ -79,11 +78,13 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 	'CheckInHabitIntent': function(){
 		var habits = this.attributes['habits'];
+		habits = 'running';
 		if(habits){
+			console.log('check in in start new');
 			this.handler.state = constants.states.CHECKINHABIT;
 			this.emitWithState('LaunchRequest');
 		}else{
-			this.emit('ask', "To start a habit, say: start a habit. To list your habits, say: what's in my habit list", "What would you like to do?");
+			this.emit('ask', "To start a habit, say: start a habit. To check in your habits, say: check in habit", "What would you like to do?");
 		}
 	},
 	'AMAZON.StopIntent': function () {
@@ -101,7 +102,7 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 
 	'AMAZON.HelpIntent': function () {
-	this.emit(':ask', "To start a habit, say: start a habit. To list your habits, say: what's in my habit list", "What would you like to do?");
+	this.emit(':ask', "To start a habit, say: start a habit. To chekc in your habits, say: check in habit", "What would you like to do?");
 	},
 
 	'Unhandled': function () {

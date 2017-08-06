@@ -126,7 +126,7 @@ module.exports = {
 		})
 	},
 	GetMyHabitsList: (token)=>{
-		console.log("myhabit list");
+		console.log(token);
 		return new Promise((resolve, reject)=>{
 			request({
 				url: 'http://test.iamdrewt.net/getMyHabitList',

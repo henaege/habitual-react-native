@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
-import {checkInMyHabit} from '../../actions'
+import {checkInMyHabit, leaveHabit} from '../../actions'
 
 var alertMessage = 'Remember, you can check in up to twice per day!'
 
@@ -20,8 +20,8 @@ class HabitItems extends Component {
 
   checkInPressed(data){
     var habitName = data.toLowerCase();
-    console.log(habitName)
-    this.props.checkInMyHabit(this.props.user.token, habitName)
+    var userToken = this.props.user.data.token
+    this.props.checkInMyHabit(userToken, habitName)
   }
 
   deleteHabit(data){
@@ -35,6 +35,7 @@ class HabitItems extends Component {
     this.props.leaveHabit(this.props.user.token, data);
     this.setState({ listViewData: newData });
   }
+
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
@@ -97,4 +98,4 @@ const mapStateToProps = ({habitsInfo, auth})=> {
 }
 
 
-export default connect(mapStateToProps, {checkInMyHabit})(HabitItems)
+export default connect(mapStateToProps, {checkInMyHabit, leaveHabit})(HabitItems)
