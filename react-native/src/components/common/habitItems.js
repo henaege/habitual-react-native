@@ -68,9 +68,10 @@ class HabitItems extends Component {
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-              <Button full danger onPress={()=> {
+              <Button full danger onPress={()=>
                 Alert.alert(
-                  "Are you sure you want to cancel " + data,
+                  "Are you sure you want to cancel",
+                  data,
                   [
                     {text: 'Delete', onPress: ()=>{
                       this.deleteHabit(data)
@@ -78,7 +79,7 @@ class HabitItems extends Component {
                     }},
                     {text: 'Back'}
                   ]
-                  )}}>
+                  )}>
                 <Icon active name="trash" />
               </Button>}
             leftOpenValue={75}

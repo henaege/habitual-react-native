@@ -36,14 +36,14 @@ class HabitsList extends Component{
         )
       )
     }else{
-      console.log(this.props.message);
-      if(this.props.message !== undefined && this.props.rank.message >1){
-        return (
-          Alert.alert(
-            this.props.message
-          )
-        )
-      }
+      // console.log(this.props.message);
+      // if(this.props.message !== undefined && this.props.rank.message >1){
+      //   return (
+      //     Alert.alert(
+      //       this.props.message
+      //     )
+      //   )
+      // }
     }
   }
   render(){
