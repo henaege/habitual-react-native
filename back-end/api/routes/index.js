@@ -290,7 +290,7 @@ router.post('/habitslist', (req, res)=> {
     if (error) {
       throw error
     } else {
-      var groupQuery = `SELECT habitName FROM habitsInfo WHERE categoryId = ${results[0].id};`
+      var groupQuery = `SELECT name FROM habitsInfo WHERE categoryId = ${results[0].id};`
       connection.query(groupQuery, (error2, results2)=>{
         console.log(results2)
         if (error){
