@@ -57,18 +57,22 @@ class HabitsList extends Component{
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
     // console.log(this.props.habits)
-    return (
-      
-      <Container>
-        <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-        <Content style={{paddingTop: 54}}>
-          <HabitItems props={this.props.habits} />
-          {this.renderAlert()}
-          <Button disabled full><Text>{this.props.error}</Text></Button>
-        </Content>
-        </Image>
-      </Container>
-    )
+    if(this.props.categoryName !== undefined){
+      return <HabitItems props={this.props.habits} />
+    }
+    else{
+      return (  
+        <Container>
+          <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+          <Content style={{paddingTop: 54}}>
+            <HabitItems props={this.props.habits} />
+            {this.renderAlert()}
+            <Button disabled full><Text>{this.props.error}</Text></Button>
+          </Content>
+          </Image>
+        </Container>
+      )
+    }
   }
 }
 
