@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
-import {getHabits, getCategoryList} from '../actions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, Tab, Tabs, ScrollableTab} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
+import {getHabits, getCategoryList} from '../actions'
+import HabitsList from './HabitsList';
 
 class AddHabit extends Component{
   constructor(){
@@ -21,42 +22,43 @@ class AddHabit extends Component{
       Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
     });
-
-    this.setState({ isReady: true });
   }
   componentWillReceiveProps(newProps){
-    // console.log(newProps)
-    this.setState({isReady: true})
+    console.log(newProps)
+    if(newProps.categories !== undefined){
+      this.setState({isReady: true})
+    }
   }
 
   componentWillMount() {
-       this.props.getCategoryList();
+      if(this.props.categories === undefined){
+        this.props.getCategoryList();
+      }
+  }
+  renderTabs(){
+    var tabsArr = [];
+    this.props.categories.map((category)=>{
+      tabsArr.push(
+        <Tab heading={category}>
+          <HabitsList categoryName={category} />
+        </Tab>
+      )
+    })
+    return tabsArr;
   }
   render(){
+    console.log(this.state.isReady);
     if (!this.state.isReady) {
-      return <Spinner />;
+    
+      return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
           <Tabs renderTabBar={()=> <ScrollableTab />}>
-            <Tab heading="Exercise">
-              <HabitItems props={this.props.habits} />
-            </Tab>
-          <Tab heading="Health & Wellness">
-            <HabitItems props={this.props.habits} />
-          </Tab>
-          <Tab heading="Learning">
-            <HabitItems props={this.props.habits} />
-          </Tab>
-          <Tab heading="Self-improvement">
-            <HabitItems props={this.props.habits} />
-          </Tab>
-          <Tab heading="Other">
-            <HabitItems props={this.props.habits} />
-          </Tab>
-        </Tabs>
+            {this.renderTabs().bind(this)}
+          </Tabs>
         </Content>
         </Image>
       </Container>

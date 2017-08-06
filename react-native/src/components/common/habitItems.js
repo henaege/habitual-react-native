@@ -32,7 +32,6 @@ class HabitItems extends Component {
     rowMap[`${secId}${rowId}`].props.closeRow();
     const newData = [...this.state.listViewData];
     newData.splice(rowId, 1);
-    this.props.leaveHabit(this.props.user.token, data);
     this.setState({ listViewData: newData });
   }
 

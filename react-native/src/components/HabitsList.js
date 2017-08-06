@@ -6,7 +6,7 @@ import HabitItems from './common/habitItems'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getHabits, getCategoryList, getHabitsFail} from '../actions'
+import {getHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions'
 
 class HabitsList extends Component{
   constructor(){
@@ -24,7 +24,11 @@ class HabitsList extends Component{
   }
 
   componentWillMount() {
-       this.props.getHabits(this.props.user.data.token)
+      if(this.props.categoryName !== undefined){
+        this.props.getHabitsFromCategory(this.props.categoryName);
+      }else{
+        this.props.getHabits(this.props.user.data.token)
+      }
   }
 
   renderAlert(){
@@ -36,14 +40,13 @@ class HabitsList extends Component{
         )
       )
     }else{
-      // console.log(this.props.message);
-      // if(this.props.message !== undefined && this.props.rank.message >1){
-      //   return (
-      //     Alert.alert(
-      //       this.props.message
-      //     )
-      //   )
-      // }
+      if(this.props.message !== undefined && this.props.rank.message >1){
+        return (
+          Alert.alert(
+            this.props.message
+          )
+        )
+      }
     }
   }
   render(){
@@ -75,4 +78,4 @@ const mapStateToProps = ({habitsInfo, auth}) => {
   return { habits, categories, error, loading, user, message, rank}
 }
 
-export default connect(mapStateToProps, {getHabits, getCategoryList, getHabitsFail})(HabitsList)
+export default connect(mapStateToProps, {getHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)

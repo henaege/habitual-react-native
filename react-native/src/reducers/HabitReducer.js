@@ -3,8 +3,8 @@ import {
   GET_HABITS_SUCCESS,
   GET_HABITS_FAIL,
   GET_CATEGORIES_LIST,
-  GET_CATEGORIES_SUCCESS,
-  GET_CATEGORIES_FAIL,
+  GET_CATEGORIES_LIST_SUCCESS,
+  GET_CATEGORIES_LIST_FAIL,
   HABIT_CHECK_IN,
   HABIT_CHECK_IN_SUCCESS,
   HABIT_CHECK_IN_FAIL,
@@ -33,9 +33,9 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: 'No habits to list', loading: false }
     case GET_CATEGORIES_LIST: 
       return {...state, loading: true}
-    case GET_CATEGORIES_SUCCESS:
-      return {...state, categories: action.payload}
-    case GET_CATEGORIES_FAIL:
+    case GET_CATEGORIES_LIST_SUCCESS:
+      return {...state, categories: action.payload,loading:false}
+    case GET_CATEGORIES_LIST_FAIL:
       return { ...state, error: 'Could not retrieve categories', loading: false }
     case HABIT_CHECK_IN:
       return {...state, loading: true}

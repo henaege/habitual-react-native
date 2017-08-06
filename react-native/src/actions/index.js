@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL,GET_CATEGORIES_LIST,GET_CATEGORIES_LIST_SUCCESS,GET_CATEGORIES_LIST_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -29,13 +29,12 @@ export const nameChanged = (text) => {
   };
 };
 export const loginUser = ({ email, password }) => {
-  console.log(email);
   return (dispatch) => {
     dispatch({type: LOGIN_USER})
     const dataObj = {'email': email, 'password': password};
     axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
       .then((response)=>{
-        console.log(response.data.msg);
+        console.log(response.data);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response)
         // }else{
@@ -108,21 +107,36 @@ export const getHabits = (token)=> {
   }
 }
 
+export const getHabitsFromCategory = (categoryName)=>{
+  return (dispatch) =>{
+    axiosReq('POST', habitsAPI + 'habitslist', categoryName)
+      .then((response)=>{
+        var list = response.data.habitsList;
+          listUserHabits(dispatch, list)
+      })
+      .catch(()=> {
+        getHabitsFail(dispatch)
+      })
+  }
+}
 
 const getHabitsFail = (dispatch)=> {
   dispatch({type: GET_HABITS_FAIL 
   })
 }
 
-const getCategoryList = ()=> {
+export const getCategoryList = ()=> {
+  return (dispatch)=> {
     dispatch({
-      type: GET_CATEGORY_LIST
+      type: GET_CATEGORIES_LIST
     })
     axiosReq('GET', habitsAPI + 'categorylist')
       .then((response)=> {
+        console.log(response);
         getCategorySuccess(dispatch, response)
       })
       .catch(()=> getCategoryFail(dispatch))
+  }
 }
 
 
@@ -142,17 +156,17 @@ dispatch({
 
 const getCategorySuccess = (dispatch, response)=>{
   const categorylist = []
-    response.data.map((category)=> {
-      categorylist.push(category)
+    response.data.categories.map((category)=> {
+      categorylist.push(category.categoryName)
     })
 dispatch({
-      type: GET_CATEGORY_SUCCESS,
+      type: GET_CATEGORIES_LIST_SUCCESS,
       payload: categorylist
     })
 }
 
 const getCategoryFail = (dispatch)=> {
-  dispatch({type: GET_CATEGORY_FAIL})
+  dispatch({type: GET_CATEGORIES_LIST_FAIL})
 }
 
 export const checkInMyHabit = (token, habitName)=>{
@@ -186,6 +200,8 @@ export const checkInMyHabit = (token, habitName)=>{
 }
 
 export const leaveHabit = (token, habitName)=>{
+  habitName = habitName.toLowerCase();
+  console.log(habitName)
   const dataObj = {'token': token, 'habitName': habitName}
   return(dispatch)=> {
     dispatch({
@@ -193,6 +209,7 @@ export const leaveHabit = (token, habitName)=>{
     })
     axiosReq('POST', habitsAPI + 'leaveHabit', dataObj)
       .then((response)=>{
+        console.log(response);
         if(response.data.error !== undefined){
           dispatch({
             type:LEAVE_HABIT_FAIL
