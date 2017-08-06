@@ -34,7 +34,9 @@ class HabitItems extends Component {
     newData.splice(rowId, 1);
     this.setState({ listViewData: newData });
   }
-
+  // renderIcons(){
+    
+  // }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
