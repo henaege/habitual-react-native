@@ -215,6 +215,7 @@ router.get('/categorylist', (req, res)=>{
 
   var categoryQuery = `SELECT categoryName FROM categories;`
   connection.query(categoryQuery, (error, results)=>{
+    console.log(results)
     if (error) {
       res.json({
         msg: "error"
