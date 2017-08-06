@@ -33,6 +33,7 @@ class HabitsList extends Component{
   }
 
   renderAlert(){
+    console.log(this.props);
     if(this.props.rank !== undefined && this.props.rank.length >1){
       return (
        Alert.alert(
@@ -58,7 +59,7 @@ class HabitsList extends Component{
     }
     // console.log(this.props.habits)
     if(this.props.categoryName !== undefined){
-      return <HabitItems props={this.props.habits} />
+      return <HabitItems props={this.props.habits} add={true}/>
     }
     else{
       return (  

@@ -15,7 +15,8 @@ class HabitItems extends Component {
       listViewData: this.props.props,
     };
     this.checkInPressed = this.checkInPressed.bind(this);
-    this.deleteHabit = this.deleteHabit.bind(this)
+    this.deleteHabit = this.deleteHabit.bind(this);
+     this.renderIcons = this.renderIcons.bind(this)
   }
 
   checkInPressed(data){
@@ -25,7 +26,8 @@ class HabitItems extends Component {
   }
 
   deleteHabit(data){
-    this.props.leaveHabit(this.props.user.token, data)
+    console.log(this.props.user);
+    this.props.leaveHabit(this.props.user.data.token, data)
   }
 
   deleteRow(secId, rowId, rowMap, data) {
@@ -34,9 +36,14 @@ class HabitItems extends Component {
     newData.splice(rowId, 1);
     this.setState({ listViewData: newData });
   }
-  // renderIcons(){
-    
-  // }
+  renderIcons(){
+    if(this.props.add){
+      return <Icon name="add-circle" />
+    }
+    else{
+      return  <Icon name="checkmark-circle"/>
+    }
+  }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
@@ -59,7 +66,7 @@ class HabitItems extends Component {
                       ],
                       { cancelable: false }
                     )}>
-                    <Icon name="checkmark-circle"/>
+                    {this.renderIcons()}
                   </Button>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}>

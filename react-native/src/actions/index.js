@@ -204,7 +204,6 @@ export const checkInMyHabit = (token, habitName)=>{
 
 export const leaveHabit = (token, habitName)=>{
   habitName = habitName.toLowerCase();
-  console.log(habitName)
   const dataObj = {'token': token, 'habitName': habitName}
   return(dispatch)=> {
     dispatch({
@@ -215,12 +214,12 @@ export const leaveHabit = (token, habitName)=>{
         console.log(response);
         if(response.data.error !== undefined){
           dispatch({
-            type:LEAVE_HABIT_FAIL
+            type:LEAVE_HABIT_SUCCESS
           })
         }
         else{
           dispatch({
-            type: LEAVE_HABIT_SUCCESS
+            type: LEAVE_HABIT_FAIL
           })
         }
       })
