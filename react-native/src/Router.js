@@ -23,7 +23,7 @@ const RouterComponent = () => {
       <Scene    key="main" title="Your Habits:" >
         <Scene key='habitsList' title="Your Habits" component={HabitsList} onRight={()=> Actions.addHabit()} rightTitle="Add" navigationBarStyle={{backgroundColor:"#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} initial/>
 
-        <Scene key="addHabit" component={CategoriesList} title="Add habit" navigationBarStyle={{backgroundColor:(Platform.OS === 'android') ? 'transparent': "#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}}/>
+        <Scene key="addHabit" component={AddHabit} title="Add habit" navigationBarStyle={{backgroundColor:(Platform.OS === 'android') ? 'transparent': "#48A9A6", opacity: 0.8, paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}}/>
       </Scene>
     </Router>
   )
