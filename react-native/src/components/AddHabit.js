@@ -12,19 +12,15 @@ class AddHabit extends Component{
   constructor(){
     super()
     this.state = {
-      isReady: false
+      isReady: false,
+      categoryList: []
     }
+
+    this.setCategoryList = this.setCategoryList.bind(this);
   }
 
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Heebo: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
-      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-    });
-  }
   componentWillReceiveProps(newProps){
-    console.log(newProps)
+    // console.log(newProps)
     if(newProps.categories !== undefined){
       this.setState({isReady: true})
     }
@@ -35,29 +31,42 @@ class AddHabit extends Component{
         this.props.getCategoryList();
       }
   }
+  setCategoryList(){
+    var categoryArr = [];
+    console.log(this.props);
+    this.props.categories.map((category)=>{
+      categoryArr.push(category)
+    })
+    this.setState({
+      categoryList: categoryArr
+    })
+  }
   renderTabs(){
     var tabsArr = [];
-    this.props.categories.map((category)=>{
+    this.state.categoryList.map((category)=>{
       tabsArr.push(
-        <Tab heading={category}>
+        <Tab heading={category} key={category}>
           <HabitsList categoryName={category} />
         </Tab>
       )
     })
-    return tabsArr;
+    return tabsArr
   }
   render(){
-    console.log(this.state.isReady);
+    // console.log(this.state.isReady);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
+    }
+    if(this.state.categoryList.length === 0){
+      this.setCategoryList();
     }
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: 54}}>
           <Tabs renderTabBar={()=> <ScrollableTab />}>
-            {this.renderTabs().bind(this)}
+            {this.renderTabs()}
           </Tabs>
         </Content>
         </Image>

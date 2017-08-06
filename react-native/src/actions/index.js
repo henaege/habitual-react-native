@@ -108,9 +108,12 @@ export const getHabits = (token)=> {
 }
 
 export const getHabitsFromCategory = (categoryName)=>{
+  console.log(categoryName);
+  var dataObj = {'categoryName': categoryName};
   return (dispatch) =>{
-    axiosReq('POST', habitsAPI + 'habitslist', categoryName)
+    axiosReq('POST', habitsAPI + 'habitslist', dataObj)
       .then((response)=>{
+        console.log(response);
         var list = response.data.habitsList;
           listUserHabits(dispatch, list)
       })
