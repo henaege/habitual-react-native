@@ -37,8 +37,8 @@ export const loginUser = ({ email, password }) => {
         console.log(response.data);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response)
-        // }else{
-        //   loginUserFail(dispatch)
+        }else{
+          loginUserFail(dispatch)
         }
       })
       .catch(()=>console.log('loginfail'))
