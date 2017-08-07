@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
-import {Image, Platform, StyleSheet, Alert} from 'react-native'
+import {Image, Platform, StyleSheet, Alert, View} from 'react-native'
 import {connect} from 'react-redux'
 import HabitItems from './common/habitItems'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions'
+import {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions'
 
 class HabitsList extends Component{
   constructor(){
@@ -20,7 +20,7 @@ class HabitsList extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    // console.log(newProps)
+    console.log(newProps)
     
     this.setState({isReady: true, listUpdated: true})
   }
@@ -28,43 +28,46 @@ class HabitsList extends Component{
 
   componentWillMount() {
       if(this.props.categoryName !== undefined){
+        console.log('get habits from category');
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
-        this.props.getHabits(this.props.user.data.token)
+        this.props.getUserHabits(this.props.user.data.token)
       }
+  }
+  componentDidMount() {
+    console.log('habitList mounted');
   }
 
   renderAlert(){
     console.log(this.props);
-    if(this.props.message !== undefined){
-    if(this.props.rank !== undefined && this.props.message.search('check') > 0){
+    if(this.props.rank !== undefined && this.props.message.length >1){
       return (
        Alert.alert(
           this.props.message,
           'Your rank is ' + this.props.rank,
           [
             {text: 'OK', onPress: () => {
-              // this.props.getHabits(this.props.user.data.token)
-              // Actions.habitsList()
+              this.props.getUserHabits(this.props.user.data.token)
+              Actions.habitsList()
             }},
           ],
           { cancelable: false }
         )
       )
-    }else if(this.props.message.search('join') > 0  && this.props.rank === undefined){
-        console.log('alert habitlist');
+    }else{
+      if(this.props.message !== undefined && this.props.rank === undefined){
         return (
           Alert.alert(
             this.props.message,
             '',
             [
             {text: 'OK', onPress: () => {
-              this.props.getHabits(this.props.user.data.token)
+              this.props.getUserHabits(this.props.user.data.token)
             }},
           ],
           )
         )
-     }
+      }
     }
   }
   render(){
@@ -72,7 +75,11 @@ class HabitsList extends Component{
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
-    // console.log(this.props.habits)
+
+
+    console.log("passes isReadyeady")
+    return <View><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text></View>
+    console.log(this.props.categoryName)
     if(this.props.categoryName !== undefined){
       return <HabitItems props={this.props.habits} add={true}/>
     }
@@ -81,7 +88,7 @@ class HabitsList extends Component{
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.habits} />
+            <HabitItems props={this.props.userHabits} />
             {this.renderAlert()}
             <Button disabled full><Text>{this.props.error}</Text></Button>
           </Content>
@@ -93,10 +100,10 @@ class HabitsList extends Component{
 }
 
 const mapStateToProps = ({habitsInfo, auth}) => {
-  const {habits, categories, error, loading, message, rank} = habitsInfo
+  const {habits, userHabits, categories, error, loading, message, rank} = habitsInfo
   const {user} = auth
 
-  return { habits, categories, error, loading, user, message, rank}
+  return { habits, userHabits, categories, error, loading, user, message, rank}
 }
 
-export default connect(mapStateToProps, {getHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)
+export default connect(mapStateToProps, {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)

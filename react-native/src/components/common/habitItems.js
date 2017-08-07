@@ -32,7 +32,6 @@ class HabitItems extends Component {
   }
 
   deleteHabit(data){
-    console.log(this.props.user);
     this.props.leaveHabit(this.props.user.data.token, data)
   }
   addPressed(data){
@@ -125,11 +124,11 @@ class HabitItems extends Component {
 }
 
 const mapStateToProps = ({habitsInfo, auth})=> {
-  const {habits, categories, error, loading} = habitsInfo
+  const {categories, error, loading} = habitsInfo
 
   const {user} = auth
 
-  return { habits, categories, error, loading, user }
+  return { categories, error, loading, user }
 }
 
 

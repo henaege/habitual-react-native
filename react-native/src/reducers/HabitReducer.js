@@ -13,7 +13,10 @@ import {
   LEAVE_HABIT_FAIL,
   JOIN_HABIT,
   JOIN_HABIT_SUCCESS,
-  JOIN_HABIT_FAIL
+  JOIN_HABIT_FAIL,
+  GET_USER_HABITS_LIST,
+  GET_USER_HABITS_LIST_SUCCESS,
+  GET_USER_HABITS_LIST_FAIL
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -22,7 +25,8 @@ const INITIAL_STATE = {
   error: '',
   message: '',
   rank: '',
-  loading: false
+  loading: false,
+  userHabits: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,10 +34,15 @@ export default (state = INITIAL_STATE, action) => {
     case GET_HABITS_LIST:
       return {habits: action.payload, loading: true}
     case GET_HABITS_SUCCESS:
-      console.log(action.payload)
       return {habits: action.payload}
     case GET_HABITS_FAIL:
       return { ...state, error: 'No habits to list', loading: false }
+    case GET_USER_HABITS_LIST:
+      return {...state, userHabits: action.payload, loading: true}
+    case GET_USER_HABITS_LIST_SUCCESS:
+      return {...state, userHabits: action.payload, loading: false}
+    case GET_USER_HABITS_LIST_FAIL:
+      return {...state, error: "You don't have habits in your list", loading: false}
     case GET_CATEGORIES_LIST: 
       return {...state, loading: true}
     case GET_CATEGORIES_LIST_SUCCESS:
