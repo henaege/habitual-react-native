@@ -84,9 +84,9 @@ class HabitItems extends Component {
           <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem >
+              <ListItem style={{backgroundColor: '#BDFFFD'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button full onPress={()=> this.renderAlert(data)}>
+                  <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
                     {this.renderIcons()}
                   </Button>
                 </Left>
