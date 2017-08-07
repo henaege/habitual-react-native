@@ -416,47 +416,35 @@ router.post('/checkinMyHabit', (req, res)=> {
   })
 })
 thePromise.then(()=>{
-  var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
-
-    connection.query(rankQuery, (error2, results2)=> {
+  // var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
+  var rankQuery = 'SELECT t.currank, t.count FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
+    connection.query(rankQuery,[habitName, email], (error2, results2)=> {
       if (error2) {
         res.json({
           msg: error2
         })
       } else {
-        var rank = 0
-        for (let i = 0; i < results2.length; i++){
-          if (results2[i].email == email){
-            rank = i + 1
-          
-          }
+        var rank = results2[0].currank;
         }
-        if (rank == 0) {
+      connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
+        if (error3){
+          throw error3
+        } 
+        else {
           res.json({
-            msg: "rankNotFound"
-          })
-        } else {
-          connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
-            if (error3){
-              throw error3
-            } else {
-              res.json({
             rank: rank
           })
-            }
-          })
         }
+      })
         
-      }
+      })
     })
-
 })
 .catch((error)=>{
   res.json({
     error: error
   })
 })
-  })
   .catch((error)=>{
     res.json({error: error})
   })
