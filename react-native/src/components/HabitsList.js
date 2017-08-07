@@ -55,15 +55,13 @@ class HabitsList extends Component{
         console.log('alert habitlist');
         return (
           Alert.alert(
-              this.props.message,
-              'Your rank is ' + this.props.rank,
-              [
-                {text: 'OK', onPress: () => {
-                  this.props.getHabits(this.props.user.data.token)
-                  Actions.habitsList()
-                }},
-              ],
-              { cancelable: false }
+            this.props.message,
+            '',
+            [
+            {text: 'OK', onPress: () => {
+              this.props.getHabits(this.props.user.data.token)
+            }},
+          ],
           )
         )
      }
