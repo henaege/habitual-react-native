@@ -20,8 +20,11 @@ class AddHabit extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    // console.log(newProps)
+    console.log(newProps)
     if(newProps.categories !== undefined){
+      if(this.state.categoryList.length === 0){
+        this.setCategoryList(newProps);
+      }
       this.setState({isReady: true})
     }
   }
@@ -33,10 +36,9 @@ class AddHabit extends Component{
         this.props.getCategoryList();
       }
   }
-  setCategoryList(){
+  setCategoryList(newProps){
     var categoryArr = [];
-    console.log(this.props);
-    this.props.categories.map((category)=>{
+    newProps.categories.map((category)=>{
       categoryArr.push(category)
     })
     this.setState({
@@ -59,9 +61,6 @@ class AddHabit extends Component{
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
-    }
-    if(this.state.categoryList.length === 0){
-      this.setCategoryList();
     }
     return (
       <Container>
