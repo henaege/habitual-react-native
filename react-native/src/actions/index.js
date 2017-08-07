@@ -29,6 +29,7 @@ export const nameChanged = (text) => {
   };
 };
 export const loginUser = ({ email, password }) => {
+  console.log('login');
   return (dispatch) => {
     dispatch({type: LOGIN_USER})
     const dataObj = {'email': email, 'password': password};
