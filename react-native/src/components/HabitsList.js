@@ -12,7 +12,8 @@ class HabitsList extends Component{
   constructor(){
     super()
     this.state = {
-      isReady: false
+      isReady: false,
+      listUpdated: false
     }
 
     this.renderAlert = this.renderAlert.bind(this);
@@ -20,8 +21,10 @@ class HabitsList extends Component{
 
   componentWillReceiveProps(newProps){
     // console.log(newProps)
-    this.setState({isReady: true})
+    
+    this.setState({isReady: true, listUpdated: true})
   }
+
 
   componentWillMount() {
       if(this.props.categoryName !== undefined){
@@ -37,7 +40,14 @@ class HabitsList extends Component{
       return (
        Alert.alert(
           this.props.message,
-          'Your rank is ' + this.props.rank
+          'Your rank is ' + this.props.rank,
+          [
+            {text: 'OK', onPress: () => {
+              this.props.getHabits(this.props.user.data.token)
+              Actions.habitsList()
+            }},
+          ],
+          { cancelable: false }
         )
       )
     }else{

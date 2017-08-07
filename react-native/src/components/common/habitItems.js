@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions'
 import {AlertMessage} from './AlertMessage';
 
+
 var alertMessage = 'Remember, you can check in up to twice per day!'
 
 class HabitItems extends Component {
@@ -18,6 +19,10 @@ class HabitItems extends Component {
     this.checkInPressed = this.checkInPressed.bind(this);
     this.deleteHabit = this.deleteHabit.bind(this);
      this.renderIcons = this.renderIcons.bind(this)
+  }
+
+  componentWillReceiveProps(newProps){
+    this.setState({listViewData: this.props.props})
   }
 
   checkInPressed(data){

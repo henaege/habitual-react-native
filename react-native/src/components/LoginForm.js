@@ -52,13 +52,13 @@ class LoginForm extends Component{
     if(this.props.error.length > 1){
       this.setState({showMessage: true})
     }
-    if(this.state.showMessage){
+    /*if(this.state.showMessage){
       return (
         <Button full style={{backgroundColor: 'red', opacity: 0.8}}>
           <Text style={{color: 'white'}}>Login failed</Text>
         </Button>
       )
-    }
+    }*/
   }
   
 
@@ -108,7 +108,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
             
             <Left style={{flex: 1}} />
             <Body style={{flex: 1}}>
-              {this.renderErrorMessage()}
+              {/*{this.renderErrorMessage()}*/}
             </Body>
             <Right style={{flex: 1}} />
             <Left style={{flex: 1}} />
