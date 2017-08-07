@@ -229,27 +229,40 @@ router.get('/categorylist', (req, res)=>{
 })
 
 router.post('/joinAHabit', (req, res)=>{
-  var habitName = req.body.habitName
-  var token = req.body.token
-  var habitCount = 0
+  console.log('pass');
+  var habitName = req.body.habitName;
+  var token = req.body.token;
+  var habitCount = 0;
   var email;
-  var checkPromise = new Promise((resolve, reject)=>{
+  var emailQuery = 'SELECT email FROM users WHERE token = ?';
+  var emailPromise = new Promise((resolve, reject)=>{
+    connection.query(emailQuery, [token], (error0, results0)=>{
+      if(error0) {
+        reject(error0)
+      }
+      else{
+        console.log(results0);
+        email = results0[0].email;
+        resolve()
+      }
+
+    })
+  })
+  
+  emailPromise.then(()=>{
+    var checkPromise = new Promise((resolve, reject)=>{
     var checkQuery = 'SELECT t1.email, t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email AND t2.name = ?;';
     connection.query(checkQuery, [token, habitName], (error1, results1)=>{
       if(error1) throw error1;
       console.log(results1);
       if(results1.length > 0){
-        email = results1[0].email;
         reject("existedUserHabit");
       }else{
         resolve()
       }
     })
-  });
-  
-
-  
-  var joinHabitQuery = `INSERT INTO addedHabits (email, name, dateCreated, count, dateUpdated, rank) VALUES (?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?);`
+    });
+      var joinHabitQuery = `INSERT INTO addedHabits (email, name, dateCreated, count, dateUpdated, rank) VALUES (?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?);`
 
   checkPromise.then(()=>{
       var thePromise = new Promise((resolve, reject)=>{
@@ -263,7 +276,9 @@ router.post('/joinAHabit', (req, res)=>{
         }
       })
     })
-    thePromise.then(()=>{connection.query(joinHabitQuery, [email, habitName,  0,  habitCount], (error3, results3)=>{
+    thePromise.then(()=>{
+      console.log(email);
+      connection.query(joinHabitQuery, [email, habitName,  0,  habitCount], (error3, results3)=>{
         if (error3){
           throw error3
         } else {
@@ -271,11 +286,15 @@ router.post('/joinAHabit', (req, res)=>{
             rank: habitCount
           })
         }
+      })
     })
-  })
     .catch((error)=>{
       res.json({msg: error});
     })
+  })
+  .catch((error)=>{
+    res.json({msg:error});
+  })
   })
   .catch((error)=>{
      res.json({msg: error});
