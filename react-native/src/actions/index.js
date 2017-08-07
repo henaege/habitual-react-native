@@ -234,7 +234,7 @@ export const leaveHabit = (token, habitName)=>{
     axiosReq('POST', habitsAPI + 'leaveHabit', dataObj)
       .then((response)=>{
         console.log(response);
-        if(response.data.error !== undefined){
+        if(response.data.error === undefined){
           dispatch({
             type:LEAVE_HABIT_SUCCESS
           })

@@ -36,28 +36,37 @@ class HabitsList extends Component{
 
   renderAlert(){
     console.log(this.props);
-    if(this.props.rank !== undefined && this.props.message.length >1){
+    if(this.props.message !== undefined){
+    if(this.props.rank !== undefined && this.props.message.search('check') > 0){
       return (
        Alert.alert(
           this.props.message,
           'Your rank is ' + this.props.rank,
           [
             {text: 'OK', onPress: () => {
-              this.props.getHabits(this.props.user.data.token)
-              Actions.habitsList()
+              // this.props.getHabits(this.props.user.data.token)
+              // Actions.habitsList()
             }},
           ],
           { cancelable: false }
         )
       )
-    }else{
-      if(this.props.message !== undefined && this.props.rank === undefined){
+    }else if(this.props.message.search('join') > 0  && this.props.rank === undefined){
+        console.log('alert habitlist');
         return (
           Alert.alert(
-            this.props.message
+              this.props.message,
+              'Your rank is ' + this.props.rank,
+              [
+                {text: 'OK', onPress: () => {
+                  this.props.getHabits(this.props.user.data.token)
+                  Actions.habitsList()
+                }},
+              ],
+              { cancelable: false }
           )
         )
-      }
+     }
     }
   }
   render(){
