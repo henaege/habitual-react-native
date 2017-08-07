@@ -54,7 +54,13 @@ class HabitsList extends Component{
       if(this.props.message !== undefined && this.props.rank === undefined){
         return (
           Alert.alert(
-            this.props.message
+            this.props.message,
+            '',
+            [
+            {text: 'OK', onPress: () => {
+              this.props.getHabits(this.props.user.data.token)
+            }},
+          ],
           )
         )
       }
