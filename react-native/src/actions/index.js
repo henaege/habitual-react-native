@@ -160,7 +160,7 @@ dispatch({
 const getCategorySuccess = (dispatch, response)=>{
   const categorylist = []
     response.data.categories.map((category)=> {
-      categorylist.push(category.categoryName)
+      categorylist.push(category.categoryName.charAt(0).toUpperCase() + category.categoryName.slice(1))
     })
 dispatch({
       type: GET_CATEGORIES_LIST_SUCCESS,

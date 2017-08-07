@@ -64,8 +64,8 @@ class AddHabit extends Component{
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-        <Content style={{paddingTop: 54}}>
-          <Tabs renderTabBar={()=> <ScrollableTab />}>
+        <Content style={{paddingTop: (Platform.OS === 'ios') ? 58 : 48}}>
+          <Tabs tabStyle={{backgroundColor: '#48A9A6'}} textStyle={{color: '#888'}} activeTextStyle={{color: '#fff', fontWeight: 'bold'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055"}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
             {this.renderTabs()}
           </Tabs>
         </Content>
