@@ -20,8 +20,6 @@ class AddHabit extends Component{
   }
 
   componentWillReceiveProps(newProps){
-
-    console.log(this.props);
     if(newProps.categories !== undefined){
       if(this.state.categoryList.length === 0){
         this.setCategoryList(newProps);
@@ -32,10 +30,9 @@ class AddHabit extends Component{
   }
 
   componentWillMount() {
-      if(this.props.categories === undefined){
-        this.props.getCategoryList();
-      }
+    this.props.getCategoryList();
   }
+
   setCategoryList(newProps){
     var categoryArr = [];
     newProps.categories.map((category)=>{
