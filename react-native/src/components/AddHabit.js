@@ -20,10 +20,13 @@ class AddHabit extends Component{
   }
 
   componentWillReceiveProps(newProps){
+
+    console.log(this.props);
     if(newProps.categories !== undefined){
       if(this.state.categoryList.length === 0){
         this.setCategoryList(newProps);
       }
+      console.log(this.state.isReady);
       this.setState({isReady: true})
     }
   }
@@ -45,7 +48,6 @@ class AddHabit extends Component{
   renderTabs(){
     var tabsArr = [];
     this.state.categoryList.map((category)=>{
-      console.log(category);
       tabsArr.push(
         <Tab tabStyle={{backgroundColor: '#EE6055'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#000', fontWeight: 'bold'}} heading={category} key={category}>
           <HabitsList categoryName={category} />
@@ -55,7 +57,7 @@ class AddHabit extends Component{
     return tabsArr
   }
   render(){
-    console.log(this.state.isReady);
+
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;

@@ -28,7 +28,6 @@ class HabitsList extends Component{
 
   componentWillMount() {
       if(this.props.categoryName !== undefined){
-        console.log('get habits from category');
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
         this.props.getUserHabits(this.props.user.data.token)
