@@ -22,6 +22,7 @@ class HabitItems extends Component {
   }
 
   componentWillReceiveProps(newProps){
+    console.log(this.props.props);
     this.setState({listViewData: this.props.props})
   }
 
@@ -52,6 +53,7 @@ class HabitItems extends Component {
     }
   }
   renderAlert(data){
+    console.log('render Alert');
     if(this.props.add){
       return (
         Alert.alert(
@@ -82,7 +84,7 @@ class HabitItems extends Component {
   }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-
+    const BtnIcons = this.renderIcons();
     return (
 
           <List style={{marginTop: 10}} disableRightSwipe={true}
@@ -91,7 +93,7 @@ class HabitItems extends Component {
               <ListItem style={{backgroundColor: '#BDFFFD'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
-                    {this.renderIcons()}
+                    {BtnIcons}
                   </Button>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}>

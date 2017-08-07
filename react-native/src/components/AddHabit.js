@@ -45,9 +45,9 @@ class AddHabit extends Component{
   renderTabs(){
     var tabsArr = [];
     this.state.categoryList.map((category)=>{
+      console.log(category);
       tabsArr.push(
         <Tab tabStyle={{backgroundColor: '#EE6055'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#000', fontWeight: 'bold'}} heading={category} key={category}>
-          console.log(category);
           <HabitsList categoryName={category} />
         </Tab>
       )
@@ -60,14 +60,13 @@ class AddHabit extends Component{
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
-    var dummy = this.renderTabs();
-    console.log(dummy);
+    const CategoryTabs = this.renderTabs();
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: (Platform.OS === 'ios') ? 64 : 54}}>
           <Tabs tabStyle={{backgroundColor: '#48A9A6'}} textStyle={{color: '#888'}} activeTextStyle={{color: '#fff', fontWeight: 'bold'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055"}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
-            {dummy}
+            {CategoryTabs}
           </Tabs>
         </Content>
         </Image>

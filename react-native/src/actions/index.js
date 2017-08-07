@@ -108,12 +108,10 @@ export const getUserHabits = (token)=> {
 }
 
 export const getHabitsFromCategory = (categoryName)=>{
-  console.log(categoryName);
   var dataObj = {'categoryName': categoryName};
   return (dispatch) =>{
     axiosReq('POST', habitsAPI + 'habitslist', dataObj)
       .then((response)=>{
-        console.log(response);
         var list = response.data.habitsList;
           listHabits(dispatch, list)
       })
@@ -156,7 +154,7 @@ export const listUserHabits = (dispatch, list)=> {
   })
   // console.log(userHabits);
 dispatch({
-    type: GET_USER_HABITS_SUCCESS,
+    type: GET_USER_HABITS_LIST_SUCCESS,
     payload: userHabits
   })
 }

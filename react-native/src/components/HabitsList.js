@@ -34,9 +34,6 @@ class HabitsList extends Component{
         this.props.getUserHabits(this.props.user.data.token)
       }
   }
-  componentDidMount() {
-    console.log('habitList mounted');
-  }
 
   renderAlert(){
     console.log(this.props);
@@ -75,15 +72,12 @@ class HabitsList extends Component{
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
-
-
-    console.log("passes isReadyeady")
-    return <View><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text><Text>HabitList</Text></View>
-    console.log(this.props.categoryName)
     if(this.props.categoryName !== undefined){
+      console.log(this.props.habits);
       return <HabitItems props={this.props.habits} add={true}/>
     }
     else{
+      console.log(this.props.userHabits);
       return (  
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>

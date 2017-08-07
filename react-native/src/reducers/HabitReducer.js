@@ -32,9 +32,9 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_HABITS_LIST:
-      return {habits: action.payload, loading: true}
+      return {...state, habits: action.payload, loading: true}
     case GET_HABITS_SUCCESS:
-      return {habits: action.payload}
+      return {...state, habits: action.payload}
     case GET_HABITS_FAIL:
       return { ...state, error: 'No habits to list', loading: false }
     case GET_USER_HABITS_LIST:
