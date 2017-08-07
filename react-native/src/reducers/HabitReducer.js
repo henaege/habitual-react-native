@@ -11,11 +11,14 @@ import {
   LEAVE_HABIT,
   LEAVE_HABIT_SUCCESS,
   LEAVE_HABIT_FAIL,
+  JOIN_HABIT,
+  JOIN_HABIT_SUCCESS,
+  JOIN_HABIT_FAIL
 } from '../actions/types'
 
 const INITIAL_STATE = {
   habits: [],
-  categories: [],
+  categories: undefined,
   error: '',
   message: '',
   rank: '',
@@ -49,6 +52,12 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, message: 'You have left the habit', loading: false}
     case LEAVE_HABIT_FAIL:
       return {...state, message: 'You failed to leave the habit', loading: false}
+    case JOIN_HABIT:
+      return {...state, loading: true}
+    case JOIN_HABIT_FAIL:
+      return {...state, message: action.payload, loading: false}
+    case JOIN_HABIT_SUCCESS:
+      return {...state, message: action.payload.msg, rank: action.payload.rank, loading: false}
     default:
       return state
   }

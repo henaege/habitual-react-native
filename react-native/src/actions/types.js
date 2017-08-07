@@ -20,7 +20,9 @@ export const HABIT_CHECK_IN_FAIL = 'habit_check_in_fail'
 export const LEAVE_HABIT = 'leave_habit_in'
 export const LEAVE_HABIT_SUCCESS = 'leave_habit_success'
 export const LEAVE_HABIT_FAIL = 'leave_habit_fail'
-
+export const JOIN_HABIT = 'join_habit'
+export const JOIN_HABIT_SUCCESS = 'join_habit_success'
+export const JOIN_HABIT_FAIL = 'join_habit_fail'
 
 
 

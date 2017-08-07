@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL,GET_CATEGORIES_LIST,GET_CATEGORIES_LIST_SUCCESS,GET_CATEGORIES_LIST_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL,GET_CATEGORIES_LIST,GET_CATEGORIES_LIST_SUCCESS,GET_CATEGORIES_LIST_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, JOIN_HABIT, JOIN_HABIT_SUCCESS, JOIN_HABIT_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -87,16 +87,15 @@ const registerUserSuccess = (dispatch, user) => {
 }
 
 export const getHabits = (token)=> {
-  console.log(token)
   const usertoken = {'token': token}
   // console.log(usertoken)
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
         var list = response.data.results;
-        // console.log(list)
+        console.log(response.data)
         if (response.data.msg === 'NoHabitJoined'){
-          getCategoryList(dispatch)
+          getHabitsFail(dispatch)
         } else {
             listUserHabits(dispatch, list)
         }
@@ -199,6 +198,28 @@ export const checkInMyHabit = (token, habitName)=>{
         })
       })
 
+  }
+}
+
+export const joinAHabit = (token, habitName)=>{
+  habitName = habitName.toLowerCase();
+  var dataObj = {'token': token, 'habitName': habitName}
+  return (dispatch)=>{
+    dispatch({
+      type: JOIN_HABIT
+    })
+    axiosReq('POST', habitsAPI + 'joinAHabit', dataObj)
+    .then((response)=>{
+      console.log(response.data)
+      if(response.data === 'existedUserHabit'){
+        dispatch({type: JOIN_HABIT_FAIL, payload: `You already joined ${habitName}`})
+      }else{
+        dispatch({type: JOIN_HABIT_SUCCESS, payload: {'rank':response.data.rank, 'msg': `You successfully joined ${habitName}`}})
+      }
+    })
+    .catch(()=>{
+      dispatch({type: JOIN_HABIT_FAIL, payload: `You failed joinning ${habitName}`})
+    })
   }
 }
 

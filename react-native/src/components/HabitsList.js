@@ -25,7 +25,6 @@ class HabitsList extends Component{
 
   componentWillMount() {
       if(this.props.categoryName !== undefined){
-        console.log('categoryName');
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
         this.props.getHabits(this.props.user.data.token)
@@ -34,7 +33,7 @@ class HabitsList extends Component{
 
   renderAlert(){
     console.log(this.props);
-    if(this.props.rank !== undefined && this.props.rank.length >1){
+    if(this.props.rank !== undefined && this.props.message.length >1){
       return (
        Alert.alert(
           this.props.message,
@@ -42,7 +41,7 @@ class HabitsList extends Component{
         )
       )
     }else{
-      if(this.props.message !== undefined && this.props.rank.message >1){
+      if(this.props.message !== undefined && this.props.rank === undefined){
         return (
           Alert.alert(
             this.props.message
@@ -52,7 +51,6 @@ class HabitsList extends Component{
     }
   }
   render(){
-    console.log(this.state.isReady);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
