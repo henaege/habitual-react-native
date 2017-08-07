@@ -263,7 +263,7 @@ router.post('/joinAHabit', (req, res)=>{
         }
       })
     })
-    thePromise.then(()=>{connection.query(joinHabitQuery, [email, habitName,  0,  habitCount], (error3, results3)=>{
+    thePromise.then(()=>{connection.query(joinHabitQuery, [token, habitName,  0,  habitCount], (error3, results3)=>{
         if (error3){
           throw error3
         } else {
