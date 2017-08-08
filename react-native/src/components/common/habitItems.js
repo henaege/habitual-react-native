@@ -3,7 +3,7 @@ import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
 import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions'
-import {AlertMessage} from './AlertMessage';
+
 
 
 var alertMessage = 'Remember, you can check in up to twice per day!'
@@ -21,15 +21,6 @@ class HabitItems extends Component {
     this.deleteHabit = this.deleteHabit.bind(this);
     this.renderIcons = this.renderIcons.bind(this);
     this.renderCountRank = this.renderCountRank.bind(this)
-  }
-
-  componentWillReceiveProps(newProps){
-    // this.setState({listViewData: this.props.props, alertOn:!this.state.alertOn})
-    // if(this.props.message !== newProps.message){
-    //   if(this.state.alertOn){
-    //     this.props.MyHabitListAlert();
-    //   }
-    // // }
   }
 
   checkInPressed(data){
@@ -71,7 +62,6 @@ class HabitItems extends Component {
     }
   }
   renderAlert(data){
-    console.log(this.props);
     if(this.props.add){
       return (
         Alert.alert(
@@ -103,7 +93,6 @@ class HabitItems extends Component {
     }
   }
   render() {
-    console.log(this.props.props)
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
     return (

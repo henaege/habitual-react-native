@@ -21,14 +21,11 @@ class HabitsList extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    console.log(newProps.userHabits);
-    
     this.setState({isReady: true, listUpdated: !this.state.listUpdated})
   }
 
 
   componentWillMount() {
-    console.log('will mount');
       if(this.props.categoryName !== undefined){
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
@@ -45,7 +42,6 @@ class HabitsList extends Component{
   }
 
   renderAlert(message){
-    console.log('render alert');
       return (
        Alert.alert(
           message,
@@ -58,24 +54,8 @@ class HabitsList extends Component{
           { cancelable: false }
         )
       )
-    // else{
-    //   if(this.props.habits.length > 0 && this.state.alertOn){
-    //     return (
-    //       Alert.alert(
-    //         this.props.message,
-    //         '',
-    //         [
-    //         {text: 'OK', onPress: () => {
-    //           this.props.getUserHabits(this.props.user.data.token)
-    //         }},
-    //       ],
-    //       )
-    //     )
-    //   }
-    // }
   }
   render(){
-    console.log(this.props);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
