@@ -92,7 +92,7 @@ class HabitsList extends Component{
       console.log(this.props.userHabits);
       return (  
         <Container>
-          <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+          <Image source={require('./bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
             <HabitItems props={this.props.userHabits} allProps={this.props} />
             {this.renderAlert()}
