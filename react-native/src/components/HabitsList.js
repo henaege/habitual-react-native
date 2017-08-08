@@ -56,19 +56,23 @@ class HabitsList extends Component{
       )
   }
   render(){
+
+    var sceneKey1 = this.props.sceneKey
+
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
     if(this.props.categoryName !== undefined){
-      return <HabitItems props={this.props.habits} MyHabitListAlert={this.renderAlert} add={true}/>
+      return <HabitItems props={this.props.habits} sceneKey1={sceneKey1} MyHabitListAlert={this.renderAlert} add={true}/>
     }
     else{
+      
       return (  
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert}/>
+            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} sceneKey1={sceneKey1}/>
             {this.renderEmpty()}
           </Content>
           </Image>

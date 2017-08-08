@@ -95,12 +95,15 @@ class HabitItems extends Component {
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
+
+    console.log(this.props)
+
     return (
 
           <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{backgroundColor: '#BDFFFD'}}>
+              <ListItem style={{backgroundColor: '#CCDAD1'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
                     {BtnIcons}
