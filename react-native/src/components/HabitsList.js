@@ -86,7 +86,7 @@ class HabitsList extends Component{
     }
     if(this.props.categoryName !== undefined){
       console.log(this.props.habits);
-      return <HabitItems props={this.props.habits} add={true}/>
+      return <HabitItems props={this.props.habits} allProps={this.props} add={true}/>
     }
     else{
       console.log(this.props.userHabits);
@@ -94,7 +94,7 @@ class HabitsList extends Component{
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} />
+            <HabitItems props={this.props.userHabits} allProps={this.props} />
             {this.renderAlert()}
             {this.renderEmpty()}
           </Content>

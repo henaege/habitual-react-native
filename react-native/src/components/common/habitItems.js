@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
-import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body, Badge } from 'native-base';
 import {connect} from 'react-redux'
 import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions'
 import {AlertMessage} from './AlertMessage';
@@ -44,6 +44,9 @@ class HabitItems extends Component {
     newData.splice(rowId, 1);
     this.setState({ listViewData: newData });
   }
+
+  
+
   renderIcons(){
     if(this.props.add){
       return <Icon name="add-circle" />
@@ -61,7 +64,7 @@ class HabitItems extends Component {
           '',
           [
             {text: 'Cancel', onPress: ()=>{console.log("alert button")}},
-            {text: 'OK', onPress: () => this.addPressed(data)},
+            {text: 'OK', onPress: () => this.addPressed(data.name)},
           ],
           { cancelable: false }
         )
@@ -85,12 +88,28 @@ class HabitItems extends Component {
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
+
+    
+    var styling = {}
+    console.log(this.props.allProps)
+    if(this.props.allProps.sceneKey == "habitsList"){
+      console.log("yes")
+      styling.marginTop = 10
+    } else {
+     styling.marginTop = 0
+    }
+
+  
+
+  
+    // console.log(styling1)
+
     return (
 
-          <List style={{marginTop: 10}} disableRightSwipe={true}
+          <List style={styling} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{backgroundColor: '#BDFFFD'}}>
+              <ListItem style={{backgroundColor: '#CCDAD1'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data.name)}>
                     {BtnIcons}
@@ -100,7 +119,11 @@ class HabitItems extends Component {
                   <Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>
                     {data.name}
                   </Text>
-                  <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-in Count: {data.count} Rank: {data.rank}</Text>
+                  <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-ins: <Badge style={{ backgroundColor: '#48A9A6' }}>
+            <Text style={{ color: 'white' }}>{data.count}</Text>
+          </Badge> Rank: <Badge style={{ backgroundColor: '#48A9A6' }}>
+            <Text style={{ color: 'white' }}>{data.rank}</Text>
+          </Badge></Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
