@@ -6,7 +6,7 @@ import {emailChanged, passwordChanged, loginUser} from '../actions'
 import {Container, Content, Toast, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {ErrorMessage} from './common'
+
 
 
 class LoginForm extends Component{

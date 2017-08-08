@@ -29,13 +29,11 @@ export const nameChanged = (text) => {
   };
 };
 export const loginUser = ({ email, password }) => {
-  console.log('login');
   return (dispatch) => {
     dispatch({type: LOGIN_USER})
     const dataObj = {'email': email, 'password': password};
     axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
       .then((response)=>{
-        console.log(response.data);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response)
         }else{
@@ -89,12 +87,10 @@ const registerUserSuccess = (dispatch, user) => {
 
 export const getUserHabits = (token)=> {
   const usertoken = {'token': token}
-  // console.log(usertoken)
   return(dispatch)=> {
     axiosReq('POST', habitsAPI + 'getMyHabitList', usertoken)
       .then((response)=>{
         var list = response.data.results;
-        console.log(response.data)
         if (response.data.msg === 'NoHabitJoined'){
           getUserHabitsFail(dispatch)
         } else {
@@ -146,17 +142,13 @@ export const getCategoryList = ()=> {
 
 
 export const listUserHabits = (dispatch, list)=> {
-  console.log(list)
   var userHabits = []
 
   list.map((object)=> {
 
     object.name = object.name.charAt(0).toUpperCase() + object.name.slice(1)
-    // console.log(userHabits)
   })
   
-    // userHabits[i].name.charAt(0).toUpperCase() + userHabits[i].name.slice(1)
-  // console.log(userHabits);
 dispatch({
     type: GET_USER_HABITS_LIST_SUCCESS,
     payload: list
@@ -164,13 +156,10 @@ dispatch({
 }
 
 export const listHabits = (dispatch, list)=> {
-  console.log(list)
   const Habits = []
   list.map((object)=> {
-    Habits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
-    // console.log(userHabits)
+    Habits.push({'name': object.name.charAt(0).toUpperCase() + object.name.slice(1)})
   })
-  // console.log(userHabits);
 dispatch({
     type: GET_HABITS_SUCCESS,
     payload: Habits

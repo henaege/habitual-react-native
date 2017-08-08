@@ -303,7 +303,7 @@ router.post('/joinAHabit', (req, res)=>{
 
 router.post('/habitslist', (req, res)=> {
   var categoryName = req.body.categoryName;
-  console.log(categoryName);
+  // console.log(categoryName);
   var categoryIdQuery = `SELECT id FROM categories WHERE categoryName = '${categoryName}';`
   connection.query(categoryIdQuery, (error, results)=>{
     console.log(results)
