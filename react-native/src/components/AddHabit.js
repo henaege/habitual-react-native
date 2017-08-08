@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, Tab, Tabs, ScrollableTab} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getHabits, getCategoryList} from '../actions'
+import {getCategoryList} from '../actions'
 import HabitsList from './HabitsList';
 
 class AddHabit extends Component{
@@ -24,15 +24,15 @@ class AddHabit extends Component{
       if(this.state.categoryList.length === 0){
         this.setCategoryList(newProps);
       }
+      console.log(this.state.isReady);
       this.setState({isReady: true})
     }
   }
 
   componentWillMount() {
-      if(this.props.categories === undefined){
-        this.props.getCategoryList();
-      }
+    this.props.getCategoryList();
   }
+
   setCategoryList(newProps){
     var categoryArr = [];
     newProps.categories.map((category)=>{
@@ -46,28 +46,26 @@ class AddHabit extends Component{
     var tabsArr = [];
     this.state.categoryList.map((category)=>{
       tabsArr.push(
-        <Tab activeTextStyle={{color: '#48A9A6', fontWeight: 'bold'}} heading={category} key={category} tabStyle={{backgroundColor: '#D8DBE2'}}activeTabStyle={{backgroundColor: '#EAE0CC'}}> 
+        <Tab tabStyle={{backgroundColor: '#EE6055'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#000', fontWeight: 'bold'}} heading={category} key={category}>
           <HabitsList categoryName={category} />
         </Tab>
       )
     })
     return tabsArr
   }
-
-
-
   render(){
-    console.log(this.state.isReady);
+
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
+    const CategoryTabs = this.renderTabs();
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-        <Content style={{flex: 1, paddingTop: 64}}>
-          <Tabs tabStyle={{backgroundColor: '#48A9A6', marginBottom: -10}} textStyle={{color: '#888'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055", opacity: 0.8}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
-            {this.renderTabs()}
+        <Content style={{paddingTop: (Platform.OS === 'ios') ? 64 : 54}}>
+          <Tabs tabStyle={{backgroundColor: '#48A9A6'}} textStyle={{color: '#888'}} activeTextStyle={{color: '#fff', fontWeight: 'bold'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055"}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
+            {CategoryTabs}
           </Tabs>
         </Content>
         </Image>
@@ -83,4 +81,4 @@ const mapStateToProps = ({habitsInfo, auth}) => {
   return { habits, categories, error, loading, user, message, rank}
 }
 
-export default connect(mapStateToProps, {getHabits, getCategoryList})(AddHabit)
+export default connect(mapStateToProps, {getCategoryList})(AddHabit)

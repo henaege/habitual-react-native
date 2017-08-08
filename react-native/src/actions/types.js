@@ -23,6 +23,9 @@ export const LEAVE_HABIT_FAIL = 'leave_habit_fail'
 export const JOIN_HABIT = 'join_habit'
 export const JOIN_HABIT_SUCCESS = 'join_habit_success'
 export const JOIN_HABIT_FAIL = 'join_habit_fail'
+export const GET_USER_HABITS_LIST = 'get_user_habits_list'
+export const GET_USER_HABITS_LIST_SUCCESS = 'get_user_habits_list_success'
+export const GET_USER_HABITS_LIST_FAIL = 'get_user_habits_list_fail'
 
 
 

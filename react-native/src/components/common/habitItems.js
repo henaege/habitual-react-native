@@ -22,6 +22,7 @@ class HabitItems extends Component {
   }
 
   componentWillReceiveProps(newProps){
+    console.log(this.props.props);
     this.setState({listViewData: this.props.props})
   }
 
@@ -32,7 +33,6 @@ class HabitItems extends Component {
   }
 
   deleteHabit(data){
-    console.log(this.props.user);
     this.props.leaveHabit(this.props.user.data.token, data)
   }
   addPressed(data){
@@ -52,38 +52,8 @@ class HabitItems extends Component {
       return  <Icon name="checkmark-circle"/>
     }
   }
-
-  listStyle(){
-    var styling = {}
-    if(scene.sceneKey == "addHabit"){
-      styling = {
-        marginTop: 0
-      }
-      return styling
-    } else {
-      styling = {
-        marginTop: 10
-      }
-      return styling
-    }
-  }
-
-    listStyle(){
-    var styling = {}
-    if(scene.sceneKey == "addHabit"){
-      styling = {
-        marginTop: 10
-      }
-      return styling
-    } else {
-      styling = {
-        marginTop: 0
-      }
-      return styling
-    }
-  }
-
   renderAlert(data){
+    console.log('render Alert');
     if(this.props.add){
       return (
         Alert.alert(
@@ -114,18 +84,16 @@ class HabitItems extends Component {
   }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-
-    var a = this.listStyle()
-
+    const BtnIcons = this.renderIcons();
     return (
 
-          <List style={a} disableRightSwipe={true}
+          <List style={{marginTop: 10}} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{backgroundColor: '#CCDAD1'}}>
+              <ListItem style={{backgroundColor: '#BDFFFD'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
-                    {this.renderIcons()}
+                    {BtnIcons}
                   </Button>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}>
@@ -158,11 +126,11 @@ class HabitItems extends Component {
 }
 
 const mapStateToProps = ({habitsInfo, auth})=> {
-  const {habits, categories, error, loading} = habitsInfo
+  const {categories, error, loading} = habitsInfo
 
   const {user} = auth
 
-  return { habits, categories, error, loading, user }
+  return { categories, error, loading, user }
 }
 
 

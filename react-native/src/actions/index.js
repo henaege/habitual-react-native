@@ -1,6 +1,6 @@
 import axiosReq from '../helpers/axiosRequest';
 import {Actions} from 'react-native-router-flux'
-import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL,GET_CATEGORIES_LIST,GET_CATEGORIES_LIST_SUCCESS,GET_CATEGORIES_LIST_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, JOIN_HABIT, JOIN_HABIT_SUCCESS, JOIN_HABIT_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
+import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER, LOGIN_USER_FAIL, REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL,GET_CATEGORIES_LIST,GET_CATEGORIES_LIST_SUCCESS,GET_CATEGORIES_LIST_FAIL, GET_HABITS_LIST, GET_HABITS_SUCCESS, GET_HABITS_FAIL, GET_USER_HABITS_LIST, GET_USER_HABITS_LIST_SUCCESS, GET_USER_HABITS_LIST_FAIL, JOIN_HABIT, JOIN_HABIT_SUCCESS, JOIN_HABIT_FAIL, HABIT_CHECK_IN, HABIT_CHECK_IN_SUCCESS, HABIT_CHECK_IN_FAIL, LEAVE_HABIT, LEAVE_HABIT_FAIL, LEAVE_HABIT_SUCCESS} from './types'
 
 const habitsAPI = 'http:/test.iamdrewt.net/'
 export const emailChanged = (text) => {
@@ -87,7 +87,7 @@ const registerUserSuccess = (dispatch, user) => {
   Actions.main()
 }
 
-export const getHabits = (token)=> {
+export const getUserHabits = (token)=> {
   const usertoken = {'token': token}
   // console.log(usertoken)
   return(dispatch)=> {
@@ -96,26 +96,24 @@ export const getHabits = (token)=> {
         var list = response.data.results;
         console.log(response.data)
         if (response.data.msg === 'NoHabitJoined'){
-          getHabitsFail(dispatch)
+          getUserHabitsFail(dispatch)
         } else {
             listUserHabits(dispatch, list)
         }
       })
       .catch(()=> {
-        getHabitsFail(dispatch)
+        getUserHabitsFail(dispatch)
       }) 
   }
 }
 
 export const getHabitsFromCategory = (categoryName)=>{
-  console.log(categoryName);
   var dataObj = {'categoryName': categoryName};
   return (dispatch) =>{
     axiosReq('POST', habitsAPI + 'habitslist', dataObj)
       .then((response)=>{
-        console.log(response);
         var list = response.data.habitsList;
-          listUserHabits(dispatch, list)
+          listHabits(dispatch, list)
       })
       .catch(()=> {
         getHabitsFail(dispatch)
@@ -128,6 +126,10 @@ const getHabitsFail = (dispatch)=> {
   })
 }
 
+const getUserHabitsFail = (dispatch) =>{
+  dispatch({type: GET_USER_HABITS_LIST_FAIL 
+  })
+}
 export const getCategoryList = ()=> {
   return (dispatch)=> {
     dispatch({
@@ -152,8 +154,22 @@ export const listUserHabits = (dispatch, list)=> {
   })
   // console.log(userHabits);
 dispatch({
-    type: GET_HABITS_SUCCESS,
+    type: GET_USER_HABITS_LIST_SUCCESS,
     payload: userHabits
+  })
+}
+
+export const listHabits = (dispatch, list)=> {
+  console.log(list)
+  const Habits = []
+  list.map((object)=> {
+    Habits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
+    // console.log(userHabits)
+  })
+  // console.log(userHabits);
+dispatch({
+    type: GET_HABITS_SUCCESS,
+    payload: Habits
   })
 }
 
