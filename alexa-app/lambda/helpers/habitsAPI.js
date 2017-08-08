@@ -74,10 +74,9 @@ module.exports = {
 				json: true
 			})
 			.then((response)=>{
-				resolve(response);
+				resolve(response.habitsList);
 			})
 			.catch((error)=>{
-				// console.log(error);
 				reject('Habits API List Error:', error);
 			});
 		});
@@ -94,6 +93,7 @@ module.exports = {
 				json: true
 			})
 			.then((response)=>{
+				console.log(response);
 				if(response.error){
 					reject(response.error)
 				}else{
@@ -118,15 +118,21 @@ module.exports = {
 				json: true
 			})
 			.then((response)=>{
-				resolve(response);
+				console.log(response);
+				if(response.msg === 'existedUserHabit'){
+					reject('existedUserHabit');
+				}
+				else{
+					resolve(response);
+				}
 			})
 			.catch((error)=>{
+				console.log(error);
 				reject('Habits API JoinAHabit Error:', error)
 			})
 		})
 	},
 	GetMyHabitsList: (token)=>{
-		console.log(token);
 		return new Promise((resolve, reject)=>{
 			request({
 				url: 'http://test.iamdrewt.net/getMyHabitList',
@@ -145,11 +151,12 @@ module.exports = {
 					resolve(habitsList);
 
 				}else{
-					reject('Habits API MyList Error:', error)
+					console.log('getMyHabitList error');
+					reject(response.msg)
 				}
 			})
 			.catch((error)=>{
-				console.log(error);
+				console.log('get my habitlist catch error');
 				reject('Habits API MyList Error:', error);
 			})
 		})
@@ -197,11 +204,11 @@ module.exports = {
 					response.habitListResponse.map((habit)=>{
 						habitsList.push(habit.name);
 					});
-					resolve(response);
+					resolve(habitsList);
 				}
 				else{
-					var error = response.msg;
-					reject('Habits API MyList Error:' + error);
+					var error = response;
+					reject(response);
 				}
 			})
 			.catch((error)=>{

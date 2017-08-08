@@ -13,9 +13,11 @@ var onboardingStateHandlers = Alexa.CreateStateHandler(constants.states.ONBOARDI
 		if(userName){
 			habitsAPI.Login(email)
 				.then((response)=>{
+					// console.log(response);
 					this.attributes['token'] = response.token;
 					habitsAPI.GetMyHabitsList(response.token)
 						.then((response)=>{
+							// console.log(response);
 							var habitsList = response;
 							this.attributes['habits'] = habitsList;
 							if(habitsList.length > 0){
