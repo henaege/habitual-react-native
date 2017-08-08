@@ -35,7 +35,7 @@ export const loginUser = ({ email, password }) => {
     const dataObj = {'email': email, 'password': password};
     axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
       .then((response)=>{
-        console.log(response.data);
+        console.log(response);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response)
         }else{
@@ -167,7 +167,7 @@ export const listHabits = (dispatch, list)=> {
   console.log(list)
   const Habits = []
   list.map((object)=> {
-    Habits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
+    Habits.push({'name': object.name.charAt(0).toUpperCase() + object.name.slice(1)})
     // console.log(userHabits)
   })
   // console.log(userHabits);
@@ -223,6 +223,7 @@ export const checkInMyHabit = (token, habitName)=>{
 }
 
 export const joinAHabit = (token, habitName)=>{
+  console.log(habitName);
   habitName = habitName.toLowerCase();
   var dataObj = {'token': token, 'habitName': habitName}
   return (dispatch)=>{

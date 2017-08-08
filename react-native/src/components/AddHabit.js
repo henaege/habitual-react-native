@@ -24,7 +24,6 @@ class AddHabit extends Component{
       if(this.state.categoryList.length === 0){
         this.setCategoryList(newProps);
       }
-      console.log(this.state.isReady);
       this.setState({isReady: true})
     }
   }

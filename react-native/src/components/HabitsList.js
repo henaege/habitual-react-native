@@ -14,7 +14,6 @@ class HabitsList extends Component{
     this.state = {
       isReady: false,
       listUpdated: false,
-      alertOn: true
     }
 
     this.renderAlert = this.renderAlert.bind(this);
@@ -22,13 +21,14 @@ class HabitsList extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    console.log(newProps)
+    console.log(newProps.userHabits);
     
-    this.setState({isReady: true, listUpdated: true, alertOn: !this.state.alertOn})
+    this.setState({isReady: true, listUpdated: !this.state.listUpdated})
   }
 
 
   componentWillMount() {
+    console.log('will mount');
       if(this.props.categoryName !== undefined){
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
@@ -41,61 +41,54 @@ class HabitsList extends Component{
       return (
         <Button disabled full><Text>{this.props.error}</Text></Button>
         )
-    }
-      
-
-      
+    }   
   }
 
-  renderAlert(){
-    console.log(this.props);
-    if((this.props.rank !== "" && this.props.rank !== undefined) && this.props.message.length >1 && this.state.alertOn){
+  renderAlert(message){
+    console.log('render alert');
       return (
        Alert.alert(
-          this.props.message,
-          'Your rank is ' + this.props.rank,
+          message,
+          '',
           [
             {text: 'OK', onPress: () => {
-              this.props.getUserHabits(this.props.user.data.token)
               Actions.habitsList()
             }},
           ],
           { cancelable: false }
         )
       )
-    }else{
-      if(this.props.habits.length > 0 && this.state.alertOn){
-        return (
-          Alert.alert(
-            this.props.message,
-            '',
-            [
-            {text: 'OK', onPress: () => {
-              this.props.getUserHabits(this.props.user.data.token)
-            }},
-          ],
-          )
-        )
-      }
-    }
+    // else{
+    //   if(this.props.habits.length > 0 && this.state.alertOn){
+    //     return (
+    //       Alert.alert(
+    //         this.props.message,
+    //         '',
+    //         [
+    //         {text: 'OK', onPress: () => {
+    //           this.props.getUserHabits(this.props.user.data.token)
+    //         }},
+    //       ],
+    //       )
+    //     )
+    //   }
+    // }
   }
   render(){
+    console.log(this.props);
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
     if(this.props.categoryName !== undefined){
-      console.log(this.props.habits);
-      return <HabitItems props={this.props.habits} add={true}/>
+      return <HabitItems props={this.props.habits} MyHabitListAlert={this.renderAlert} add={true}/>
     }
     else{
-      console.log(this.props.userHabits);
       return (  
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} />
-            {this.renderAlert()}
+            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert}/>
             {this.renderEmpty()}
           </Content>
           </Image>
