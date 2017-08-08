@@ -27,16 +27,16 @@ class HabitItems extends Component {
   }
 
   checkInPressed(data){
-    var habitName = data.toLowerCase();
+    var habitName = data.name.toLowerCase();
     var userToken = this.props.user.data.token
     this.props.checkInMyHabit(userToken, habitName)
   }
 
   deleteHabit(data){
-    this.props.leaveHabit(this.props.user.data.token, data)
+    this.props.leaveHabit(this.props.user.data.token, data.name)
   }
   addPressed(data){
-    this.props.joinAHabit(this.props.user.data.token, data)
+    this.props.joinAHabit(this.props.user.data.token, data.name)
   }
   deleteRow(secId, rowId, rowMap, data) {
     rowMap[`${secId}${rowId}`].props.closeRow();
@@ -57,7 +57,7 @@ class HabitItems extends Component {
     if(this.props.add){
       return (
         Alert.alert(
-          'Add ' + data + ' to your habits list',
+          'Add ' + data.name + ' to your habits list',
           '',
           [
             {text: 'Cancel', onPress: ()=>{console.log("alert button")}},
@@ -69,7 +69,7 @@ class HabitItems extends Component {
     }else{
       return (
         Alert.alert(
-          'Check in to ' + data,
+          'Check in to ' + data.name,
           alertMessage,
           [
             {text: 'Cancel', onPress: ()=>{console.log("alert button")}},
@@ -92,21 +92,22 @@ class HabitItems extends Component {
             renderRow={data =>
               <ListItem style={{backgroundColor: '#BDFFFD'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
+                  <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data.name)}>
                     {BtnIcons}
                   </Button>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}>
                   <Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>
-                    {data}
+                    {data.name}
                   </Text>
+                  <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-in Count: {data.count} Rank: {data.rank}</Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
               <Button full danger onPress={()=>
                 Alert.alert(
                   "Are you sure you want to cancel",
-                  data,
+                  data.name,
                   [
                     {text: 'Delete', onPress: ()=>{
                       this.deleteHabit(data)

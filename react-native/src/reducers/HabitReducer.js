@@ -24,6 +24,7 @@ const INITIAL_STATE = {
   categories: undefined,
   error: '',
   message: '',
+  count: '',
   rank: '',
   loading: false,
   userHabits: []

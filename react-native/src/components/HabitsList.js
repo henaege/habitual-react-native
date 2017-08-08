@@ -13,16 +13,18 @@ class HabitsList extends Component{
     super()
     this.state = {
       isReady: false,
-      listUpdated: false
+      listUpdated: false,
+      alertOn: true
     }
 
     this.renderAlert = this.renderAlert.bind(this);
+    this.renderEmpty = this.renderEmpty.bind(this)
   }
 
   componentWillReceiveProps(newProps){
     console.log(newProps)
     
-    this.setState({isReady: true, listUpdated: true})
+    this.setState({isReady: true, listUpdated: true, alertOn: !this.state.alertOn})
   }
 
 
@@ -34,9 +36,20 @@ class HabitsList extends Component{
       }
   }
 
+  renderEmpty(){
+    if (this.props.error.length > 0){
+      return (
+        <Button disabled full><Text>{this.props.error}</Text></Button>
+        )
+    }
+      
+
+      
+  }
+
   renderAlert(){
     console.log(this.props);
-    if(this.props.rank !== undefined && this.props.message.length >1){
+    if((this.props.rank !== "" && this.props.rank !== undefined) && this.props.message.length >1 && this.state.alertOn){
       return (
        Alert.alert(
           this.props.message,
@@ -51,7 +64,7 @@ class HabitsList extends Component{
         )
       )
     }else{
-      if(this.props.message !== undefined && this.props.rank === undefined){
+      if(this.props.habits.length > 0 && this.state.alertOn){
         return (
           Alert.alert(
             this.props.message,
@@ -83,7 +96,7 @@ class HabitsList extends Component{
           <Content style={{paddingTop: 54}}>
             <HabitItems props={this.props.userHabits} />
             {this.renderAlert()}
-            <Button disabled full><Text>{this.props.error}</Text></Button>
+            {this.renderEmpty()}
           </Content>
           </Image>
         </Container>
