@@ -9,18 +9,26 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 		//Check user data in session attributes
 		var userName = this.attributes['userName'];
 		var habitName = this.attributes['habits'];
-		if(habitName){
-			this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: tell me category list.`, "What would you like to do?");
-		}
-		else if(userName){
-			//Welcome user back 
-			this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: start a new habit.`, "What would you like to do?");
-		}
-		else{
-			//Change State to onboarding
-			this.handler.state = constants.states.ONBOARDING;
-			this.emitWithState('NewSession');
-		}
+		var email = this.attributes['email'];
+		habitsAPI.Login(email)
+			.then((response)=>{
+				this.attributes['token'] = response.token;
+				console.log('login');
+				if(habitName){
+					this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: tell me category list.`, "What would you like to do?");
+				}
+				else if(userName){
+					//Welcome user back 
+					this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: start a new habit.`, "What would you like to do?");
+				}
+			})
+			.catch((error)=>{
+				//Change State to onboarding
+				console.log('on boarding');
+				// console.log(error);
+				this.handler.state = constants.states.ONBOARDING;
+				this.emitWithState('NewSession');
+			})
 	},
 	'GetHabitsCategoryIntent': function(){
 		var email = this.attributes['email'];
@@ -49,10 +57,10 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 		console.log(categorySlot);
 		habitsAPI.GetHabitsList(categorySlot)
 			.then((response)=>{
-				// console.log(response);
 				var habitsList = [];
-				response.habitsList.map((habit)=>{
-					habitsList.push(habit.habitName);
+				response.map((habit)=>{
+					console.log(habit);
+					habitsList.push(habit.name);
 				});
 				habitsList = convertArrToStr(habitsList);
 				this.emit(':ask', `Here is available habits for you to join. ${habitsList}. To join a habit group, start by saying: join and then the group name.`, "To join a habit group, start by saying: join and then the group name.");
@@ -62,18 +70,40 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 				this.emit(':tell', 'Sorry, there was a problem accessing our habits list.')
 			})
 	},
+	'GetMyHabitsListIntent': function(){
+		// var accessToken = this.event.session.accessToken;
+		var token = this.attributes['token'];
+		if(token){
+			habitsAPI.GetMyHabitsList(token)
+				.then((response)=>{
+					this.attributes['habits'] = response
+					var myHabitsList = response.slice('');
+					myHabitsList = convertArrToStr(myHabitsList);
+					this.emit(':ask', `Here's your habits list ${myHabitsList}`, `Here's your habits list ${myHabitsList}`);
+				})
+				.catch((error)=>{
+					console.log(error);
+					this.emit(':tell', "Sorry, there was a problem accessing your habit lists.");
+				})
+		}else{
+			this.emit(':tellWithLinkAccountCard', 'Please link your account to use this skill.');
+		}
+	},
 	'JoinAHabitIntent': function(){
 		var token = this.attributes['token'];
 		var habitName = this.event.request.intent.slots.HabitName.value;
 		habitsAPI.JoinAHabit(token, habitName)
 			.then((response)=>{
-
 				this.attributes['habits'].push(habitName);
 				this.handler.state = constants.states.CHECKINHABIT;
 				this.emit(':ask', `You have successfully joined the ${habitName} group. Come back to check in with me after you finish you habit each time. If you want me to remind you through email about your habit, say: notification on. Or simply say: stop, to leave.`, 'If you want me to remind you through email about your habit, say: start notification. Or simply say: stop, to leave.');
 			})
 			.catch((error)=>{
-				this.emit(':tell', 'Sorry, there was a problem accessing our data.');
+				if(error === 'existedUserHabit'){
+					this.emit(':tell', "Sorry, you can't join the same habit twice");
+				}else{
+					this.emit(':tell', 'Sorry, there was a problem accessing our data.');
+				}
 			})
 	},
 	'CheckInHabitIntent': function(){
