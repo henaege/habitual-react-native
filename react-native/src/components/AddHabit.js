@@ -14,6 +14,7 @@ class AddHabit extends Component{
     this.state = {
       isReady: false,
       categoryList: []
+
     }
 
     this.setCategoryList = this.setCategoryList.bind(this);
@@ -46,13 +47,15 @@ class AddHabit extends Component{
     this.state.categoryList.map((category)=>{
       tabsArr.push(
         <Tab tabStyle={{backgroundColor: '#D8DBE2'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#48A9A6', fontWeight: 'bold'}} activeTabStyle={{backgroundColor: '#EAE0CC'}} heading={category} key={category}>
-          <HabitsList categoryName={category} />
+          <HabitsList categoryName={category} scene={this.props.sceneKey}/>
         </Tab>
       )
     })
     return tabsArr
   }
   render(){
+
+    console.log(this.props)
 
     if (!this.state.isReady) {
     

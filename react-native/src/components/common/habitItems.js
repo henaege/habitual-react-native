@@ -96,11 +96,17 @@ class HabitItems extends Component {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
 
-    console.log(this.props)
+    var styling = {}
+    if(this.props.sceneKey == "habitsList"){
+      styling.marginTop = 10
+    } else {
+     styling.marginTop = 0
+    }
+
 
     return (
 
-          <List style={{marginTop: 10}} disableRightSwipe={true}
+          <List style={styling} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
               <ListItem style={{backgroundColor: '#CCDAD1'}}>

@@ -14,7 +14,7 @@ const RouterComponent = () => {
      
       <Scene key="auth1">
 
-        <Scene onRight={()=> Actions.auth2()} key='login' component={LoginForm} title="Welcome" titleStyle={{color: 'white' }}rightTitle="Register" navigationBarStyle={{backgroundColor: 'transparent', paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} />
+        <Scene onRight={()=> Actions.auth2()} key='login' component={LoginForm} title="Welcome" titleStyle={{color: '#D8DBE2' }}rightTitle="Register" navigationBarStyle={{backgroundColor: 'transparent', paddingTop: (Platform.OS === 'android') ? 14 : 0, paddingBottom: (Platform.OS === 'android') ? 24 : 0, borderColor: 'transparent'}} />
       </Scene>
       <Scene key="auth2">
         <Scene onRight={()=> Actions.auth1()} key='register' component={RegisterForm} title="Welcome" rightTitle="Log In" navigationBarStyle={{backgroundColor: 'transparent', paddingTop: (Platform.OS === 'android') ? 14 : 0}} />

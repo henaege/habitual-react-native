@@ -57,14 +57,14 @@ class HabitsList extends Component{
   }
   render(){
 
-    var sceneKey1 = this.props.sceneKey
+    console.log(this.props.sceneKey)
 
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
     if(this.props.categoryName !== undefined){
-      return <HabitItems props={this.props.habits} sceneKey1={sceneKey1} MyHabitListAlert={this.renderAlert} add={true}/>
+      return <HabitItems props={this.props.habits} allProps={this.props} MyHabitListAlert={this.renderAlert} add={true}/>
     }
     else{
       
@@ -72,7 +72,7 @@ class HabitsList extends Component{
         <Container>
           <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} sceneKey1={sceneKey1}/>
+            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
             {this.renderEmpty()}
           </Content>
           </Image>
