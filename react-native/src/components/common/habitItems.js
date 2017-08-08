@@ -52,6 +52,37 @@ class HabitItems extends Component {
       return  <Icon name="checkmark-circle"/>
     }
   }
+
+  listStyle(){
+    var styling = {}
+    if(scene.sceneKey == "addHabit"){
+      styling = {
+        marginTop: 0
+      }
+      return styling
+    } else {
+      styling = {
+        marginTop: 10
+      }
+      return styling
+    }
+  }
+
+    listStyle(){
+    var styling = {}
+    if(scene.sceneKey == "addHabit"){
+      styling = {
+        marginTop: 10
+      }
+      return styling
+    } else {
+      styling = {
+        marginTop: 0
+      }
+      return styling
+    }
+  }
+
   renderAlert(data){
     if(this.props.add){
       return (
@@ -84,12 +115,14 @@ class HabitItems extends Component {
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
+    var a = this.listStyle()
+
     return (
 
-          <List style={{marginTop: 10}} disableRightSwipe={true}
+          <List style={a} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem style={{backgroundColor: '#BDFFFD'}}>
+              <ListItem style={{backgroundColor: '#CCDAD1'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
                   <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
                     {this.renderIcons()}

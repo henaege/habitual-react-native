@@ -181,7 +181,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
                 {/*<Text style={{fontSize: 32, fontWeight: '700'}}>
                   Welcome to
                 </Text>*/}
-                <Image style={{flex: 1, opacity: 0.8, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
+                <Image style={{flex: 1, opacity: 0.6, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
             

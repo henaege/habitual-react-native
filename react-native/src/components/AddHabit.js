@@ -46,13 +46,16 @@ class AddHabit extends Component{
     var tabsArr = [];
     this.state.categoryList.map((category)=>{
       tabsArr.push(
-        <Tab tabStyle={{backgroundColor: '#EE6055'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#000', fontWeight: 'bold'}} heading={category} key={category}>
+        <Tab activeTextStyle={{color: '#48A9A6', fontWeight: 'bold'}} heading={category} key={category} tabStyle={{backgroundColor: '#D8DBE2'}}activeTabStyle={{backgroundColor: '#EAE0CC'}}> 
           <HabitsList categoryName={category} />
         </Tab>
       )
     })
     return tabsArr
   }
+
+
+
   render(){
     console.log(this.state.isReady);
     if (!this.state.isReady) {
@@ -62,8 +65,8 @@ class AddHabit extends Component{
     return (
       <Container>
         <Image source={require('./bgnd4.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-        <Content style={{paddingTop: (Platform.OS === 'ios') ? 64 : 54}}>
-          <Tabs tabStyle={{backgroundColor: '#48A9A6'}} textStyle={{color: '#888'}} activeTextStyle={{color: '#fff', fontWeight: 'bold'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055"}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
+        <Content style={{flex: 1, paddingTop: 64}}>
+          <Tabs tabStyle={{backgroundColor: '#48A9A6', marginBottom: -10}} textStyle={{color: '#888'}} tabBarPosition={'top'} tabBarUnderlineStyle={{backgroundColor: "#EE6055", opacity: 0.8}} renderTabBar={()=> <ScrollableTab activeTextStyle={{backgroundColor: "#FFD97D"}} />}>
             {this.renderTabs()}
           </Tabs>
         </Content>

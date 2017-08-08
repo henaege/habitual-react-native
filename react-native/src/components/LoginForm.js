@@ -77,18 +77,18 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
     }
     return (
       <Container>
-        <Image source={require('./bgnd3.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+        <Image source={require('./bgnd6.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
 
         <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Image style={{flex: 1, opacity: 0.8, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
+                <Image style={{flex: 1, opacity: 0.6, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
             
               <Left style={{flex: 1}} />
               <Body style={{flex: 1}}>
-                <Text style={{fontSize: 16, marginTop: 10}}>The Alexa-enabled Social Habit Tracking App</Text>
+                <Text style={{fontSize: 16, marginTop: 10, color: '#D8DBE2'}}>The Alexa-enabled Social Habit Tracking App</Text>
               </Body>
               <Right style={{flex: 1}} />
 
@@ -96,13 +96,13 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
 
           <Form style={{marginTop: 55, flex: 1}}>
             <Item style={{flex: 1}}>
-              <Label style={{fontWeight: 'bold'}}>Email</Label>
+              <Label style={{fontWeight: 'bold', color: '#D8DBE2'}}>Email</Label>
               <Input type={'email'} placeholder="(Your Amazon account email)"
                 onChangeText={this.onEmailChange.bind(this)}
                 value={this.props.email} />
             </Item>
             <Item style={{flex: 1}}floatingLabel last>
-              <Label  style={{fontWeight: 'bold'}} >Password</Label>
+              <Label  style={{fontWeight: 'bold', color: '#D8DBE2'}} >Password</Label>
               <Input secureTextEntry={true} onChangeText={this.onPasswordChange.bind(this)} value={this.props.password}/>
             </Item>
             
