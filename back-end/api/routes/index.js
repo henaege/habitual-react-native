@@ -331,7 +331,7 @@ router.post('/getMyHabitList', (req,res)=>{
   if(token.length <= 1){
     res.json({msg: 'InvalidEmail'});
   }else{
-    var getListQuery = 'SELECT t2.name FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email;';
+    var getListQuery = 'SELECT t2.name, t2.count, t2.rank FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email;';
     connection.query(getListQuery, [token], (error, results)=>{
     if(error) throw error;
     if(results.length < 1){

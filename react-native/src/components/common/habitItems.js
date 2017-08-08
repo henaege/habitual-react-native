@@ -92,14 +92,15 @@ class HabitItems extends Component {
             renderRow={data =>
               <ListItem style={{backgroundColor: '#BDFFFD'}}>
                 <Left style={{flex: 1, alignItems: 'flex-start', paddingLeft: 10}}>
-                  <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data)}>
+                  <Button style={{backgroundColor: "#48A9A6"}}onPress={()=> this.renderAlert(data.name)}>
                     {BtnIcons}
                   </Button>
                 </Left>
                 <Right style={{flex: 3, paddingRight: 10}}>
                   <Text style={{fontSize:20, fontWeight: '500', alignSelf: 'center'}}>
-                    {data}
+                    {data.name}
                   </Text>
+                  <Text style={{fontSize: 16}}> Check-in Count: {data.count} Rank: {data.rank}</Text>
                 </Right>
               </ListItem>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>

@@ -149,9 +149,12 @@ export const listUserHabits = (dispatch, list)=> {
   console.log(list)
   const userHabits = []
   list.map((object)=> {
-    userHabits.push(object.name.charAt(0).toUpperCase() + object.name.slice(1))
+    userHabits.push(object)
     // console.log(userHabits)
   })
+  for (i = 0; i < userHabits.length; i++){
+    userHabits[i].name.charAt(0).toUpperCase() + userHabits[i].name.slice(1)
+  }
   // console.log(userHabits);
 dispatch({
     type: GET_USER_HABITS_LIST_SUCCESS,
