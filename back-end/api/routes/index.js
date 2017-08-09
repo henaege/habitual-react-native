@@ -427,10 +427,15 @@ thePromise.then(()=>{
           throw error3
         } 
         else {
+          connection.query(`SELECT * FROM addedHabits WHERE email=?`, [email], (error4, results4)=>{
+            if(error4){
+             res.json({
+               msg: error4
+             })
+            }
+          })
           res.json({
-            rank: rank,
-            count: results2[0].count,
-            name: results2[0].name
+            userHabits: results4
           })
         }
       })
