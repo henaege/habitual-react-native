@@ -280,9 +280,74 @@ emailPromise.then(()=>{
 The other piece of our project was of course the React Native mobile app. Like the Alexa skill, React Native was something we would need to research and learn on our own. We learned the React web framework in class and used Redux as well to manage state in an e-commerce app we built. React Native is very similar to React, but the difference are large enough that it felt like learning something completely new. For one thing, in React Native there is no DOM, so things like style have to be done with JavaScript instead of CSS.
 <br>
 ```JavaScript
-<Tab tabStyle={{flex: 1, backgroundColor: '#D8DBE2'}} textStyle={{color: '#000'}} activeTextStyle={{color: '#48A9A6', fontWeight: 'bold'}} activeTabStyle={{backgroundColor: '#EAE0CC'}} heading={category} key={category}>
+<Tab tabStyle={{flex: 1, backgroundColor: '#D8DBE2'}}
+  textStyle={{color: '#000'}}
+  activeTextStyle={{color: '#48A9A6', fontWeight: 'bold'}}
+  activeTabStyle={{backgroundColor: '#EAE0CC'}}
+  heading={category} key={category}>
 ```
 <br>
-
+Another difference is that when developing a web app with React, the app automatically and immediately updates so changes can be viewed quickly. With React Native there's no choice but to reload the entire app and go back through the whole app to see any changes that were made.
+<br>
+We opted to use the Create React Native App tool and Expo to test the app in the ios simulator and on a Google Pixel XL connected by USB. This helped a little because the app automatically reloads when a change is made (and the file is saved) but you still have to go through the whole app to get to where the changes are. This led to a lot of time spent reloading, logging in and navigating the app just to see changes.
+<br>
+In order to be able to navigate between screens we used React Native Router Flux. This Node module makes it easy to navigate between screens, but due to the nature of our app we needed the screen to re-render when adding or deleting habits (for example) to keep the list updated. This presented a challenge because we had to figure out which React component lifecycle method to use depending on what data we were requesting from the database and where in the app we were. Figuring out how the component lifecycle methods interacted with the router was a big challenge to overcome for us.
+<br>
+```JavaScript
+<Scene onRight={()=> Actions.addHabit()}
+          type='reset' rightTitle="Add" key='habitsList'
+          title="Your Habits" component={HabitsList}
+          navigationBarStyle={{backgroundColor:"#48A9A6",
+          opacity: 0.8, paddingTop: (Platform.OS === 'android')
+          ? 14 : 0, paddingBottom: (Platform.OS === 'android')
+          ? 24 : 0, borderColor: 'transparent'}}
+          renderBackButton={() => (null)} initial/>
+```
+<br>
+This brings us to Redux. We used Redux to manage state across our components which made it fairly straightforward to pass props around the app. We started with building the Actions that would make http requests to the API and take in the data sent back.
+<br>
+```JavaScript
+export const loginUser = ({ email, password }) => {
+  return (dispatch) => {
+    dispatch({type: LOGIN_USER})
+    const dataObj = {'email': email, 'password': password};
+    axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
+      .then((response)=>{
+        if(response.data.msg === 'loginSuccess'){
+          loginUserSuccess(dispatch, response)
+        }else{
+          loginUserFail(dispatch)
+        }
+      })
+      .catch(()=>console.log('loginfail'))
+  };
+};
+```
+<br>
+Once the data came back, the actions dispatched the data to the Reducer. Based on the dispatch, the reducer takes the data and packages combines it into props that can be passed to the rest of the app.
+<br>
+```JavaScript
+export default (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case GET_HABITS_LIST:
+      return {...state, habits: action.payload, loading: true}
+    case GET_HABITS_SUCCESS:
+      return {...state, habits: action.payload}
+    case GET_HABITS_FAIL:
+      return { ...state, error: 'No habits to list', loading: false }
+    case GET_USER_HABITS_LIST:
+      return {...state, userHabits: action.payload, loading: true}
+    case GET_USER_HABITS_LIST_SUCCESS:
+      return {...state, userHabits: action.payload, loading: false}
+    case GET_USER_HABITS_LIST_FAIL:
+      return {...state, error: "You don't have habits in your list", loading: false}
+```
+<br>
+Each component then uses the mapStateToProps method to define props that hold the data that was originally requested from the same component. These props are used to render the requested data on the screen.
+<br>
+```JavaScript
+<Text style={{fontSize: 16, alignSelf: 'center'}}> Check-ins: {data.count} Rank: {data.rank}</Text>
+```
+<br>
 
 # Habitual
