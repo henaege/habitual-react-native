@@ -15,7 +15,7 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 				this.attributes['token'] = response.token;
 				console.log('login');
 				if(habitName){
-					this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: tell me category list.`, "What would you like to do?");
+					this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: tell me the category list.`, "What would you like to do?");
 				}
 				else if(userName){
 					//Welcome user back 

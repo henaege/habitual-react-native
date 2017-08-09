@@ -59,7 +59,7 @@ export default (state = INITIAL_STATE, action) => {
     case LEAVE_HABIT:
       return {...state, loading: true}
     case LEAVE_HABIT_SUCCESS:
-      return {...state, message: 'You have left the habit', loading: false}
+      return {...state, message: 'You have left the habit.', loading: false}
     case LEAVE_HABIT_FAIL:
       return {...state, message: 'You failed to leave the habit', loading: false}
     case JOIN_HABIT:
