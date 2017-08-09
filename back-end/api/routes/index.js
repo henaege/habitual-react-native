@@ -143,9 +143,7 @@ router.post('/alexaRegister', (req, res)=>{
 });
 
 router.post('/mobileLogin', (req, res)=>{
-  // console.log(req.body);
   var email = req.body.email.toLowerCase();
-  // console.log(email);
   var password = req.body.password;
   var checkHash;
   const checkEmail = new Promise((resolve, reject)=>{
@@ -425,7 +423,6 @@ thePromise.then(()=>{
         var rank = results2[0].currank;
         }
       connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
-        console.log(results3);
         if (error3){
           throw error3
         } 
@@ -436,10 +433,11 @@ thePromise.then(()=>{
              res.json({
                msg: error4
              })
-            }else{
-              res.json({
-                userHabits: results4
-              })
+            }
+            else{
+            res.json({
+              userHabits: results4
+            })
             }
           })
         }
