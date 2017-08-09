@@ -459,25 +459,56 @@ thePromise.then(()=>{
 router.post('/getMyRank', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
-
-  var rankQuery = `SELECT t2.count, t2.rank FROM (SELECT email FROM users WHERE token = ?) t1 JOIN addedHabits t2 on t1.email = t2.email AND t2.name = ?;`
-
-  connection.query(rankQuery, [token, habitName], (error, results)=>{
-    if (error){
-      throw error;
-    } else {
+    var emailPromise = new Promise((resolve, reject)=>{
+    var emailQuery = 'SELECT email FROM users WHERE token = ?;';
+    connection.query(emailQuery, [token], (error, results)=>{
+      if(error) throw error;
       if(results.length > 0){
+        resolve(results[0].email)
+      }else{
+        reject('emailNotExists');
+      }
+      
+    })
+  });
+  emailPromise.then((email)=>{
+    var rankQuery = 'SELECT t.currank FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
+    connection.query(rankQuery,[habitName, email], (error2, results2)=> {
+      if (error2) {
         res.json({
-        count: results[0].count,
-        rank: results[0].rank
+          msg: error2
         })
-      }
-      else{
-        res.json("NoRank");
-      }
-    }
-  } )
-
+      } else {
+        var rank = results2[0].currank;
+        }
+      connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
+        if (error3){
+          throw error3
+        } 
+        else {
+          connection.query(`SELECT rank FROM addedHabits WHERE email=?`, [email], (error4, results4)=>{
+            console.log(results4)
+            if(error4){
+             res.json({
+               msg: error4
+             })
+            }
+            else{
+            res.json({
+              userHabits: results4
+            })
+            }
+          })
+        }
+      })
+        
+      })
+    })
+  .catch((error)=>{
+    res.json({
+      error: error
+    })
+  })
 });
 
 router.post('/leaveHabit', (req, res)=>{
