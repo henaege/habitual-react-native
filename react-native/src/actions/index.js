@@ -228,7 +228,7 @@ export const joinAHabit = (token, habitName)=>{
       }
     })
     .catch(()=>{
-      dispatch({type: JOIN_HABIT_FAIL, payload: `You failed joining ${habitName}`})
+      dispatch({type: JOIN_HABIT_FAIL, payload: `Joining ${habitName} failed`})
     })
   }
 }
