@@ -293,6 +293,7 @@ We opted to use the Create React Native App tool and Expo to test the app in the
 <br>
 In order to be able to navigate between screens we used React Native Router Flux. This Node module makes it easy to navigate between screens, but due to the nature of our app we needed the screen to re-render when adding or deleting habits (for example) to keep the list updated. This presented a challenge because we had to figure out which React component lifecycle method to use depending on what data we were requesting from the database and where in the app we were. Figuring out how the component lifecycle methods interacted with the router was a big challenge to overcome for us.
 <br>
+
 ```JavaScript
 <Scene onRight={()=> Actions.addHabit()}
           type='reset' rightTitle="Add" key='habitsList'
@@ -303,9 +304,11 @@ In order to be able to navigate between screens we used React Native Router Flux
           ? 24 : 0, borderColor: 'transparent'}}
           renderBackButton={() => (null)} initial/>
 ```
+
 <br>
 This brings us to Redux. We used Redux to manage state across our components which made it fairly straightforward to pass props around the app. We started with building the Actions that would make http requests to the API and take in the data sent back.
 <br>
+
 ```JavaScript
 export const loginUser = ({ email, password }) => {
   return (dispatch) => {
@@ -323,9 +326,11 @@ export const loginUser = ({ email, password }) => {
   };
 };
 ```
+
 <br>
 Once the data came back, the actions dispatched the data to the Reducer. Based on the dispatch, the reducer takes the data and packages combines it into props that can be passed to the rest of the app.
 <br>
+
 ```JavaScript
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -342,9 +347,11 @@ export default (state = INITIAL_STATE, action) => {
     case GET_USER_HABITS_LIST_FAIL:
       return {...state, error: "You don't have habits in your list", loading: false}
 ```
+
 <br>
 Each component then uses the mapStateToProps method to define props that hold the data that was originally requested from the same component. These props are used to render the requested data on the screen.
 <br>
+
 ```JavaScript
 <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-ins: {data.count} Rank: {data.rank}</Text>
 ```
