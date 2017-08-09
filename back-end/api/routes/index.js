@@ -44,10 +44,7 @@ setInterval(()=>{
     })
 }, 604800000)
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
 
 router.post('/mobileRegister', (req, res)=>{
   const userName = req.body.userName
