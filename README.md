@@ -62,7 +62,7 @@ To start the habitual skill, say "Alexa, start Habitual." Alexa then greets you 
 * "Quit"
    * "Goodbye"
 
-<br><br>
+<br>
 
 ### Mobile App
 When the mobile app opens users are treated to a full-page background photo with bright yet soothing colors, a simple logo, log in form (for those who already have accounts), and a Register button in the top right corner (for those who don't). Users with accounts will enter their email address and password, then tap the login button.
