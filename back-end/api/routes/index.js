@@ -415,7 +415,7 @@ router.post('/checkinMyHabit', (req, res)=> {
 })
 thePromise.then(()=>{
   // var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
-  var rankQuery = 'SELECT t.currank, t.count FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
+  var rankQuery = 'SELECT t.currank FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
     connection.query(rankQuery,[habitName, email], (error2, results2)=> {
       if (error2) {
         res.json({
@@ -425,12 +425,22 @@ thePromise.then(()=>{
         var rank = results2[0].currank;
         }
       connection.query(`UPDATE addedHabits SET rank = '${rank}' WHERE email = '${email}' AND name = '${habitName}';`, (error3, results3)=>{
+        console.log(results3);
         if (error3){
           throw error3
         } 
         else {
-          res.json({
-            rank: rank
+          connection.query(`SELECT name, count, rank FROM addedHabits WHERE email=?`, [email], (error4, results4)=>{
+            console.log(results4)
+            if(error4){
+             res.json({
+               msg: error4
+             })
+            }else{
+              res.json({
+                userHabits: results4
+              })
+            }
           })
         }
       })

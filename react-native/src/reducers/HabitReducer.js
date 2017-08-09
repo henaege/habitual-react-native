@@ -31,6 +31,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+  console.log(action.type);
   switch (action.type) {
     case GET_HABITS_LIST:
       return {...state, habits: action.payload, loading: true}
@@ -53,7 +54,7 @@ export default (state = INITIAL_STATE, action) => {
     case HABIT_CHECK_IN:
       return {...state, loading: true}
     case HABIT_CHECK_IN_SUCCESS:
-      return {...state, message: 'You have checked in', rank: action.payload, loading: false}
+      return {...state, message: 'You have checked in', userHabits: action.payload, loading: false}
     case HABIT_CHECK_IN_FAIL:
       return {...state, message: 'You failed to check in', loading: false}
     case LEAVE_HABIT:

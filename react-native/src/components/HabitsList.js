@@ -21,7 +21,8 @@ class HabitsList extends Component{
   }
 
   componentWillReceiveProps(newProps){
-    this.setState({isReady: true, listUpdated: !this.state.listUpdated})
+    console.log(newProps);
+    this.setState({isReady: true })
   }
 
 
@@ -57,7 +58,6 @@ class HabitsList extends Component{
   }
   render(){
 
-    console.log(this.props)
 
     if (!this.state.isReady) {
     
@@ -83,10 +83,10 @@ class HabitsList extends Component{
 }
 
 const mapStateToProps = ({habitsInfo, auth}) => {
-  const {habits, userHabits, categories, error, loading, message, rank} = habitsInfo
+  const {habits, userHabits, categories, error, loading, message} = habitsInfo
   const {user} = auth
 
-  return { habits, userHabits, categories, error, loading, user, message, rank}
+  return { habits, userHabits, categories, error, loading, user, message}
 }
 
 export default connect(mapStateToProps, {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)

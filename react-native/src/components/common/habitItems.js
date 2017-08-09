@@ -22,11 +22,15 @@ class HabitItems extends Component {
     this.renderIcons = this.renderIcons.bind(this);
     this.renderCountRank = this.renderCountRank.bind(this)
   }
-
+  componentWillReceiveProps(nextProps) {
+      this.setState({ listViewData: nextProps.props })
+  }
   checkInPressed(data){
+    var message = `Checking in ${data.name} ....`;
     var habitName = data.name.toLowerCase();
     var userToken = this.props.user.data.token
     this.props.checkInMyHabit(userToken, habitName)
+    this.props.MyHabitListAlert(message)
   }
 
   deleteHabit(data){
@@ -56,7 +60,6 @@ class HabitItems extends Component {
     }
   }
   renderCountRank(data){
-    console.log(data);
     if(!this.props.add){
       return <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-ins: {data.count} Rank: {data.rank}</Text>
     }
@@ -98,7 +101,6 @@ class HabitItems extends Component {
 
     var styling = {}
     if(this.props.allProps.sceneKey == "habitsList"){
-      console.log('pass')
       styling = {
         marginTop: 10
       }

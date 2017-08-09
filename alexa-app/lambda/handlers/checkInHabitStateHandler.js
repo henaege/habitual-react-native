@@ -59,7 +59,12 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 			console.log(habitSlot);
 			habitsAPI.CheckinMyHabit(token, habitSlot)
 				.then((response)=>{
-					var myRank = response.rank;
+					var myRank;
+					response.map((habit)=>{
+						if(habit.name.toLowerCase() === habitSlot.toLowerCase()){
+							myRank = habit.rank;
+						}
+					})
 					this.emit(':tell', `You have successfully checked in with your ${habitSlot} today. Your currently rank in this group is ${myRank}.`)
 				})
 				.catch((error)=>{

@@ -1,6 +1,6 @@
 module.exports = function convertArrayToReadableString(array) {
 	if(array.length <= 1){
-		return array[0];
+		var readableString = ',' + array[0]
 	}else{
 		var readableString = ``;
 		for (var i = 0; i < array.length; i++) {

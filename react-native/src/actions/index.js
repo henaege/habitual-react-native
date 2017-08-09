@@ -182,6 +182,7 @@ const getCategoryFail = (dispatch)=> {
 }
 
 export const checkInMyHabit = (token, habitName)=>{
+  console.log(habitName);
   const dataObj = {'token': token, 'habitName': habitName}
   return(dispatch)=> {
     dispatch({
@@ -189,6 +190,7 @@ export const checkInMyHabit = (token, habitName)=>{
     })
     axiosReq('POST', habitsAPI + 'checkinMyHabit', dataObj )
       .then((response)=>{
+        console.log(response.data);
         if(response.data.error !== undefined){
           dispatch({
             type:HABIT_CHECK_IN_FAIL,
@@ -197,7 +199,7 @@ export const checkInMyHabit = (token, habitName)=>{
         else{
           dispatch({
             type: HABIT_CHECK_IN_SUCCESS,
-            payload: response.data.rank
+            payload: response.data.userHabits
           })
         }
       })
