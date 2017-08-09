@@ -57,7 +57,7 @@ class HabitsList extends Component{
   }
   render(){
 
-    console.log(this.props.sceneKey)
+    console.log(this.props)
 
     if (!this.state.isReady) {
     
@@ -70,7 +70,7 @@ class HabitsList extends Component{
       
       return (  
         <Container>
-          <Image source={require('./bgnd5.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+          <Image source={require('./bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
             <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
             {this.renderEmpty()}

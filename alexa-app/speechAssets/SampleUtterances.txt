@@ -6,7 +6,7 @@ GetHabitsCategoryIntent start new habit
 GetHabitsCategoryIntent tell me category list
 GetHabitsCategoryIntent show me category list
 GetHabitsCategoryIntent give me category list
-GetHabitsCategoryIntent whats in  category list
+GetHabitsCategoryIntent whats in category list
 GetHabitsListIntent open {HabitsCategory}
 GetHabitsListIntent {HabitsCategory}
 GetHabitsListIntent tell me {HabitsCategory}

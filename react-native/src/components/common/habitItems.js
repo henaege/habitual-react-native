@@ -35,7 +35,7 @@ class HabitItems extends Component {
     this.props.MyHabitListAlert(message);
   }
   addPressed(data){
-    var message = 'Adding you habit...';
+    var message = 'Adding your habit...';
     this.props.joinAHabit(this.props.user.data.token, data.name)
     this.props.MyHabitListAlert(message);
   }
@@ -58,7 +58,7 @@ class HabitItems extends Component {
   renderCountRank(data){
     console.log(data);
     if(!this.props.add){
-      return <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-in Count: {data.count} Rank: {data.rank}</Text>
+      return <Text style={{fontSize: 16, alignSelf: 'center'}}> Check-ins: {data.count} Rank: {data.rank}</Text>
     }
   }
   renderAlert(data){
@@ -97,12 +97,16 @@ class HabitItems extends Component {
     const BtnIcons = this.renderIcons();
 
     var styling = {}
-    if(this.props.sceneKey == "habitsList"){
-      styling.marginTop = 10
+    if(this.props.allProps.sceneKey == "habitsList"){
+      console.log('pass')
+      styling = {
+        marginTop: 10
+      }
     } else {
-     styling.marginTop = 0
+     styling = {
+       marginTop: 0
+     }
     }
-
 
     return (
 

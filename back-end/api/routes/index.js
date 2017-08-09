@@ -475,7 +475,6 @@ router.post('/getMyRank', (req, res)=>{
 
 });
 
-
 router.post('/leaveHabit', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
@@ -539,8 +538,6 @@ router.post('/leaveHabit', (req, res)=>{
   .catch((error)=>{
     res.json(error);
   })
-  
-  
 })
 
 module.exports = router;
