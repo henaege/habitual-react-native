@@ -413,7 +413,7 @@ router.post('/checkinMyHabit', (req, res)=> {
 })
 thePromise.then(()=>{
   // var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
-  var rankQuery = 'SELECT t.name, t.currank, t.count FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
+  var rankQuery = 'SELECT t.currank FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
     connection.query(rankQuery,[habitName, email], (error2, results2)=> {
       if (error2) {
         res.json({
@@ -434,9 +434,11 @@ thePromise.then(()=>{
                msg: error4
              })
             }
-          })
-          res.json({
-            userHabits: results4
+            else{
+            res.json({
+              userHabits: results4
+            })
+            }
           })
         }
       })
