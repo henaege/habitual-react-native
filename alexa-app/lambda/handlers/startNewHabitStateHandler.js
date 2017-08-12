@@ -13,9 +13,9 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 		habitsAPI.Login(email)
 			.then((response)=>{
 				this.attributes['token'] = response.token;
-				console.log('login');
-				if(habitName){
-					this.emit(':ask', `Welcome back ${userName}! You can ask me about various available habits by saying: tell me the category list.`, "What would you like to do?");
+				var commingFromCheckinState = this.attributes['CheckinToStartNewHabit'];
+				if(commingFromCheckinState){
+					this.emit(':ask', `Say tell me or show me category list to start a new habit.`, "What would you like to do?");
 				}
 				else if(userName){
 					//Welcome user back 
@@ -54,7 +54,6 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 	'GetHabitsListIntent': function(){
 		var categorySlot = this.event.request.intent.slots.HabitsCategory.value;
-		console.log(categorySlot);
 		habitsAPI.GetHabitsList(categorySlot)
 			.then((response)=>{
 				var habitsList = [];
@@ -108,12 +107,14 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 	'CheckInHabitIntent': function(){
 		var habits = this.attributes['habits'];
-		if(habits){
+		var habitSlot = this.event.request.intent.slots.HabitName.value;
+		if(habitSlot){
 			console.log('check in in start new');
+			this.attributes['StartANewHabitToCheckin'] = true;
 			this.handler.state = constants.states.CHECKINHABIT;
 			this.emitWithState('LaunchRequest');
 		}else{
-			this.emit('ask', "To start a habit, say: start a habit. To check in your habits, say: check in habit", "What would you like to do?");
+			this.emit('ask', "To start a habit, say: start a habit. To check in your habits, say: check in my habits.", "What would you like to do?");
 		}
 	},
 	'AMAZON.StopIntent': function () {
@@ -131,7 +132,7 @@ var startNewHabitStateHandlers = Alexa.CreateStateHandler(constants.states.START
 	},
 
 	'AMAZON.HelpIntent': function () {
-	this.emit(':ask', "To start a habit, say: start a habit. To chekc in your habits, say: check in habit", "What would you like to do?");
+	this.emit(':ask', "To start a habit, say: start a habit. To chekc in your habits, say: check in my habits.", "What would you like to do?");
 	},
 
 	'Unhandled': function () {

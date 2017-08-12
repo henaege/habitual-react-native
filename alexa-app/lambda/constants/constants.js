@@ -1,3 +1,4 @@
+//the freeze method makes sure that the constants never changes
 var constants = Object.freeze({
 
   // App-ID. TODO: Set Your App ID
