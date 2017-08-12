@@ -8,15 +8,20 @@ var randToken = require('rand-token');
 var config = require('../config/config');
 var sendEmail = require('../emailSending');
 
+//////////////////////
+// Connect to database
+//////////////////////
 var connection = mysql.createConnection({
   host: config.host,
   user: config.user,
   password: config.password,
   database: config.database
 })
-
 connection.connect()
 
+//////////////////////
+// helper function for checking what's the last time user checked in with their habit
+//////////////////////
 function checkUpdatedDate(){
   var dateUpdatedQuery = 'SELECT dateUpdated, name, email FROM addedHabits INNER JOIN users ON userToken = token WHERE DATE_ADD(dateUpdated, INTERVAL 7 DAY) < CURRENT_TIMESTAMP AND notification = 1;'
   var thePromise = new Promise((resolve, reject)=>{
@@ -45,14 +50,15 @@ setInterval(()=>{
 }, 604800000)
 
 
-
+//////////////////////
+// Register Route
+//////////////////////
 router.post('/mobileRegister', (req, res)=>{
   const userName = req.body.userName
   const email = req.body.email.toLowerCase()
   const password = bcrypt.hashSync(req.body.password)
 
   connection.query(`SELECT * FROM users`, (error, results)=>{
-    console.log(results)
     if (error) throw error
     var emailsArray = []
     for (i = 0; i < results.length; i++){
@@ -98,9 +104,7 @@ router.post('/mobileRegister', (req, res)=>{
 router.post('/alexaRegister', (req, res)=>{
   const name = req.body.name;
   const email = req.body.email;
-  // console.log(email);
   connection.query(`SELECT email FROM users`, (error, results)=>{
-    // console.log(results)
     if (error) throw error
     var emailsArray = []
     for (i = 0; i < results.length; i++){
@@ -142,6 +146,9 @@ router.post('/alexaRegister', (req, res)=>{
   })
 });
 
+//////////////////////
+// Login Route
+//////////////////////
 router.post('/mobileLogin', (req, res)=>{
   var email = req.body.email.toLowerCase();
   var password = req.body.password;
@@ -206,8 +213,10 @@ router.post('/alexaLogin', (req, res)=>{
   })
 });
 
+//////////////////////
+// Get Category List from database
+//////////////////////
 router.get('/categorylist', (req, res)=>{
-
   var categoryQuery = `SELECT categoryName FROM categories;`
   connection.query(categoryQuery, (error, results)=>{
     console.log(results)
@@ -223,6 +232,9 @@ router.get('/categorylist', (req, res)=>{
   })
 })
 
+//////////////////////
+// Join Route
+//////////////////////
 router.post('/joinAHabit', (req, res)=>{
   console.log('pass');
   var habitName = req.body.habitName;
@@ -296,6 +308,9 @@ router.post('/joinAHabit', (req, res)=>{
   })
 })
 
+//////////////////////
+// Get individual user's habits list from database
+//////////////////////
 router.post('/habitslist', (req, res)=> {
   var categoryName = req.body.categoryName;
   // console.log(categoryName);
@@ -372,6 +387,9 @@ router.post('/manageNotification', (req, res)=>{
   })
 })
 
+//////////////////////
+// Check in Habit Route
+//////////////////////
 router.post('/checkinMyHabit', (req, res)=> {
   var token = req.body.token
   var habitName = req.body.habitName
@@ -412,7 +430,6 @@ router.post('/checkinMyHabit', (req, res)=> {
   })
 })
 thePromise.then(()=>{
-  // var rankQuery = `SELECT count, email FROM addedHabits WHERE name = '${habitName}' ORDER BY count;`
   var rankQuery = 'SELECT t.currank FROM (SELECT count, email, @curRank := @curRank + 1 AS currank FROM (SELECT * FROM addedHabits WHERE name = ?) p, (SELECT @curRank := 0) r ORDER BY count DESC) t WHERE email = ?;';
     connection.query(rankQuery,[habitName, email], (error2, results2)=> {
       if (error2) {
@@ -456,6 +473,9 @@ thePromise.then(()=>{
   })
 });
 
+//////////////////////
+// Get individual user's ranking in a specific habit they joined
+//////////////////////
 router.post('/getMyRank', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
@@ -511,6 +531,9 @@ router.post('/getMyRank', (req, res)=>{
   })
 });
 
+//////////////////////
+// Delete a habit from user's habits list
+//////////////////////
 router.post('/leaveHabit', (req, res)=>{
   var token = req.body.token
   var habitName = req.body.habitName
