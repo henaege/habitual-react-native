@@ -60,7 +60,7 @@ class UserHabitsList extends Component{
       return (  
         <Container>
           <Image source={require('../images/bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-          <Content style={{paddingTop: 100}}>
+          <Content>
             <HabitList props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
             {this.renderEmpty()}
           </Content>

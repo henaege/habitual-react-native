@@ -68,7 +68,12 @@ class HabitsList extends Component{
     }
     else{
       return (  
-          <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
+        <Container style={{paddingTop: 64}}>
+        <Image source={require('../../images/bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+        
+          <HabitItems  props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
+          </Image>
+          </Container>
       )
     }
   }
