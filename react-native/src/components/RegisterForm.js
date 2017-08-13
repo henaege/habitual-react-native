@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {Image} from 'react-native'
 import {connect} from 'react-redux'
-import {emailChanged, passwordChanged, nameChanged, confirmPasswordChanged, registerUser, registerUserFail} from '../actions'
+import {emailChanged, passwordChanged, nameChanged, confirmPasswordChanged, registerUser, registerUserFail} from '../actions/authActions'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 
@@ -173,7 +173,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
     }
     return (
       <Container>
-        <Image source={require('./bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+        <Image source={require('../images/bgnd2.jpeg')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
 
         <Content style={{paddingTop: 54}}>
               <Left style={{flex: 1}} />
@@ -181,7 +181,7 @@ Roboto_medium: require("native-base/Fonts/Heebo_Regular.ttf"),
                 {/*<Text style={{fontSize: 32, fontWeight: '700'}}>
                   Welcome to
                 </Text>*/}
-                <Image style={{flex: 1, opacity: 0.6, marginTop: 10}} source={require('./Habitual-logo.png')}></Image>
+                <Image style={{flex: 1, opacity: 0.6, marginTop: 10}} source={require('../images/Habitual-logo.png')}></Image>
               </Body>
               <Right style={{flex: 1}} />
             

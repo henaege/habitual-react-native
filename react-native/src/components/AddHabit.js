@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, Tab, Tabs, ScrollableTab} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getCategoryList} from '../actions'
+import {getCategoryList} from '../actions/habitsActions'
 import HabitsList from './HabitsList';
 
 class AddHabit extends Component{
@@ -68,7 +68,7 @@ class AddHabit extends Component{
     const CategoryTabs = this.renderTabs();
     return (
       <Container>
-        <Image source={require('./bgnd7.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+        <Image source={require('../images/bgnd7.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
         <Content style={{paddingTop: (Platform.OS === 'ios') ? 64 : 54}}>
           <Tabs tabStyle={{flex: 1, backgroundColor: '#48A9A6'}} textStyle={{color: '#888'}}
           activeTextStyle={{color: '#fff', fontWeight: 'bold'}}

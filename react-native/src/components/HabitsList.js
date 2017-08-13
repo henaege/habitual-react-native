@@ -6,7 +6,7 @@ import HabitItems from './common/habitItems'
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions'
+import {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions/habitsActions'
 
 class HabitsList extends Component{
   constructor(){
@@ -30,7 +30,7 @@ class HabitsList extends Component{
       if(this.props.categoryName !== undefined){
         this.props.getHabitsFromCategory(this.props.categoryName);
       }else{
-        this.props.getUserHabits(this.props.user.data.token)
+        this.props.getUserHabits(this.props.user.token)
       }
   }
 
@@ -70,7 +70,7 @@ class HabitsList extends Component{
       
       return (  
         <Container>
-          <Image source={require('./bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
+          <Image source={require('../images/bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
           <Content style={{paddingTop: 54}}>
             <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
             {this.renderEmpty()}

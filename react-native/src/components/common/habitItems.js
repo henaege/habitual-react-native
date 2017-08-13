@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
-import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions'
+import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions/habitsActions'
 
 
 
@@ -28,19 +28,19 @@ class HabitItems extends Component {
   checkInPressed(data){
     var message = `Checking in ${data.name} ....`;
     var habitName = data.name.toLowerCase();
-    var userToken = this.props.user.data.token
+    var userToken = this.props.user.token
     this.props.checkInMyHabit(userToken, habitName)
     this.props.MyHabitListAlert(message)
   }
 
   deleteHabit(data){
     var message = 'Deleting...';
-    this.props.leaveHabit(this.props.user.data.token, data.name)
+    this.props.leaveHabit(this.props.user.token, data.name)
     this.props.MyHabitListAlert(message);
   }
   addPressed(data){
     var message = 'Adding your habit...';
-    this.props.joinAHabit(this.props.user.data.token, data.name)
+    this.props.joinAHabit(this.props.user.token, data.name)
     this.props.MyHabitListAlert(message);
   }
 
