@@ -1,4 +1,8 @@
 import axiosReq from '../helpers/axiosRequest';
+<<<<<<< HEAD
+=======
+import {Actions} from 'react-native-router-flux';
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 import habitsAPI from '../habitsAPI';
 import {HABIT_CHECK_IN,HABIT_CHECK_IN_SUCCESS,HABIT_CHECK_IN_FAIL} from '../types';
 
@@ -11,6 +15,10 @@ export const checkInMyHabit = (token, habitName)=>{
     })
     axiosReq('POST', habitsAPI + 'checkinMyHabit', dataObj )
       .then((response)=>{
+<<<<<<< HEAD
+=======
+        console.log(response.data);
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
         if(response.data.error !== undefined){
           dispatch({
             type:HABIT_CHECK_IN_FAIL,

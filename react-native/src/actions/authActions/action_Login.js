@@ -10,14 +10,23 @@ export const loginUser = ({ email, password }) => {
     const dataObj = {'email': email, 'password': password};
     axiosReq('POST', habitsAPI + 'mobileLogin', dataObj)
       .then((response)=>{
+<<<<<<< HEAD
         console.log(response);
         if(response.data.msg === 'loginSuccess'){
           loginUserSuccess(dispatch, response.data)
+=======
+        if(response.data.msg === 'loginSuccess'){
+          loginUserSuccess(dispatch, response)
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
         }else{
           loginUserFail(dispatch)
         }
       })
+<<<<<<< HEAD
       .catch((error)=>console.log(error))
+=======
+      .catch(()=>console.log('loginfail'))
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
   };
 };
 

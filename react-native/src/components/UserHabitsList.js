@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet, Alert, View} from 'react-native'
 import {connect} from 'react-redux'
-import HabitItems from './common/habitItems'
+import HabitsList from './common/HabitsList';
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions/habitsActions'
+import {getUserHabits} from '../actions/habitsActions';
 
-class HabitsList extends Component{
+class UserHabitsList extends Component{
   constructor(){
     super()
     this.state = {
@@ -27,11 +27,7 @@ class HabitsList extends Component{
 
 
   componentWillMount() {
-      if(this.props.categoryName !== undefined){
-        this.props.getHabitsFromCategory(this.props.categoryName);
-      }else{
-        this.props.getUserHabits(this.props.user.token)
-      }
+    this.props.getUserHabits(this.props.user.data.token)
   }
 
   renderEmpty(){
@@ -49,7 +45,6 @@ class HabitsList extends Component{
           '',
           [
             {text: 'OK', onPress: () => {
-              Actions.habitsList()
             }},
           ],
           { cancelable: false }
@@ -57,22 +52,16 @@ class HabitsList extends Component{
       )
   }
   render(){
-
-
     if (!this.state.isReady) {
     
       return <Spinner style={{flex: 1, alignSelf: 'center'}} />;
     }
-    if(this.props.categoryName !== undefined){
-      return <HabitItems props={this.props.habits} allProps={this.props} MyHabitListAlert={this.renderAlert} add={true}/>
-    }
-    else{
-      
+    else{  
       return (  
         <Container>
           <Image source={require('../images/bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-          <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
+          <Content>
+            <HabitList props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
             {this.renderEmpty()}
           </Content>
           </Image>
@@ -82,11 +71,11 @@ class HabitsList extends Component{
   }
 }
 
-const mapStateToProps = ({habitsInfo, auth}) => {
-  const {habits, userHabits, categories, error, loading, message} = habitsInfo
+const mapStateToProps = ({habitsListInfo, auth}) => {
+  const {userHabits, error, loading, message} = habitsListInfo
   const {user} = auth
 
-  return { habits, userHabits, categories, error, loading, user, message}
+  return {userHabits, error, loading, user, message}
 }
 
-export default connect(mapStateToProps, {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)
+export default connect(mapStateToProps, {getUserHabits})(HabitsList)

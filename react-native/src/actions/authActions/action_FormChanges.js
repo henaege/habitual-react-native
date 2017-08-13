@@ -1,4 +1,8 @@
 import axiosReq from '../helpers/axiosRequest';
+<<<<<<< HEAD
+=======
+import {Actions} from 'react-native-router-flux';
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 import {EMAIL_CHANGED, NAME_CHANGED, PASSWORD_CHANGED, CONFIRM_PASSWORD_CHANGED} from '../types'
 
 

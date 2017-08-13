@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
+<<<<<<< HEAD
 import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions/habitsActions'
+=======
+import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions/habitsActions';
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 
 
 
@@ -96,13 +100,14 @@ class HabitItems extends Component {
     }
   }
   render() {
+    console.log(this.props);
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
 
     var styling = {}
-    if(this.props.allProps.sceneKey == "habitsList"){
+    if(this.props.allProps.sceneKey == "UserHabitsList"){
       styling = {
-        marginTop: 10
+        marginTop: 100
       }
     } else {
      styling = {
@@ -112,7 +117,7 @@ class HabitItems extends Component {
 
     return (
 
-          <List style={styling} disableRightSwipe={true}
+          <List disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
               <ListItem style={{backgroundColor: '#CCDAD1'}}>
@@ -149,8 +154,8 @@ class HabitItems extends Component {
   }
 }
 
-const mapStateToProps = ({habitsInfo, auth})=> {
-  const {categories, error, loading} = habitsInfo
+const mapStateToProps = ({habitsListInfo, auth})=> {
+  const {categories, error, loading} = habitsListInfo
 
   const {user} = auth
 

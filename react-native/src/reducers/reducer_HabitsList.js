@@ -7,6 +7,7 @@ import {
   GET_CATEGORIES_LIST_FAIL,
   GET_USER_HABITS_LIST,
   GET_USER_HABITS_LIST_SUCCESS,
+<<<<<<< HEAD:react-native/src/reducers/reducer_HabitsList.js
   GET_USER_HABITS_LIST_FAIL,
   HABIT_CHECK_IN,
   HABIT_CHECK_IN_SUCCESS,
@@ -17,6 +18,9 @@ import {
   JOIN_HABIT,
   JOIN_HABIT_SUCCESS,
   JOIN_HABIT_FAIL,
+=======
+  GET_USER_HABITS_LIST_FAIL
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e:react-native/src/reducers/reducer_HabitsList.js
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -25,9 +29,13 @@ const INITIAL_STATE = {
   error: '',
   message: '',
   loading: false,
+<<<<<<< HEAD:react-native/src/reducers/reducer_HabitsList.js
   userHabits: [],
   count: '',
   rank: '',
+=======
+  userHabits: []
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e:react-native/src/reducers/reducer_HabitsList.js
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -50,24 +58,6 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, categories: action.payload,loading:false}
     case GET_CATEGORIES_LIST_FAIL:
       return { ...state, error: 'Could not retrieve categories', loading: false }
-    case HABIT_CHECK_IN:
-      return {...state, loading: true}
-    case HABIT_CHECK_IN_SUCCESS:
-      return {...state, message: 'You have checked in', userHabits: action.payload, loading: false}
-    case HABIT_CHECK_IN_FAIL:
-      return {...state, message: 'You failed to check in', loading: false}
-    case LEAVE_HABIT:
-      return {...state, loading: true}
-    case LEAVE_HABIT_SUCCESS:
-      return {...state, message: 'You have left the habit.', loading: false}
-    case LEAVE_HABIT_FAIL:
-      return {...state, message: 'You failed to leave the habit', loading: false}
-    case JOIN_HABIT:
-      return {...state, loading: true}
-    case JOIN_HABIT_FAIL:
-      return {...state, message: action.payload, loading: false}
-    case JOIN_HABIT_SUCCESS:
-      return {...state, message: action.payload.msg, rank: action.payload.rank, loading: false}
     default:
       return state
   }

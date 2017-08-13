@@ -2,7 +2,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet, ActivityIndicator} from 'react-native'
 import {connect} from 'react-redux'
+<<<<<<< HEAD
 import {emailChanged, passwordChanged, loginUser} from '../actions/authActions'
+=======
+import {emailChanged, passwordChanged, loginUser} from '../actions/authActions';
+>>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 import {Container, Content, Toast, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
@@ -49,13 +53,6 @@ class LoginForm extends Component{
     if(this.props.error.length > 1){
       this.setState({showMessage: true})
     }
-    /*if(this.state.showMessage){
-      return (
-        <Button full style={{backgroundColor: 'red', opacity: 0.8}}>
-          <Text style={{color: 'white'}}>Login failed</Text>
-        </Button>
-      )
-    }*/
   }
   
 
