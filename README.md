@@ -68,13 +68,13 @@ To start the habitual skill, say "Alexa, start Habitual." Alexa then greets you 
 When the mobile app opens users are treated to a full-page background photo with bright yet soothing colors, a simple logo, log in form (for those who already have accounts), and a Register button in the top right corner (for those who don't). Users with accounts will enter their email address and password, then tap the login button.
 <br><br>
 <p align='center'>
-    <img src="./react-native/Habitual Login.png"/></img>
+    <img src="./react-native/assets/images/Habitual Login.png"/></img>
 </p>
 <br><br>
 The Register button takes a new user to a registration form where they can enter their email address (they'll need to use the same email address that they use for their Amazon account so the mobile app and Alexa can share the same data), name and a  password. Their data is sent to a MySQL database via the API. User input is sanitized to avoid insertion attacks and Passwords are encrypted and stored in our database securely using bcrypt.
 <br><br>
 <p align='center'>
-    <img src="./react-native/Habitual Register.png"/></img>
+    <img src="./react-native/assets/images/Habitual Register.png"/></img>
 </p>
 <br><br>
 
@@ -82,7 +82,7 @@ The Register button takes a new user to a registration form where they can enter
 After logging in the user is brought to their Habits List screen. This is where the magic happens. The habits the user has joined are listed on the screen by pulling their data from the database. The button on the left allows the user to check in to their habits as they do them and rise in rank.
 <br><br>
 <p align='center'>
-    <img src="./react-native/Habitual Habits List.png"/></img>
+    <img src="./react-native/assets/images/Habitual Habits List.png"/></img>
 </p>
 <br><br>
 Swiping left on any habit reveals a delete button. Tapping the delete button will show a confirmation alert aksing the user if the want to leave the habit. Tapping Delete will leave the habit. Tapping Cancel will cancel the action.
@@ -90,7 +90,7 @@ Swiping left on any habit reveals a delete button. Tapping the delete button wil
 Our backend uses Express to query the database for the requested information and the data is either rendered to the mobile app or spoken by Alexa, depending on which interface is in use. If the user has not joined any habits, a banner will display instead of a habits list.
 <br><br>
 <p align='center'>
-    <img src="./react-native/Habitual No Habits.png"/></img>
+    <img src="./react-native/assets/images/Habitual No Habits.png"/></img>
 </p>
 <br><br>
 
@@ -98,7 +98,7 @@ Our backend uses Express to query the database for the requested information and
 In the top right corner of the Habits List screen is an Add button. Tapping Add will bring the user to the Add Habits screen.
 <br><br>
 <p align='center'>
-    <img src="./react-native/Habitual Add Habits.png"/></img>
+    <img src="./react-native/assets/images/Habitual Add Habits.png"/></img>
 </p>
 <br><br>
 The habit categories are listed across the top in tabs. Tapping each tab will reveal the list of habits for that category. Tapping the add button to the left of a habit will add the habit to your list.

@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet, Alert, View} from 'react-native'
 import {connect} from 'react-redux'
-import HabitItems from './common/habitItems'
+import HabitItems from './habitItems';
 import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button, Text, Spinner, Left, Right, Body, Title, List, ListItem, Thumbnail} from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
-import {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory} from '../actions'
+import {getHabitsFromCategory} from '../../actions/habitsActions'
 
 class HabitsList extends Component{
   constructor(){
@@ -49,7 +49,7 @@ class HabitsList extends Component{
           '',
           [
             {text: 'OK', onPress: () => {
-              Actions.habitsList()
+              // Actions.habitsList()
             }},
           ],
           { cancelable: false }
@@ -67,26 +67,18 @@ class HabitsList extends Component{
       return <HabitItems props={this.props.habits} allProps={this.props} MyHabitListAlert={this.renderAlert} add={true}/>
     }
     else{
-      
       return (  
-        <Container>
-          <Image source={require('./bgnd8.png')} style={{flex: 1, width: null, height: null, resizeMode: "cover"}}>
-          <Content style={{paddingTop: 54}}>
-            <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
-            {this.renderEmpty()}
-          </Content>
-          </Image>
-        </Container>
+          <HabitItems props={this.props.userHabits} MyHabitListAlert={this.renderAlert} allProps={this.props}/>
       )
     }
   }
 }
 
-const mapStateToProps = ({habitsInfo, auth}) => {
-  const {habits, userHabits, categories, error, loading, message} = habitsInfo
+const mapStateToProps = ({habitsListInfo, auth}) => {
+  const {habits, userHabits, categories, error, loading, message} = habitsListInfo
   const {user} = auth
 
   return { habits, userHabits, categories, error, loading, user, message}
 }
 
-export default connect(mapStateToProps, {getUserHabits, getCategoryList, getHabitsFail, getHabitsFromCategory})(HabitsList)
+export default connect(mapStateToProps, {getHabitsFromCategory})(HabitsList)

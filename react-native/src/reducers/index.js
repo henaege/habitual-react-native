@@ -1,9 +1,11 @@
 import {combineReducers} from 'redux'
-import AuthReducer from './AuthReducer'
-import HabitReducer from './HabitReducer'
+import AuthReducer from './reducer_Auth';
+import HabitsListReducer from './reducer_HabitsList';
+import HabitChangeReducer from './reducer_HabitChange'
 
 export default combineReducers({
   auth: AuthReducer,
-  habitsInfo: HabitReducer
+  habitsListInfo: HabitsListReducer,
+  habitChangeInfo: HabitChangeReducer,
 })
 
