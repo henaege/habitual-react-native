@@ -5,7 +5,7 @@ import {Platform, StatusBar} from 'react-native'
 
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
-import UserHabitsList from './components/UserHabitsList'
+import HabitsList from './components/HabitsList'
 import AddHabit from './components/AddHabit'
 
 const RouterComponent = () => {
@@ -22,8 +22,8 @@ const RouterComponent = () => {
       
       <Scene key="main" title="Your Habits:" >
         <Scene onRight={()=> Actions.addHabit()}
-          type='reset' rightTitle="Add" key='UserHabitsList'
-          title="Your Habits" component={UserHabitsList}
+          type='reset' rightTitle="Add" key='habitsList'
+          title="Your Habits" component={HabitsList}
           navigationBarStyle={{backgroundColor:"#48A9A6",
           opacity: 0.8, paddingTop: (Platform.OS === 'android')
           ? 14 : 0, paddingBottom: (Platform.OS === 'android')

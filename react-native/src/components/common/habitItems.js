@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { ListView, Alert } from 'react-native';
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Right, Body } from 'native-base';
 import {connect} from 'react-redux'
-<<<<<<< HEAD
 import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions/habitsActions'
-=======
-import {checkInMyHabit, leaveHabit, joinAHabit} from '../../actions/habitsActions';
->>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 
 
 
@@ -26,9 +22,9 @@ class HabitItems extends Component {
     this.renderIcons = this.renderIcons.bind(this);
     this.renderCountRank = this.renderCountRank.bind(this)
   }
-  componentWillReceiveProps(nextProps) {
-      this.setState({ listViewData: nextProps.props })
-  }
+  // componentWillReceiveProps(nextProps) {
+  //     this.setState({ listViewData: nextProps.props })
+  // }
   checkInPressed(data){
     var message = `Checking in ${data.name} ....`;
     var habitName = data.name.toLowerCase();
@@ -100,14 +96,13 @@ class HabitItems extends Component {
     }
   }
   render() {
-    console.log(this.props);
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     const BtnIcons = this.renderIcons();
 
     var styling = {}
-    if(this.props.allProps.sceneKey == "UserHabitsList"){
+    if(this.props.allProps.sceneKey == "habitsList"){
       styling = {
-        marginTop: 100
+        marginTop: 10
       }
     } else {
      styling = {
@@ -117,7 +112,7 @@ class HabitItems extends Component {
 
     return (
 
-          <List disableRightSwipe={true}
+          <List style={styling} disableRightSwipe={true}
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
               <ListItem style={{backgroundColor: '#CCDAD1'}}>
@@ -154,8 +149,8 @@ class HabitItems extends Component {
   }
 }
 
-const mapStateToProps = ({habitsListInfo, auth})=> {
-  const {categories, error, loading} = habitsListInfo
+const mapStateToProps = ({habitsInfo, auth})=> {
+  const {categories, error, loading} = habitsInfo
 
   const {user} = auth
 

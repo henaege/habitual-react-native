@@ -6,11 +6,7 @@ import {Container, Content, Header, Card, Form, Item, Input, Label, Icon, Button
 import {Actions} from 'react-native-router-flux'
 import { Font } from 'expo'
 import {getCategoryList} from '../actions/habitsActions'
-<<<<<<< HEAD
 import HabitsList from './HabitsList';
-=======
-import HabitsList from './common/HabitsList';
->>>>>>> 59bcce3a73c3e4256ee12237fe263bbcd851bc9e
 
 class AddHabit extends Component{
   constructor(){
@@ -86,11 +82,11 @@ class AddHabit extends Component{
   }
 }
 
-const mapStateToProps = ({habitsListInfo, auth}) => {
-  const {habits, categories, error, loading, message} = habitsListInfo
+const mapStateToProps = ({habitsInfo, auth}) => {
+  const {habits, categories, error, loading, message, rank} = habitsInfo
   const {user} = auth
 
-  return { habits, categories, error, loading, user, message}
+  return { habits, categories, error, loading, user, message, rank}
 }
 
 export default connect(mapStateToProps, {getCategoryList})(AddHabit)
