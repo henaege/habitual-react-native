@@ -177,7 +177,8 @@ module.exports = {
 					reject();
 				}
 				else{
-					resolve(response);
+					console.log(response);
+					resolve(response.userHabits);
 				}
 			})
 			.catch((error)=>{

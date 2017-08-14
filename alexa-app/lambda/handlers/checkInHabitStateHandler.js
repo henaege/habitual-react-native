@@ -49,7 +49,11 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 				})
 				.catch((error)=>{
 					console.log(error);
+					if(error === 'NoHabitJoined'){
+						this.emit(':ask', "Sorry, there is no habits in your habit lists. To start a habit, say: start a habit", "What would you like to do?");
+					}else{
 					this.emit(':tell', "Sorry, there was a problem accessing your habit lists.");
+					}
 				})
 		}else{
 			this.emit(':tellWithLinkAccountCard', 'Please link your account to use this skill.');
@@ -87,7 +91,7 @@ var checkInHabit = Alexa.CreateStateHandler(constants.states.CHECKINHABIT, {
 		if(token){
 			habitsAPI.GetMyRank(token, habitSlot)
 				.then((response)=>{
-					var myRank = response.rank;
+					var myRank = response[0].rank;
 					this.emit(':ask', `Your rank in ${habitSlot} is ${myRank}.`, "To start a habit, say: start a habit. To check in your habits, say: check in, then your habit name");
 				})
 				.catch((error)=>{
