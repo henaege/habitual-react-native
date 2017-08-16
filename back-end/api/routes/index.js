@@ -311,7 +311,7 @@ router.post('/joinAHabit', (req, res)=>{
 })
 
 //////////////////////
-// Get individual user's habits list from database
+// Get habits list based on category from database
 //////////////////////
 router.post('/habitslist', (req, res)=> {
   var categoryName = req.body.categoryName;
@@ -337,6 +337,9 @@ router.post('/habitslist', (req, res)=> {
   })
 });
 
+//////////////////////
+// Get habits list based on individual user from database
+//////////////////////
 router.post('/getMyHabitList', (req,res)=>{
   console.log(req.body)
   var token = req.body.token;
@@ -356,6 +359,9 @@ router.post('/getMyHabitList', (req,res)=>{
   }
 });
 
+//////////////////////
+// manage users notification 
+//////////////////////
 router.post('/manageNotification', (req, res)=>{
   var token = req.body.token;
   var activeNotification = req.body.notification;
